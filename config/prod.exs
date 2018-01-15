@@ -22,7 +22,7 @@ config :webcamfornolo_backend, WebcamfornoloBackendWeb.Endpoint,
 # Configure your database
 config :webcamfornolo_backend, WebcamfornoloBackend.Repo,
   adapter: Ecto.Adapters.Postgres,
-  hostname: Map.fetch!(System.get_env(), "DATABASE_URL"),
+  url: Map.fetch!(System.get_env(), "DATABASE_URL"),
   pool_size: 15
 
 # Do not print debug messages in production

@@ -5,7 +5,7 @@
 /*.ez
 
 # Elixir LS
-/.elixir_ls
+.elixir_ls/
 
 # Generated on crash by the VM
 erl_crash.dump
