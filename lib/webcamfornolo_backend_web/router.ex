@@ -10,7 +10,8 @@ defmodule WebcamfornoloBackendWeb.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    #plug :accepts, ["json"]
+    plug Plug.Parsers, parsers: [:multipart, :json], pass: ["application/octet-stream"]
   end
 
   scope "/", WebcamfornoloBackendWeb do
@@ -19,6 +20,14 @@ defmodule WebcamfornoloBackendWeb.Router do
     get "/", PageController, :index
 
     get "/health", PageController, :health
+  end
+
+  scope "/webcam", WebcamfornoloBackendWeb do
+    pipe_through :api # Use the default browser stack
+
+    get "/:id", WebcamController, :getWebcam
+    post "/:id", WebcamController, :saveWebcam
+
   end
 
   # Other scopes may use custom stacks.
