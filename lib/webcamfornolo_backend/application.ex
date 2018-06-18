@@ -11,7 +11,7 @@ defmodule WebcamfornoloBackend.Application do
       # Start the Ecto repository
       supervisor(WebcamfornoloBackend.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(WebcamfornoloBackendWeb.Endpoint, []),
+      supervisor(WebcamfornoloBackendWeb.Endpoint, [])
       # Start your own worker by calling: WebcamfornoloBackend.Worker.start_link(arg1, arg2, arg3)
       # worker(WebcamfornoloBackend.Worker, [arg1, arg2, arg3]),
     ]

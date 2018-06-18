@@ -25,13 +25,13 @@ defmodule WebcamfornoloBackendWeb.ChannelCase do
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(WebcamfornoloBackend.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(WebcamfornoloBackend.Repo, {:shared, self()})
     end
+
     :ok
   end
-
 end
