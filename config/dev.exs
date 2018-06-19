@@ -50,8 +50,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :webcamfornolo_backend, WebcamfornoloBackend.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "user",
+  password: "pass",
   database: "webcamfornolo_backend_dev",
   hostname: "localhost",
-  pool_size: 10
+  pool_size: 15
