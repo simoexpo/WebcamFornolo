@@ -22,25 +22,6 @@ defmodule WebcamfornoloBackendWeb do
       use Phoenix.Controller, namespace: WebcamfornoloBackendWeb
       import Plug.Conn
       import WebcamfornoloBackendWeb.Router.Helpers
-      import WebcamfornoloBackendWeb.Gettext
-    end
-  end
-
-  def view do
-    quote do
-      use Phoenix.View,
-        root: "lib/webcamfornolo_backend_web/templates",
-        namespace: WebcamfornoloBackendWeb
-
-      # Import convenience functions from controllers
-      import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
-
-      # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
-
-      import WebcamfornoloBackendWeb.Router.Helpers
-      import WebcamfornoloBackendWeb.ErrorHelpers
-      import WebcamfornoloBackendWeb.Gettext
     end
   end
 
@@ -55,7 +36,6 @@ defmodule WebcamfornoloBackendWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import WebcamfornoloBackendWeb.Gettext
     end
   end
 

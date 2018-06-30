@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :webcamfornolo_backend, WebcamfornoloBackend.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "webcamfornolo_backend_test",
+  username: "user",
+  password: "pass",
+  database: "webcamfornolo_backend_dev",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

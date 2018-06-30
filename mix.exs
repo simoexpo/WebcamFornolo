@@ -41,7 +41,11 @@ defmodule WebcamfornoloBackend.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:httpoison, "~> 1.0"}
+      {:httpoison, "~> 1.0"},
+      {:safeexstruct, git: "git://github.com/simoexpo/SafeExStruct.git", tag: "v0.4.0", override: true},
+      {:elixatmo, git: "git://github.com/simoexpo/ElixAtmo.git", tag: "v0.1.0"},
+      {:timex, "~> 3.1"},
+      {:cachex, "~> 3.0"}
     ]
   end
 

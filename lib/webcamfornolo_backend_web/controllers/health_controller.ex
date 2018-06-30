@@ -1,9 +1,5 @@
-defmodule WebcamfornoloBackendWeb.PageController do
+defmodule WebcamfornoloBackendWeb.HealthController do
   use WebcamfornoloBackendWeb, :controller
-
-  def index(conn, _params) do
-    render(conn, "index.html")
-  end
 
   def health(conn, _params) do
     json(conn, %{status: "feeling good!"})

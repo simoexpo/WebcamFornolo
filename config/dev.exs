@@ -30,15 +30,15 @@ config :webcamfornolo_backend, WebcamfornoloBackendWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :webcamfornolo_backend, WebcamfornoloBackendWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
-      ~r{priv/gettext/.*(po)$},
-      ~r{lib/webcamfornolo_backend_web/views/.*(ex)$},
-      ~r{lib/webcamfornolo_backend_web/templates/.*(eex)$}
-    ]
-  ]
+# config :webcamfornolo_backend, WebcamfornoloBackendWeb.Endpoint,
+#   live_reload: [
+#     patterns: [
+#       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
+#       ~r{priv/gettext/.*(po)$},
+#       ~r{lib/webcamfornolo_backend_web/views/.*(ex)$},
+#       ~r{lib/webcamfornolo_backend_web/templates/.*(eex)$}
+#     ]
+#   ]
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
@@ -55,3 +55,8 @@ config :webcamfornolo_backend, WebcamfornoloBackend.Repo,
   database: "webcamfornolo_backend_dev",
   hostname: "localhost",
   pool_size: 15
+
+config :webcamfornolo_backend,
+  token_cache: :webcam_fornolo_cache
+
+import_config "dev.secret.exs"

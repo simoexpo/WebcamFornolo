@@ -4,8 +4,8 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
   @webcam1 "1"
   @webcam2 "2"
 
-  def getWebcam(conn, params) do
-    id = getWebcamId(params)
+  def get_webcam(conn, params) do
+    id = get_webcam_id(params)
 
     case id do
       @webcam1 -> IO.puts("Getting webcam #{id} image")
@@ -16,8 +16,8 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
     json(conn, %{status: "Ok 1"})
   end
 
-  def saveWebcam(conn, params) do
-    id = getWebcamId(params)
+  def save_webcam(conn, params) do
+    id = get_webcam_id(params)
 
     case id do
       @webcam1 -> IO.puts("Saving webcam #{id} image")
@@ -29,7 +29,7 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
     json(conn, %{image: url})
   end
 
-  defp getWebcamId(param) do
+  defp get_webcam_id(param) do
     Map.get(param, "id")
   end
 end
