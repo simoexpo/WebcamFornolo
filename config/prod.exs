@@ -27,11 +27,11 @@ config :webcamfornolo_backend, WebcamfornoloBackend.Repo,
 # Do not print debug messages in production
 config :logger, level: :info
 
-config :webcamfornolo_backend,
-  netatmo_app_id: Map.fetch!(System.get_env(), "NETATMO_APP_ID"),
-  netatmo_client_secret: Map.fetch!(System.get_env(), "NETATMO_CLIENT_SECRET"),
-  netatmo_user_email: Map.fetch!(System.get_env(), "NETATMO_USER_EMAIL"),
-  netatmo_user_password: Map.fetch!(System.get_env(), "NETATMO_USER_PASSWORD")
+config :elixatmo,
+  app_id: Map.fetch!(System.get_env(), "NETATMO_APP_ID"),
+  client_secret: Map.fetch!(System.get_env(), "NETATMO_CLIENT_SECRET"),
+  user_email: Map.fetch!(System.get_env(), "NETATMO_USER_EMAIL"),
+  user_password: Map.fetch!(System.get_env(), "NETATMO_USER_PASSWORD")
 
 config :webcamfornolo_backend,
   token_cache: :webcam_fornolo_cache
