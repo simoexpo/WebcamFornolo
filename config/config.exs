@@ -13,7 +13,7 @@ config :webcamfornolo_backend,
 config :webcamfornolo_backend, WebcamfornoloBackendWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "fEm8m+GtOIPnd1ue0euLgls2qtlvm21RNBvY7urFE8WzSxNNghDunTgDrGFjK8Jj",
-  render_errors: [view: WebcamfornoloBackendWeb.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: WebcamfornoloBackendWeb.ErrorView, accepts: ~w(json)],
   pubsub: [name: WebcamfornoloBackend.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
