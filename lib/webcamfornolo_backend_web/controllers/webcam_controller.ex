@@ -1,5 +1,6 @@
 defmodule WebcamfornoloBackendWeb.WebcamController do
   use WebcamfornoloBackendWeb, :controller
+  require Logger
 
   @webcam1 "1"
   @webcam2 "2"
@@ -10,7 +11,7 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
     case id do
       @webcam1 -> IO.puts("Getting webcam #{id} image")
       @webcam2 -> IO.puts("Getting webcam #{id} image")
-      _ -> IO.puts("Webcam not found")
+      _ -> Logger.error("Webcam not found")
     end
 
     json(conn, %{status: "Ok 1"})
@@ -22,11 +23,18 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
     case id do
       @webcam1 -> IO.puts("Saving webcam #{id} image")
       @webcam2 -> IO.puts("Saving webcam #{id} image")
-      _ -> IO.puts("Webcam not found")
+      _ -> Logger.error("Webcam not found")
     end
 
-    url = Map.from_struct(params["image"])[:path]
-    json(conn, %{image: url})
+    url =
+      Map.from_struct(params["image"])[:path]
+      |> WebcamfornoloBackend.ImageService.create_webcam_view("label1", "label2")
+      |> Map.get(:path)
+      |> IO.inspect()
+
+    conn
+    |> put_resp_header("Content-Type", "image/png")
+    |> send_file(200, url)
   end
 
   defp get_webcam_id(param) do
