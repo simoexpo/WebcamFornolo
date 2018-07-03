@@ -2,6 +2,8 @@ defmodule WebcamfornoloBackend.Dal.WeatherDataDao do
   alias WebcamfornoloBackend.Dal.Netatmo.NetatmoDal
   alias WebcamfornoloBackend.Mapper.WeatherDataMapper
   alias WebcamfornoloBackend.Dal.NetatmoTokenDao
+  alias WebcamfornoloBackend.Model.WeatherData
+  alias WebcamfornoloBackend.Model.OutdoorWeatherData
 
   def get_weather_data do
     case NetatmoTokenDao.get_token() do
@@ -12,6 +14,16 @@ defmodule WebcamfornoloBackend.Dal.WeatherDataDao do
         end
 
       :error ->
+        :error
+    end
+  end
+
+  def get_outdoor_temperature do
+    case get_weather_data() do
+      {:ok, %WeatherData{outdoor_weather_data: %OutdoorWeatherData{temperature: temperature}}} ->
+        {:ok, temperature}
+
+      _ ->
         :error
     end
   end

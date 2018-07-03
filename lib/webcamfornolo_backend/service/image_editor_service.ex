@@ -1,4 +1,4 @@
-defmodule WebcamfornoloBackend.ImageService do
+defmodule WebcamfornoloBackend.Service.ImageEditorService do
   import Mogrify
 
   @text_color "white"
@@ -21,5 +21,6 @@ defmodule WebcamfornoloBackend.ImageService do
     |> custom("gravity", "SouthEast")
     |> custom("draw", "text #{@text_padding} '#{label2}'")
     |> save(in_place: true)
+    |> Map.get(:path)
   end
 end

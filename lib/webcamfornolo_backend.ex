@@ -1,5 +1,6 @@
 defmodule WebcamfornoloBackend do
   alias WebcamfornoloBackend.Dal.WeatherDataDao
+  alias WebcamfornoloBackend.Service.WebcamImageService
 
   @moduledoc """
   WebcamfornoloBackend keeps the contexts that define your domain
@@ -11,5 +12,13 @@ defmodule WebcamfornoloBackend do
 
   def get_weather_info() do
     WeatherDataDao.get_weather_data()
+  end
+
+  def get_webcam_1() do
+    WebcamImageService.get_webcam_1()
+  end
+
+  def get_webcam_2() do
+    WebcamImageService.get_webcam_2()
   end
 end

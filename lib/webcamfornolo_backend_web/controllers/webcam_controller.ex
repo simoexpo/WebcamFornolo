@@ -9,12 +9,35 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
     id = get_webcam_id(params)
 
     case id do
-      @webcam1 -> IO.puts("Getting webcam #{id} image")
-      @webcam2 -> IO.puts("Getting webcam #{id} image")
-      _ -> Logger.error("Webcam not found")
-    end
+      @webcam1 ->
+        IO.puts("Getting webcam #{id} image")
 
-    json(conn, %{status: "Ok 1"})
+        url =
+          WebcamfornoloBackend.get_webcam_1()
+          |> IO.inspect()
+
+        conn
+        |> put_resp_header("Content-Type", "image/jpeg")
+        |> send_file(200, url)
+
+      @webcam2 ->
+        IO.puts("Getting webcam #{id} image")
+
+        url =
+          WebcamfornoloBackend.get_webcam_2()
+          |> IO.inspect()
+
+        conn
+        |> put_resp_header("Content-Type", "image/jpeg")
+        |> send_file(200, url)
+
+      n ->
+        Logger.error("Webcam not found")
+
+        conn
+        |> put_status(400)
+        |> json(%{error: "Webcam #{n} is unavailable"})
+    end
   end
 
   def save_webcam(conn, params) do
@@ -28,12 +51,12 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
 
     url =
       Map.from_struct(params["image"])[:path]
-      |> WebcamfornoloBackend.ImageService.create_webcam_view("label1", "label2")
+      |> WebcamfornoloBackend.Service.ImageEditorService.create_webcam_view("label1", "label2")
       |> Map.get(:path)
       |> IO.inspect()
 
     conn
-    |> put_resp_header("Content-Type", "image/png")
+    |> put_resp_header("Content-Type", "image/jpeg")
     |> send_file(200, url)
   end
 
