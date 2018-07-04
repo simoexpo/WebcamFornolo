@@ -1,5 +1,6 @@
 defmodule WebcamfornoloBackend.Dal.Netatmo.Model.NetatmoToken do
   alias ElixAtmo.Model.Token
+  alias WebcamfornoloBackend.Service.Util.DateTimeUtil
 
   @fields %{
     access_token: :binary,
@@ -10,7 +11,7 @@ defmodule WebcamfornoloBackend.Dal.Netatmo.Model.NetatmoToken do
   use SafeExStruct
 
   def from(token = %Token{}) do
-    expires_at = Timex.now() |> Timex.shift(seconds: token.expires_in)
+    expires_at = DateTimeUtil.now() |> Timex.shift(seconds: token.expires_in)
 
     token
     |> Map.from_struct()

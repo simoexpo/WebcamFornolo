@@ -1,27 +1,25 @@
 defmodule WebcamfornoloBackend.Dal.WebcamImageDao do
-  @webcam1_url "http://webcamfornolo.altervista.org/01.jpg"
-  @webcam2_url "http://webcamfornolo.altervista.org/02.jpg"
-  @webcam1_path "/tmp/webcam1.jpg"
-  @webcam2_path "/tmp/webcam2.jpg"
+  alias WebcamfornoloBackend.Model.WebcamImage
+  alias WebcamfornoloBackend.Dal.Altervista.AltervistaDal
 
-  def get_webcam_1() do
-    case HTTPoison.get(@webcam1_url) do
-      {:ok, %HTTPoison.Response{body: body}} -> save_file(@webcam1_path, body)
-      _ -> :error
+  @webcam1_file "01.jpg"
+  @webcam2_file "02.jpg"
+
+  def get_webcam(id) do
+    case AltervistaDal.get_image(webcam_to_file_name(id)) do
+      {:ok, file_path, created_at} ->
+        WebcamImage.create(%{path: file_path, created_at: created_at})
+
+      _ ->
+        :error
     end
   end
 
-  def get_webcam_2() do
-    case HTTPoison.get(@webcam2_url) do
-      {:ok, %HTTPoison.Response{body: body}} -> save_file(@webcam2_path, body)
+  defp webcam_to_file_name(id) do
+    case id do
+      "1" -> @webcam1_file
+      "2" -> @webcam2_file
       _ -> :error
-    end
-  end
-
-  defp save_file(path, file) do
-    case File.write(path, file) do
-      :ok -> {:ok, path}
-      {:error, _} -> :error
     end
   end
 end

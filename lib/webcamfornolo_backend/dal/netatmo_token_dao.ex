@@ -32,7 +32,5 @@ defmodule WebcamfornoloBackend.Dal.NetatmoTokenDao do
     end
   end
 
-  defp cache() do
-    Application.get_env(:webcamfornolo_backend, :token_cache)
-  end
+  defp cache(), do: Application.get_env(:webcamfornolo_backend, :token_cache)
 end
