@@ -2,7 +2,7 @@ defmodule WebcamfornoloBackend.Service.ImageEditorService do
   import Mogrify
 
   @text_color "white"
-  @text_font "Arial"
+  @text_font "Lato-Bold"
   @text_size "20"
   @text_padding "10,10"
   @border_size "0x40"
