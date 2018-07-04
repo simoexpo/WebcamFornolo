@@ -8,35 +8,16 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
   def get_webcam(conn, params) do
     id = get_webcam_id(params)
 
-    case id do
-      @webcam1 ->
-        IO.puts("Getting webcam #{id} image")
-
-        url =
-          WebcamfornoloBackend.get_webcam_1()
-          |> IO.inspect()
-
-        conn
-        |> put_resp_header("Content-Type", "image/jpeg")
-        |> send_file(200, url)
-
-      @webcam2 ->
-        IO.puts("Getting webcam #{id} image")
-
-        url =
-          WebcamfornoloBackend.get_webcam_2()
-          |> IO.inspect()
-
-        conn
-        |> put_resp_header("Content-Type", "image/jpeg")
-        |> send_file(200, url)
-
-      n ->
-        Logger.error("Webcam not found")
-
+    case WebcamfornoloBackend.get_webcam(id) do
+      :error ->
         conn
         |> put_status(400)
-        |> json(%{error: "Webcam #{n} is unavailable"})
+        |> json(%{error: "Webcam #{id} is unavailable"})
+
+      url ->
+        conn
+        |> put_resp_header("Content-Type", "image/jpeg")
+        |> send_file(200, url)
     end
   end
 

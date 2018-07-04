@@ -14,11 +14,7 @@ defmodule WebcamfornoloBackend do
     WeatherDataDao.get_weather_data()
   end
 
-  def get_webcam_1() do
-    WebcamImageService.get_webcam_1()
-  end
-
-  def get_webcam_2() do
-    WebcamImageService.get_webcam_2()
+  def get_webcam(id) do
+    WebcamImageService.get_webcam(id)
   end
 end
