@@ -36,6 +36,10 @@ config :elixatmo,
 config :webcamfornolo_backend,
   token_cache: :webcam_fornolo_cache
 
+config :webcamfornolo_backend,
+  altervista_ftp_user: Map.fetch!(System.get_env(), "ALTERVISTA_USER"),
+  altervista_ftp_password: Map.fetch!(System.get_env(), "ALTERVISTA_PASSWORD")
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
