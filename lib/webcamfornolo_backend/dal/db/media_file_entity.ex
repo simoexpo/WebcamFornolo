@@ -12,7 +12,7 @@ defmodule WebcamfornoloBackend.Dal.Db.MediaFileEntity do
   end
 
   def from(%MediaDetails{} = media_details) do
-    changeset(%MediaFileEntity{}, media_details)
+    changeset(%MediaFileEntity{}, Map.from_struct(media_details))
   end
 
   @doc false

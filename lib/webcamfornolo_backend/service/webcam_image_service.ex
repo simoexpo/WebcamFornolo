@@ -1,18 +1,16 @@
 defmodule WebcamfornoloBackend.Service.WebcamImageService do
-  alias WebcamfornoloBackend.Dal.WebcamImageDao
   alias WebcamfornoloBackend.Service.ImageEditorService
   alias WebcamfornoloBackend.Dal.WeatherDataDao
-  alias WebcamfornoloBackend.Model.WebcamImage
   alias WebcamfornoloBackend.Model.MediaDetails
   alias WebcamfornoloBackend.Dal.MediaFileDao
   alias WebcamfornoloBackend.Service.Util.DateTimeUtil
 
+  @webcam1_file "01.jpg"
+  @webcam2_file "02.jpg"
   @locale "it"
   @datetime_format "{WDshort} {0D} {Mshort} {YYYY} {h24}:{m}:{s}"
   @webcam1_left_label "Località Fornolo (PR) - Alta Val Ceno"
   @webcam2_left_label "Località Fornolo (PR) - Alta Val Ceno"
-  @webcam1_file "01.jpg"
-  @webcam2_file "02.jpg"
   @webcam_image_remote_path "webcam"
 
   def get_webcam(id) do
