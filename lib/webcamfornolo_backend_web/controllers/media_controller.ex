@@ -5,10 +5,11 @@ defmodule WebcamfornoloBackendWeb.MediaController do
   def save_media(conn, params) do
     Logger.info("save media")
 
-    asd = Map.from_struct(params["image"])
-    |> WebcamfornoloBackend.save_media()
+    upload_result =
+      Map.from_struct(params["image"])
+      |> WebcamfornoloBackend.save_media()
 
-    case asd do
+    case upload_result do
       :ok -> conn |> put_status(200) |> json(%{})
       _ -> conn |> put_status(500) |> json(%{})
     end

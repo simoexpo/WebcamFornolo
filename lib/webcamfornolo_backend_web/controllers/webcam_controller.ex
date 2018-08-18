@@ -11,7 +11,7 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
     case WebcamfornoloBackend.get_webcam(id) do
       :error ->
         conn
-        |> put_status(400)
+        |> put_status(404)
         |> json(%{error: "Webcam #{id} is unavailable"})
 
       url ->
