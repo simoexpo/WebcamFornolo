@@ -30,15 +30,19 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
       _ -> Logger.error("Webcam not found")
     end
 
-    url =
-      Map.from_struct(params["image"])[:path]
-      |> WebcamfornoloBackend.Service.ImageEditorService.create_webcam_view("label1", "label2")
-      |> Map.get(:path)
-      |> IO.inspect()
+    webcam_image = Map.from_struct(params["image"])
 
-    conn
-    |> put_resp_header("Content-Type", "image/jpeg")
-    |> send_file(200, url)
+    case WebcamfornoloBackend.save_webcam(id, webcam_image) do
+      :error ->
+        conn
+        |> put_status(500)
+        |> json(%{})
+
+      :ok ->
+        conn
+        |> put_status(201)
+        |> json(%{})
+    end
   end
 
   defp get_webcam_id(param) do

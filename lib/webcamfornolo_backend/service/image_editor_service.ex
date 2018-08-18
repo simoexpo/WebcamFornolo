@@ -8,7 +8,7 @@ defmodule WebcamfornoloBackend.Service.ImageEditorService do
   @border_size "0x40"
   @border_color "#030C7E"
 
-  def create_webcam_view(image, label1, label2) do
+  def create_webcam_view(image, left_label, right_label) do
     Mogrify.open(image)
     |> custom("fill", @text_color)
     |> custom("gravity", "south")
@@ -17,9 +17,9 @@ defmodule WebcamfornoloBackend.Service.ImageEditorService do
     |> custom("gravity", "SouthWest")
     |> custom("font", @text_font)
     |> custom("pointsize", @text_size)
-    |> custom("draw", "text #{@text_padding} '#{label1}'")
+    |> custom("draw", "text #{@text_padding} '#{left_label}'")
     |> custom("gravity", "SouthEast")
-    |> custom("draw", "text #{@text_padding} '#{label2}'")
+    |> custom("draw", "text #{@text_padding} '#{right_label}'")
     |> save(in_place: true)
     |> Map.get(:path)
   end

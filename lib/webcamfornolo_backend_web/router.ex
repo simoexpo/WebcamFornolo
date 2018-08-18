@@ -26,6 +26,13 @@ defmodule WebcamfornoloBackendWeb.Router do
     get("/", WeatherController, :get_weather)
   end
 
+  scope "/media", WebcamfornoloBackendWeb do
+    pipe_through(:api)
+
+    get("/", MediaController, :get_media_paginated)
+    post("/", MediaController, :save_media)
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", WebcamfornoloBackendWeb do
   #   pipe_through :api
