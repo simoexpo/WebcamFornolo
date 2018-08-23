@@ -14,7 +14,7 @@ defmodule WebcamfornoloBackend.Application do
       supervisor(WebcamfornoloBackendWeb.Endpoint, []),
       # Start your own worker by calling: WebcamfornoloBackend.Worker.start_link(arg1, arg2, arg3)
       # worker(WebcamfornoloBackend.Worker, [arg1, arg2, arg3]),
-      worker(Cachex, [Application.get_env(:webcamfornolo_backend, :token_cache), []])
+      worker(Cachex, [Application.get_env(:webcamfornolo_backend, :app_cache), []])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

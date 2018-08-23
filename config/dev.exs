@@ -56,7 +56,4 @@ config :webcamfornolo_backend, WebcamfornoloBackend.Repo,
   hostname: "localhost",
   pool_size: 15
 
-config :webcamfornolo_backend,
-  token_cache: :webcam_fornolo_cache
-
 import_config "dev.secret.exs"

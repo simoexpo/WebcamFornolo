@@ -25,8 +25,8 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
     id = get_webcam_id(params)
 
     case id do
-      @webcam1 -> IO.puts("Saving webcam #{id} image")
-      @webcam2 -> IO.puts("Saving webcam #{id} image")
+      @webcam1 -> Logger.info("Saving webcam #{id} image")
+      @webcam2 -> Logger.info("Saving webcam #{id} image")
       _ -> Logger.error("Webcam not found")
     end
 

@@ -25,12 +25,12 @@ defmodule WebcamfornoloBackend.Dal.NetatmoTokenDao do
     end
   end
 
-  def save(token) do
+  defp save(token) do
     case Cachex.put(cache(), @key, token) do
       {:ok, _} -> {:ok, token}
       _ -> :error
     end
   end
 
-  defp cache(), do: Application.get_env(:webcamfornolo_backend, :token_cache)
+  defp cache(), do: Application.get_env(:webcamfornolo_backend, :app_cache)
 end
