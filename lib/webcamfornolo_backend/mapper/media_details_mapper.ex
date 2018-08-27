@@ -8,7 +8,7 @@ defmodule WebcamfornoloBackend.Mapper.MediaDetailsMapper do
 
     MediaDetails.create(%{
       name: media_data.filename,
-      description: media_data.description,
+      description: Map.get(media_data, :description, nil),
       content_type: media_data.content_type,
       path: media_data.path,
       created_at: DateTimeUtil.now()

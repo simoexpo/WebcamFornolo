@@ -20,6 +20,6 @@ defmodule WebcamfornoloBackend.Dal.Db.MediaFileEntity do
   def changeset(%MediaFileEntity{} = media_file, attrs) do
     media_file
     |> cast(attrs, [:name, :content_type, :path, :created_at, :description])
-    |> validate_required([:name, :content_type, :path, :created_at, :description])
+    |> validate_required([:name, :content_type, :path, :created_at])
   end
 end
