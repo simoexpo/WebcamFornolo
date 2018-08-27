@@ -10,6 +10,7 @@ defmodule WebcamfornoloBackendWeb.MediaController do
 
     upload_result =
       Map.from_struct(params["image"])
+      |> Map.put(:description, params["descr"])
       |> WebcamfornoloBackend.save_media()
 
     # check the name

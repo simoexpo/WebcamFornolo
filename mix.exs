@@ -47,7 +47,8 @@ defmodule WebcamfornoloBackend.Mixfile do
       {:elixatmo, git: "git://github.com/simoexpo/ElixAtmo.git", tag: "v0.1.0"},
       {:timex, "~> 3.3"},
       {:cachex, "~> 3.0"},
-      {:mogrify, "~> 0.6.1"}
+      {:mogrify, "~> 0.6.1"},
+      {:elixir_uuid, "~> 1.2"}
     ]
   end
 

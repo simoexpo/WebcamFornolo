@@ -8,6 +8,7 @@ defmodule WebcamfornoloBackend.Mapper.MediaDetailsMapper do
 
     MediaDetails.create(%{
       name: media_data.filename,
+      description: media_data.description,
       content_type: media_data.content_type,
       path: media_data.path,
       created_at: DateTimeUtil.now()
@@ -19,6 +20,7 @@ defmodule WebcamfornoloBackend.Mapper.MediaDetailsMapper do
 
     MediaDetails.create(%{
       name: media_file_entity.name,
+      description: media_file_entity.description,
       content_type: media_file_entity.content_type,
       path: path,
       created_at: media_file_entity.created_at

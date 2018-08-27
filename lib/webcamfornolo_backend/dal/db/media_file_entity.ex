@@ -7,6 +7,7 @@ defmodule WebcamfornoloBackend.Dal.Db.MediaFileEntity do
   schema "media_file" do
     field(:name, :string)
     field(:path, :string)
+    field(:description, :string)
     field(:content_type, :string)
     field(:created_at, :utc_datetime)
   end
@@ -18,7 +19,7 @@ defmodule WebcamfornoloBackend.Dal.Db.MediaFileEntity do
   @doc false
   def changeset(%MediaFileEntity{} = media_file, attrs) do
     media_file
-    |> cast(attrs, [:name, :content_type, :path, :created_at])
-    |> validate_required([:name, :content_type, :path, :created_at])
+    |> cast(attrs, [:name, :content_type, :path, :created_at, :description])
+    |> validate_required([:name, :content_type, :path, :created_at, :description])
   end
 end

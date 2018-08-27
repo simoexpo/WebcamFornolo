@@ -5,6 +5,7 @@ defmodule WebcamfornoloBackend.Repo.Migrations.CreateMediaFileTable do
     create table(:media_file) do
       add(:name, :string)
       add(:path, :string)
+      add(:description, :string)
       add(:content_type, :string)
       add(:created_at, :utc_datetime)
     end
