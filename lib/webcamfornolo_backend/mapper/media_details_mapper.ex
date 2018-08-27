@@ -3,6 +3,19 @@ defmodule WebcamfornoloBackend.Mapper.MediaDetailsMapper do
   alias WebcamfornoloBackend.Dal.Db.MediaFileEntity
   alias WebcamfornoloBackend.Service.Util.DateTimeUtil
 
+  def from(media_file_entity = %MediaFileEntity{}) do
+    IO.inspect(media_file_entity)
+
+    MediaDetails.create(%{
+      id: media_file_entity.id,
+      name: media_file_entity.name,
+      description: media_file_entity.description,
+      content_type: media_file_entity.content_type,
+      path: media_file_entity.path,
+      created_at: media_file_entity.created_at
+    })
+  end
+
   def from(media_data) do
     IO.inspect(media_data)
 
@@ -19,6 +32,7 @@ defmodule WebcamfornoloBackend.Mapper.MediaDetailsMapper do
     IO.inspect(media_file_entity)
 
     MediaDetails.create(%{
+      id: media_file_entity.id,
       name: media_file_entity.name,
       description: media_file_entity.description,
       content_type: media_file_entity.content_type,

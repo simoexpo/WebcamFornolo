@@ -1,19 +1,17 @@
 defmodule WebcamfornoloBackendWeb.WeatherController do
   use WebcamfornoloBackendWeb, :controller
-
-  @acao_header "Access-Control-Allow-Origin"
-  @allowed_origin "https://webcamfornolo.altervista.org"
+  import WebcamfornoloBackendWeb.Util.ControllerHelper
 
   def get_weather(conn, _params) do
     case WebcamfornoloBackend.get_weather_info() do
       {:ok, data} ->
         conn
+        |> add_common_headers()
         |> put_status(200)
-        |> put_resp_header(@acao_header, @allowed_origin)
         |> json(data)
 
       :error ->
-        conn |> put_status(500) |> json(%{})
+        conn |> add_common_headers() |> put_status(500) |> json(%{})
     end
   end
 end

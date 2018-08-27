@@ -2,7 +2,8 @@ defmodule WebcamfornoloBackend.Dal.Altervista.AltervistaDal do
   require Logger
 
   @host 'ftp.webcamfornolo.altervista.org'
-  @save_directory '/tmp/'
+  @local_save_directory '/tmp/'
+  @resurce_base_path "https://webcamfornolo.altervista.org"
 
   def get_image(name, remote_folder) do
     try do
@@ -13,7 +14,7 @@ defmodule WebcamfornoloBackend.Dal.Altervista.AltervistaDal do
 
       :ok = :ftp.cd(pid, '#{remote_folder}')
 
-      local_path = "#{@save_directory}#{name}"
+      local_path = "#{@local_save_directory}#{name}"
       :ok = :ftp.recv(pid, to_charlist(name), to_charlist(local_path))
       :inets.stop(:ftpc, pid)
 
@@ -21,6 +22,10 @@ defmodule WebcamfornoloBackend.Dal.Altervista.AltervistaDal do
     rescue
       _ -> :error
     end
+  end
+
+  def get_media_path(media_details) do
+    "#{@resurce_base_path}/#{media_details.path}"
   end
 
   def save_file(media_details, remote_folder) do

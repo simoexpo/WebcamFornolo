@@ -1,9 +1,7 @@
 defmodule WebcamfornoloBackendWeb.MediaController do
   use WebcamfornoloBackendWeb, :controller
+  import WebcamfornoloBackendWeb.Util.ControllerHelper
   require Logger
-
-  @acao_header "Access-Control-Allow-Origin"
-  @allowed_origin "https://webcamfornolo.altervista.org"
 
   def save_media(conn, params) do
     Logger.info("save media")
@@ -13,19 +11,27 @@ defmodule WebcamfornoloBackendWeb.MediaController do
       |> Map.put(:description, params["description"])
       |> WebcamfornoloBackend.save_media()
 
-    # check the name
-
     case upload_result do
       :ok ->
-        conn |> put_resp_header(@acao_header, @allowed_origin) |> put_status(200) |> json(%{})
+        conn |> add_common_headers() |> put_status(201) |> json(%{})
 
       _ ->
-        conn |> put_resp_header(@acao_header, @allowed_origin) |> put_status(500) |> json(%{})
+        conn |> add_common_headers() |> put_status(500) |> json(%{})
     end
   end
 
   def get_media_paginated(conn, params) do
-    Logger.info("get media")
-    conn |> put_status(200) |> json(%{})
+    Logger.info("get paginated media")
+    page = String.to_integer(Map.get(params, "page", "0"))
+    rpp = String.to_integer(Map.get(params, "rpp", "10"))
+
+    case WebcamfornoloBackend.get_media_paginated(page, rpp) do
+      {:ok, page} ->
+        page_view = Map.update!(page, :items, fn items -> Enum.map(items, &Map.from_struct/1) end)
+        conn |> add_common_headers() |> put_status(200) |> json(page_view)
+
+      _ ->
+        conn |> add_common_headers() |> put_status(500) |> json(%{})
+    end
   end
 end

@@ -33,4 +33,8 @@ defmodule WebcamfornoloBackend do
       :error -> :error
     end
   end
+
+  def get_media_paginated(page, rpp) do
+    MediaFileService.get_media_paginated(page, rpp)
+  end
 end

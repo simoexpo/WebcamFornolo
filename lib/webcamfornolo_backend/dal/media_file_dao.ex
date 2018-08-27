@@ -1,4 +1,5 @@
 defmodule WebcamfornoloBackend.Dal.MediaFileDao do
+  import Ecto.Query
   require Logger
 
   alias WebcamfornoloBackend.Repo
@@ -26,6 +27,33 @@ defmodule WebcamfornoloBackend.Dal.MediaFileDao do
       _ ->
         :error
     end
+  end
+
+  def get_from_path_paginated(path, page, rpp) do
+    offset = page * rpp
+
+    count =
+      MediaFileEntity
+      |> where([e], e.path == ^path)
+      |> select([e], count(e.id))
+      |> Repo.one()
+
+    total_pages = trunc(Float.ceil(count / rpp))
+
+    items =
+      MediaFileEntity
+      |> where([e], e.path == ^path)
+      |> order_by(desc: :created_at)
+      |> limit(^rpp)
+      |> offset(^offset)
+      |> Repo.all()
+      |> Enum.map(fn x -> elem(MediaDetailsMapper.from(x), 1) end)
+      |> Enum.map(fn x ->
+        media_path = AltervistaDal.get_media_path(x)
+        Map.put(x, :path, media_path)
+      end)
+
+    {:ok, %{total_pages: total_pages, items: items}}
   end
 
   def save(media_details, remote_path) do
