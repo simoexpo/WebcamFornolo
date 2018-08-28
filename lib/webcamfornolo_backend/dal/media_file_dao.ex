@@ -30,23 +30,13 @@ defmodule WebcamfornoloBackend.Dal.MediaFileDao do
   end
 
   def get_from_path_paginated(path, page, rpp) do
-    offset = page * rpp
-
-    count =
+    {entities, total_pages} =
       MediaFileEntity
       |> where([e], e.path == ^path)
-      |> select([e], count(e.id))
-      |> Repo.one()
-
-    total_pages = trunc(Float.ceil(count / rpp))
+      |> Repo.paginated(page, rpp)
 
     items =
-      MediaFileEntity
-      |> where([e], e.path == ^path)
-      |> order_by(desc: :created_at)
-      |> limit(^rpp)
-      |> offset(^offset)
-      |> Repo.all()
+      entities
       |> Enum.map(fn x -> elem(MediaDetailsMapper.from(x), 1) end)
       |> Enum.map(fn x ->
         media_path = AltervistaDal.get_media_path(x)
