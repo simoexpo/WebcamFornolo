@@ -5,7 +5,7 @@ defmodule WebcamfornoloBackend.Service.MediaFileService do
 
   def save_media(media_details) do
     IO.inspect(media_details)
-    media_name = UUID.uuid1()
+    media_name = "#{UUID.uuid1()}.jpg"
     media_file_details = Map.put(media_details, :name, media_name)
 
     case MediaFileDao.save(media_file_details, @media_path) do
