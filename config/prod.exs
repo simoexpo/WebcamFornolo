@@ -34,7 +34,8 @@ config :elixatmo,
 
 config :webcamfornolo_backend,
   altervista_ftp_user: Map.fetch!(System.get_env(), "ALTERVISTA_USER"),
-  altervista_ftp_password: Map.fetch!(System.get_env(), "ALTERVISTA_PASSWORD")
+  altervista_ftp_password: Map.fetch!(System.get_env(), "ALTERVISTA_PASSWORD"),
+  authorization_token: Map.fetch!(System.get_env(), "AUTHORIZATION_TOKEN")
 
 # ## SSL Support
 #
