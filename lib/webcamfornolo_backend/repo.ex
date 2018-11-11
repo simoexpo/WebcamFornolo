@@ -1,5 +1,8 @@
 defmodule WebcamfornoloBackend.Repo do
-  use Ecto.Repo, otp_app: :webcamfornolo_backend
+  use Ecto.Repo,
+    otp_app: :webcamfornolo_backend,
+    adapter: Ecto.Adapters.Postgres
+
   import Ecto.Query
 
   def paginated(queryable, page, rpp) do

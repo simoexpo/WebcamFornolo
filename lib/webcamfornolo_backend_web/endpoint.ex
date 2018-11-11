@@ -1,7 +1,7 @@
 defmodule WebcamfornoloBackendWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :webcamfornolo_backend
 
-  socket("/socket", WebcamfornoloBackendWeb.UserSocket)
+  socket("/socket", WebcamfornoloBackendWeb.UserSocket, websocket: true)
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -30,7 +30,7 @@ defmodule WebcamfornoloBackendWeb.Endpoint do
     Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Poison
+    json_decoder: Jason
   )
 
   plug(Plug.MethodOverride)
