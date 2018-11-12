@@ -34,4 +34,17 @@ defmodule WebcamfornoloBackendWeb.MediaController do
         conn |> add_common_headers() |> put_status(500) |> json(%{})
     end
   end
+
+  def delete_media(conn, params) do
+    id = Map.get(params, "id")
+    Logger.info("delete media #{id}")
+
+    case WebcamfornoloBackend.delete_media(id) do
+      :ok ->
+        conn |> add_common_headers() |> put_status(204) |> json(%{})
+
+      :error ->
+        conn |> add_common_headers() |> put_status(404) |> json(%{})
+    end
+  end
 end

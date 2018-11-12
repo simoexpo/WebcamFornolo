@@ -46,6 +46,24 @@ defmodule WebcamfornoloBackend.Dal.Altervista.AltervistaDal do
     end
   end
 
+  def delete_file(name, remote_folder) do
+    try do
+      :inets.start()
+      {:ok, pid} = :inets.start(:ftpc, host: @host)
+      :ok = :ftp.user(pid, user(), password())
+      :ok = :ftp.type(pid, :binary)
+
+      :ok = :ftp.cd(pid, '#{remote_folder}')
+
+      :ok = :ftp.delete(pid, '#{name}')
+      :inets.stop(:ftpc, pid)
+
+      :ok
+    rescue
+      _ -> :error
+    end
+  end
+
   defp user, do: to_charlist(Application.get_env(:webcamfornolo_backend, :altervista_ftp_user))
 
   defp password,

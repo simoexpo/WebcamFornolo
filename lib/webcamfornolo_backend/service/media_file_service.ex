@@ -17,4 +17,8 @@ defmodule WebcamfornoloBackend.Service.MediaFileService do
   def get_media_paginated(page, rpp) do
     MediaFileDao.get_from_path_paginated(@media_path, page, rpp)
   end
+
+  def delete_media(id) do
+    MediaFileDao.delete(id)
+  end
 end

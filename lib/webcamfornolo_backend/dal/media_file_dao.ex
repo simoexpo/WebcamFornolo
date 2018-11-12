@@ -86,4 +86,18 @@ defmodule WebcamfornoloBackend.Dal.MediaFileDao do
         :error
     end
   end
+
+  def delete(id) do
+    Logger.info("deleting media #{id} on DB")
+
+    case Repo.get_by(MediaFileEntity, id: id) do
+      nil ->
+        :error
+
+      media_file_entity ->
+        Repo.delete(media_file_entity)
+        Logger.info("deleting media #{id} on server")
+        AltervistaDal.delete_file(media_file_entity.name, media_file_entity.path)
+    end
+  end
 end
