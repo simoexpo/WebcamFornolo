@@ -1,16 +1,23 @@
 defmodule WebcamfornoloBackend.Service.MediaFileService do
   alias WebcamfornoloBackend.Dal.MediaFileDao
+  alias WebcamfornoloBackend.Model.MediaDetails
 
   @media_path "media"
 
   def save_media(media_details) do
     IO.inspect(media_details)
-    media_name = "#{UUID.uuid1()}.jpg"
-    media_file_details = Map.put(media_details, :name, media_name)
 
-    case MediaFileDao.save(media_file_details, @media_path) do
-      {:ok, _} -> :ok
-      _ -> :error
+    case get_media_name(media_details) do
+      {:ok, media_name} ->
+        media_file_details = Map.put(media_details, :name, media_name)
+
+        case MediaFileDao.save(media_file_details, @media_path) do
+          {:ok, _} -> :ok
+          _ -> :error
+        end
+
+      :error ->
+        :error
     end
   end
 
@@ -20,5 +27,13 @@ defmodule WebcamfornoloBackend.Service.MediaFileService do
 
   def delete_media(id) do
     MediaFileDao.delete(id)
+  end
+
+  defp get_media_name(%MediaDetails{content_type: content_type}) do
+    cond do
+      String.starts_with?(content_type, "image") -> {:ok, "#{UUID.uuid1()}.jpg"}
+      String.starts_with?(content_type, "video") -> {:ok, "#{UUID.uuid1()}.mp4"}
+      true -> :error
+    end
   end
 end
