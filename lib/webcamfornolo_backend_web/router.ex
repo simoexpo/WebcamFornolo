@@ -27,6 +27,7 @@ defmodule WebcamfornoloBackendWeb.Router do
     pipe_through(:authorization)
     post("/", MediaController, :save_media)
     delete("/:id", MediaController, :delete_media)
+    options("/:id", CommonController, :options)
   end
 
   # Other scopes may use custom stacks.
