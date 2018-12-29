@@ -48,12 +48,12 @@ defmodule WebcamfornoloBackend.Service.WebcamImageService do
   defp rightLabel(created_at) do
     temp =
       case WeatherDataDao.get_outdoor_temperature() do
-        {:ok, temperature} -> temperature
+        {:ok, temperature} -> "#{temperature}°C"
         :error -> "N.D"
       end
 
     now = created_at |> DateTimeUtil.to_local() |> Timex.lformat!(@datetime_format, @locale)
-    "Temperatura: #{temp}°C - #{now}"
+    "Temperatura: #{temp} - #{now}"
   end
 
   defp webcam_to_file_name(id) do
