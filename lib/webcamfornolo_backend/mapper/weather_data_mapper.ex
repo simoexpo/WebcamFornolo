@@ -13,7 +13,7 @@ defmodule WebcamfornoloBackend.Mapper.WeatherDataMapper do
       Map.get(weather_data, "body")
       |> Map.get("devices")
       |> List.first()
-      |> Map.get("dashboard_data")
+      |> Map.get("dashboard_data", %{})
       |> map_key_to_lowercase()
       |> IndoorWeatherData.create(ignore_unknown_fields: true, allow_string_keys: true)
 
@@ -23,7 +23,7 @@ defmodule WebcamfornoloBackend.Mapper.WeatherDataMapper do
       |> List.first()
       |> Map.get("modules")
       |> List.first()
-      |> Map.get("dashboard_data")
+      |> Map.get("dashboard_data", %{})
       |> map_key_to_lowercase()
       |> OutdoorWeatherData.create(
         ignore_unknown_fields: true,
