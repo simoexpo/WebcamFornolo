@@ -22,8 +22,8 @@ defmodule WebcamfornoloBackend.Mapper.WeatherDataMapper do
       |> Map.get("devices")
       |> List.first()
       |> Map.get("modules")
-      |> List.first()
-      |> Map.get("dashboard_data", %{})
+      |> Enum.map(fn m -> Map.get(m, "dashboard_data", %{}) end)
+      |> Enum.reduce(%{}, fn x, acc -> Map.merge(acc, x) end)
       |> map_key_to_lowercase()
       |> OutdoorWeatherData.create(
         ignore_unknown_fields: true,

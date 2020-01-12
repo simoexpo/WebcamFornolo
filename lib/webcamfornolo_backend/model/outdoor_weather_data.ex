@@ -3,7 +3,8 @@ defmodule WebcamfornoloBackend.Model.OutdoorWeatherData do
     min_temp: :number,
     max_temp: :number,
     temperature: :number,
-    humidity: :number
+    humidity: :number,
+    rain: :number
   }
 
   use SafeExStruct
