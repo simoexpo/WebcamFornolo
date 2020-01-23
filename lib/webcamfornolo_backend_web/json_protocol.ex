@@ -1,9 +1,9 @@
-defmodule WebcamfornoloBackendWeb.JsonProtocol do
+defmodule WebcamFornolo.JsonProtocol do
   require Protocol
 
-  alias WebcamfornoloBackend.Model.IndoorWeatherData
-  alias WebcamfornoloBackend.Model.OutdoorWeatherData
-  alias WebcamfornoloBackend.Model.WeatherData
+  alias WebcamFornolo.Model.IndoorWeatherData
+  alias WebcamFornolo.Model.OutdoorWeatherData
+  alias WebcamFornolo.Model.WeatherData
 
   Protocol.derive(Jason.Encoder, IndoorWeatherData)
   Protocol.derive(Jason.Encoder, OutdoorWeatherData)

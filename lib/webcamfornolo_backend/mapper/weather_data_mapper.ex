@@ -1,45 +1,43 @@
-defmodule WebcamfornoloBackend.Mapper.WeatherDataMapper do
-  alias WebcamfornoloBackend.Model.IndoorWeatherData
-  alias WebcamfornoloBackend.Model.OutdoorWeatherData
-  alias WebcamfornoloBackend.Model.WeatherData
+defmodule WebcamFornolo.Mapper.WeatherDataMapper do
+  alias WebcamFornolo.Model.IndoorWeatherData
+  alias WebcamFornolo.Model.OutdoorWeatherData
+  alias WebcamFornolo.Model.WeatherData
+  alias WebcamFornolo.Service.Util.DateTimeUtil
 
-  @time "time_server"
-  @timezone "Europe/Rome"
+  @time_field "time_server"
 
   def from(weather_data = %{}) do
-    time = Timex.from_unix(Map.get(weather_data, @time)) |> Timex.to_datetime(@timezone)
+    try do
+      time = DateTimeUtil.from_utc(Map.get(weather_data, @time_field)) |> DateTimeUtil.to_local
 
-    indoor_weather_data =
-      Map.get(weather_data, "body")
-      |> Map.get("devices")
-      |> List.first()
-      |> Map.get("dashboard_data", %{})
-      |> map_key_to_lowercase()
-      |> IndoorWeatherData.create(ignore_unknown_fields: true, allow_string_keys: true)
+      {:ok, indoor_weather_data} =
+        Map.get(weather_data, "body")
+        |> Map.get("devices")
+        |> List.first()
+        |> Map.get("dashboard_data", %{})
+        |> map_key_to_lowercase()
+        |> IndoorWeatherData.create(ignore_unknown_fields: true, allow_string_keys: true)
 
-    outdoor_weather_data =
-      Map.get(weather_data, "body")
-      |> Map.get("devices")
-      |> List.first()
-      |> Map.get("modules")
-      |> Enum.map(fn m -> Map.get(m, "dashboard_data", %{}) end)
-      |> Enum.reduce(%{}, fn x, acc -> Map.merge(acc, x) end)
-      |> map_key_to_lowercase()
-      |> OutdoorWeatherData.create(
-        ignore_unknown_fields: true,
-        allow_string_keys: true
-      )
+      {:ok, outdoor_weather_data} =
+        Map.get(weather_data, "body")
+        |> Map.get("devices")
+        |> List.first()
+        |> Map.get("modules")
+        |> Enum.map(fn m -> Map.get(m, "dashboard_data", %{}) end)
+        |> Enum.reduce(%{}, fn x, acc -> Map.merge(acc, x) end)
+        |> map_key_to_lowercase()
+        |> OutdoorWeatherData.create(
+          ignore_unknown_fields: true,
+          allow_string_keys: true
+        )
 
-    case {indoor_weather_data, outdoor_weather_data} do
-      {{:ok, indoor_data}, {:ok, outdoor_data}} ->
         WeatherData.create(%{
-          indoor_weather_data: indoor_data,
-          outdoor_weather_data: outdoor_data,
+          indoor_weather_data: indoor_weather_data,
+          outdoor_weather_data: outdoor_weather_data,
           time: time
         })
-
-      _ ->
-        :error
+    rescue
+      _ -> {:error, :invalid_args}
     end
   end
 

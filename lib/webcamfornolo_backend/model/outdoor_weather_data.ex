@@ -1,4 +1,4 @@
-defmodule WebcamfornoloBackend.Model.OutdoorWeatherData do
+defmodule WebcamFornolo.Model.OutdoorWeatherData do
   @fields %{
     min_temp: :number,
     max_temp: :number,

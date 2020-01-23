@@ -1,4 +1,4 @@
-defmodule WebcamfornoloBackend.Model.MediaDetails do
+defmodule WebcamFornolo.Model.MediaFile do
   @fields %{
     id: {:number, :optional, 0},
     name: :binary,

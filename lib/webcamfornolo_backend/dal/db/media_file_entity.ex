@@ -1,8 +1,8 @@
-defmodule WebcamfornoloBackend.Dal.Db.MediaFileEntity do
+defmodule WebcamFornolo.Dal.Db.MediaFileEntity do
   use Ecto.Schema
   import Ecto.Changeset
-  alias WebcamfornoloBackend.Dal.Db.MediaFileEntity
-  alias WebcamfornoloBackend.Model.MediaDetails
+  alias WebcamFornolo.Dal.Db.MediaFileEntity
+  alias WebcamFornolo.Model.MediaFile
 
   schema "media_file" do
     field(:name, :string)
@@ -12,7 +12,7 @@ defmodule WebcamfornoloBackend.Dal.Db.MediaFileEntity do
     field(:created_at, :utc_datetime)
   end
 
-  def from(%MediaDetails{} = media_details) do
+  def from(%MediaFile{} = media_details) do
     changeset(%MediaFileEntity{}, Map.from_struct(media_details))
   end
 

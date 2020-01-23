@@ -3,7 +3,7 @@ defmodule WebcamFornolo.Route.WebcamRoutes do
   require Logger
 
   alias WebcamFornolo.Service
-  alias WebcamfornoloBackend.Mapper.MediaDetailsMapper
+  alias WebcamFornolo.Mapper.MediaFileMapper
 
   @webcam1 "1"
   @webcam2 "2"
@@ -40,7 +40,7 @@ defmodule WebcamFornolo.Route.WebcamRoutes do
 
     {:ok, webcam_image} =
       Map.from_struct(conn.params["image"])
-      |> MediaDetailsMapper.from
+      |> MediaFileMapper.from
 
     case webcam_image_service.save_webcam(id, webcam_image) do
       :ok -> send_resp(conn, 201, "")

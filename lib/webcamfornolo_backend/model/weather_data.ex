@@ -1,6 +1,6 @@
-defmodule WebcamfornoloBackend.Model.WeatherData do
-  alias WebcamfornoloBackend.Model.IndoorWeatherData
-  alias WebcamfornoloBackend.Model.OutdoorWeatherData
+defmodule WebcamFornolo.Model.WeatherData do
+  alias WebcamFornolo.Model.IndoorWeatherData
+  alias WebcamFornolo.Model.OutdoorWeatherData
 
   @fields %{
     indoor_weather_data: IndoorWeatherData,
