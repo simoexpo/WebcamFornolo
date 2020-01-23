@@ -2,7 +2,7 @@ defmodule WebcamFornolo.Mapper.WeatherDataMapper do
   alias WebcamFornolo.Model.IndoorWeatherData
   alias WebcamFornolo.Model.OutdoorWeatherData
   alias WebcamFornolo.Model.WeatherData
-  alias WebcamFornolo.Service.Util.DateTimeUtil
+  alias WebcamFornolo.Util.DateTimeUtil
 
   @time_field "time_server"
 

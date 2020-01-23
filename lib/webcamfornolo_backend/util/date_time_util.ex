@@ -1,4 +1,4 @@
-defmodule WebcamFornolo.Service.Util.DateTimeUtil do
+defmodule WebcamFornolo.Util.DateTimeUtil do
   @timezone "Europe/Rome"
 
   def now(), do: Timex.now()
