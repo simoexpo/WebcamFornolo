@@ -5,9 +5,8 @@ defmodule WebcamfornoloBackend.Mixfile do
     [
       app: :webcamfornolo_backend,
       version: "0.0.1",
-      elixir: "~> 1.7.3",
+      elixir: ">= 1.7.3",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -33,17 +32,11 @@ defmodule WebcamfornoloBackend.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.0"},
-      {:phoenix_pubsub, "~> 1.0"},
       {:ecto_sql, "~> 3.0.3"},
-      {:phoenix_ecto, "~> 4.0"},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.1"},
-      {:phoenix_html, "~> 2.13.0"},
-      {:phoenix_live_reload, "~> 1.2.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:plug_cowboy, "~> 2.0.1"},
-      {:plug, "~> 1.7"},
       {:httpoison, "~> 1.0"},
       {:safeexstruct, git: "git://github.com/simoexpo/SafeExStruct.git", tag: "v0.4.0"},
       {:elixatmo, git: "git://github.com/simoexpo/ElixAtmo.git", tag: "v0.3.0"},
@@ -64,7 +57,7 @@ defmodule WebcamfornoloBackend.Mixfile do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test --trace"]
     ]
   end
 end

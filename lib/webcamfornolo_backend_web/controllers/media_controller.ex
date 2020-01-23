@@ -1,5 +1,5 @@
 defmodule WebcamfornoloBackendWeb.MediaController do
-  use WebcamfornoloBackendWeb, :controller
+  #use WebcamfornoloBackendWeb, :controller
   alias WebcamfornoloBackendWeb.CommonController
   require Logger
 
@@ -13,10 +13,10 @@ defmodule WebcamfornoloBackendWeb.MediaController do
 
     case upload_result do
       :ok ->
-        conn |> CommonController.add_common_headers() |> put_status(201) |> json(%{})
+        conn |> CommonController.add_common_headers() #|> put_status(201)
 
       _ ->
-        conn |> CommonController.add_common_headers() |> put_status(500) |> json(%{})
+        conn |> CommonController.add_common_headers() #|> put_status(500)
     end
   end
 
@@ -28,10 +28,10 @@ defmodule WebcamfornoloBackendWeb.MediaController do
     case WebcamfornoloBackend.get_media_paginated(page, rpp) do
       {:ok, page} ->
         page_view = Map.update!(page, :items, fn items -> Enum.map(items, &Map.from_struct/1) end)
-        conn |> CommonController.add_common_headers() |> put_status(200) |> json(page_view)
+        conn |> CommonController.add_common_headers() #|> put_status(200)# |> json(page_view)
 
       _ ->
-        conn |> CommonController.add_common_headers() |> put_status(500) |> json(%{})
+        conn |> CommonController.add_common_headers() #|> put_status(500)
     end
   end
 
@@ -41,10 +41,10 @@ defmodule WebcamfornoloBackendWeb.MediaController do
 
     case WebcamfornoloBackend.delete_media(id) do
       :ok ->
-        conn |> CommonController.add_common_headers() |> put_status(204) |> json(%{})
+        conn |> CommonController.add_common_headers() #|> put_status(204)
 
       :error ->
-        conn |> CommonController.add_common_headers() |> put_status(404) |> json(%{})
+        conn |> CommonController.add_common_headers() #|> put_status(404)
     end
   end
 end
