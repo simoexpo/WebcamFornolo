@@ -13,26 +13,26 @@ defmodule WebcamfornoloBackendWeb.ConnCase do
   of the test unless the test case is marked as async.
   """
 
-  use ExUnit.CaseTemplate
+ # use ExUnit.CaseTemplate
 
-  using do
-    quote do
-      # Import conveniences for testing with connections
-      use Phoenix.ConnTest
-      import WebcamfornoloBackendWeb.Router.Helpers
+ # using do
+ #   quote do
+ #     # Import conveniences for testing with connections
+ ##     use Phoenix.ConnTest
+  #    import WebcamfornoloBackendWeb.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint WebcamfornoloBackendWeb.Endpoint
-    end
-  end
+   #   @endpoint WebcamfornoloBackendWeb.Endpoint
+ #   end
+ # end
 
-  setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(WebcamfornoloBackend.Repo)
+ # setup tags do
+ #   :ok = Ecto.Adapters.SQL.Sandbox.checkout(WebcamfornoloBackend.Repo)
 
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(WebcamfornoloBackend.Repo, {:shared, self()})
-    end
+ #   unless tags[:async] do
+ #     Ecto.Adapters.SQL.Sandbox.mode(WebcamfornoloBackend.Repo, {:shared, self()})
+ #   end
 
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
-  end
+  #  {:ok, conn: Phoenix.ConnTest.build_conn()}
+ # end
 end

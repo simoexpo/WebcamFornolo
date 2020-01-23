@@ -1,5 +1,5 @@
 defmodule WebcamfornoloBackendWeb.WebcamController do
-  use WebcamfornoloBackendWeb, :controller
+  #use WebcamfornoloBackendWeb, :controller
   alias WebcamfornoloBackendWeb.CommonController
   require Logger
 
@@ -13,14 +13,14 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
       :error ->
         conn
         |> CommonController.add_common_headers()
-        |> put_status(404)
-        |> json(%{error: "Webcam #{id} is unavailable"})
+        #|> put_status(404)
+        #|> json(%{error: "Webcam #{id} is unavailable"})
 
       url ->
         conn
         |> CommonController.add_common_headers()
-        |> put_resp_header("Content-Type", "image/jpeg")
-        |> send_file(200, url)
+        #|> put_resp_header("Content-Type", "image/jpeg")
+       # |> send_file(200, url)
     end
   end
 
@@ -39,14 +39,14 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
       :error ->
         conn
         |> CommonController.add_common_headers()
-        |> put_status(500)
-        |> json(%{})
+        #|> put_status(500)
+        #|> json(%{})
 
       :ok ->
         conn
         |> CommonController.add_common_headers()
-        |> put_status(201)
-        |> json(%{})
+        #|> put_status(201)
+        #|> json(%{})
     end
   end
 

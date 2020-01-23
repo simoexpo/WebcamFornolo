@@ -2,6 +2,7 @@ defmodule WebcamfornoloBackend.Mapper.MediaDetailsMapper do
   alias WebcamfornoloBackend.Model.MediaDetails
   alias WebcamfornoloBackend.Dal.Db.MediaFileEntity
   alias WebcamfornoloBackend.Service.Util.DateTimeUtil
+  require Logger
 
   def from(media_file_entity = %MediaFileEntity{}) do
     IO.inspect(media_file_entity)
@@ -17,7 +18,7 @@ defmodule WebcamfornoloBackend.Mapper.MediaDetailsMapper do
   end
 
   def from(media_data) do
-    IO.inspect(media_data)
+    Logger.info(fn -> "#{inspect(media_data)}" end)
 
     MediaDetails.create(%{
       name: media_data.filename,

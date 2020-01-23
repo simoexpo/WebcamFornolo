@@ -1,7 +1,9 @@
 defmodule WebcamfornoloBackendWeb.HealthController do
-  use WebcamfornoloBackendWeb, :controller
+  #use Plug.Router
+  #use WebcamfornoloBackendWeb, :controller
 
   def health(conn, _params) do
-    json(conn, %{status: "feeling good!"})
+    #send_resp(conn, 200, "feeling good!")
+    #json(conn, %{status: "Feeling good!"})
   end
 end

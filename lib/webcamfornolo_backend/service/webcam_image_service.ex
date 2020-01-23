@@ -1,4 +1,4 @@
-defmodule WebcamfornoloBackend.Service.WebcamImageService do
+defmodule WebcamFornolo.Service.WebcamImageService do
   alias WebcamfornoloBackend.Service.ImageEditorService
   alias WebcamfornoloBackend.Dal.WeatherDataDao
   alias WebcamfornoloBackend.Model.MediaDetails
