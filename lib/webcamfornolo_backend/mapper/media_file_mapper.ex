@@ -1,7 +1,7 @@
 defmodule WebcamFornolo.Mapper.MediaFileMapper do
   alias WebcamFornolo.Model.MediaFile
   alias WebcamFornolo.Dal.Db.MediaFileEntity
-  alias WebcamFornolo.Service.Util.DateTimeUtil
+  alias WebcamFornolo.Util.DateTimeUtil
   require Logger
 
   def from(media_file_entity = %MediaFileEntity{}) do
