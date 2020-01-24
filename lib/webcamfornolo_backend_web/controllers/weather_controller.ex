@@ -3,15 +3,15 @@ defmodule WebcamfornoloBackendWeb.WeatherController do
   alias WebcamfornoloBackendWeb.CommonController
 
   def get_weather(conn, _params) do
-    case WebcamfornoloBackend.get_weather_info() do
-      {:ok, data} ->
-        conn
-        |> CommonController.add_common_headers()
+  #  case WebcamfornoloBackend.get_weather_info() do
+   #   {:ok, data} ->
+    #    conn
+   #     |> CommonController.add_common_headers()
         #|> put_status(200)
         #|> json(data)
 
-      :error ->
-        conn |> CommonController.add_common_headers() #|> put_status(500) |> json(%{})
-    end
+    #  :error ->
+   #     conn |> CommonController.add_common_headers() #|> put_status(500) |> json(%{})
+   # end
   end
 end

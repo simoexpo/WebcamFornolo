@@ -2,8 +2,7 @@ defmodule WebcamFornolo.Routes do
   use Plug.Router
   use Plug.ErrorHandler
 
-  alias  WebcamFornolo.Route
-  alias WebcamFornolo.Service
+  alias WebcamFornolo.Route
 
   plug :match
   plug :dispatch

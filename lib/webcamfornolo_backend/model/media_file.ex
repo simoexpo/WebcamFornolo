@@ -1,4 +1,7 @@
 defmodule WebcamFornolo.Model.MediaFile do
+
+  @type t() :: %__MODULE__{}
+
   @fields %{
     id: {:number, :optional, 0},
     name: :binary,

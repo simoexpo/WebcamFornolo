@@ -38,7 +38,7 @@ defmodule WebcamFornolo.Mapper.WeatherDataMapperTest do
         "key21" => "value21"
       }
     }
-    assert WeatherDataMapper.from(invalid_map) == {:error, :invalid_args}
+    assert WeatherDataMapper.from(invalid_map) == :error
   end
 
   defp weather_data_sample, do: %{

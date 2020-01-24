@@ -1,9 +1,11 @@
 defmodule WebcamFornolo.Service.WebcamImageService do
-  alias WebcamfornoloBackend.Service.ImageEditorService
-  alias WebcamfornoloBackend.Dal.WeatherDataDao
-  alias WebcamfornoloBackend.Model.MediaDetails
-  alias WebcamfornoloBackend.Dal.MediaFileDao
-  alias WebcamfornoloBackend.Service.Util.DateTimeUtil
+  require Logger
+
+  alias WebcamFornolo.Service.ImageEditorService
+  alias WebcamFornolo.Dal.WeatherDataDao
+  alias WebcamFornolo.Model.MediaFile
+  alias WebcamFornolo.Dal.MediaFileDao
+  alias WebcamFornolo.Util.DateTimeUtil
 
   @webcam1_file "01.jpg"
   @webcam2_file "02.jpg"
@@ -13,18 +15,20 @@ defmodule WebcamFornolo.Service.WebcamImageService do
   @webcam2_left_label "Località Fornolo (PR) - Alta Val Ceno"
   @webcam_image_remote_path "webcam"
 
+  @spec get_webcam(String.t) :: :error | {:ok, MediaFile.t()}
   def get_webcam(id) do
     case MediaFileDao.get(webcam_to_file_name(id)) do
-      {:ok, %MediaDetails{path: file_path}} -> file_path
+      {:ok, %MediaFile{path: file_path}} -> file_path
       _ -> :error
     end
   end
 
-  def save_webcam(id, media_details = %MediaDetails{path: path, created_at: created_at}) do
+  @spec save_webcam(String.t, MediaFile.t()) :: :error | :ok
+  def save_webcam(id, media_details = %MediaFile{path: path, created_at: created_at}) do
     edited_file_path =
       ImageEditorService.create_webcam_view(path, leftLabel(id), rightLabel(created_at))
 
-    IO.inspect("edited!")
+    Logger.info("edited!")
 
     edited_media_details =
       media_details
@@ -37,6 +41,7 @@ defmodule WebcamFornolo.Service.WebcamImageService do
     end
   end
 
+  @spec leftLabel(String.t()) :: String.t()
   defp leftLabel(id) do
     case id do
       "1" -> @webcam1_left_label
@@ -45,6 +50,7 @@ defmodule WebcamFornolo.Service.WebcamImageService do
     end
   end
 
+  @spec rightLabel(DateTime.t()) :: String.t()
   defp rightLabel(created_at) do
     temp =
       case WeatherDataDao.get_outdoor_temperature() do
@@ -56,6 +62,7 @@ defmodule WebcamFornolo.Service.WebcamImageService do
     "Temperatura: #{temp} - #{now}"
   end
 
+  @spec webcam_to_file_name(String.t()) :: :error | String.t()
   defp webcam_to_file_name(id) do
     case id do
       "1" -> @webcam1_file

@@ -5,8 +5,8 @@ defmodule WebcamFornolo.Route.WebcamRoutes do
   alias WebcamFornolo.Service
   alias WebcamFornolo.Mapper.MediaFileMapper
 
-  @webcam1 "1"
-  @webcam2 "2"
+  #@webcam1 "1"
+  #@webcam2 "2"
   @webcam_image_service Service.WebcamImageService
 
   plug :match

@@ -1,19 +1,12 @@
 defmodule WebcamFornolo.Service.WeatherService do
 
-  @default_weather_dao_impl WeatherDataDaoImpl
+  alias WebcamFornolo.Dal.WeatherDataDao
+  alias WebcamFornolo.Model.WeatherData
 
-  defprotocol WeatherDataDao do
-    def get_weather_data(impl)
-  end
+  @default_weather_dao_impl WeatherDataDao
 
-  defmodule WeatherDataDaoImpl do
-
-    defimpl WeatherDataDao, for: WeatherDataDaoImpl do
-      def get_weather_data(impl), do: fn env -> env.dal end
-    end
-  end
-
+  @spec get_weather_info(atom()) :: :error | {:ok, WeatherData.t()}
   def get_weather_info(provider \\ @default_weather_dao_impl) do
-    WeatherDataDao.get_weather_data(provider)
+    provider.get_weather_data()
   end
 end

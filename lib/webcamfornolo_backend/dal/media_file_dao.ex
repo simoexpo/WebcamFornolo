@@ -1,10 +1,10 @@
-defmodule WebcamfornoloBackend.Dal.MediaFileDao do
+defmodule WebcamFornolo.Dal.MediaFileDao do
   import Ecto.Query
   require Logger
 
   alias WebcamfornoloBackend.Repo
-  alias WebcamfornoloBackend.Mapper.MediaDetailsMapper
-  alias WebcamfornoloBackend.Dal.Db.MediaFileEntity
+  alias WebcamFornolo.Mapper.MediaFileMapper
+  alias WebcamFornolo.Dal.Db.MediaFileEntity
   alias WebcamfornoloBackend.Dal.Altervista.AltervistaDal
 
   def get(file_name) do
@@ -18,7 +18,7 @@ defmodule WebcamfornoloBackend.Dal.MediaFileDao do
         case AltervistaDal.get_image(media_file.name, media_file.path) do
           {:ok, file_path} ->
             Logger.info("retrieved media on server")
-            MediaDetailsMapper.from(media_file, file_path)
+            MediaFileMapper.from(media_file, file_path)
 
           _ ->
             :error
@@ -37,7 +37,7 @@ defmodule WebcamfornoloBackend.Dal.MediaFileDao do
 
     items =
       entities
-      |> Enum.map(fn x -> elem(MediaDetailsMapper.from(x), 1) end)
+      |> Enum.map(fn x -> elem(MediaFileMapper.from(x), 1) end)
       |> Enum.map(fn x ->
         media_path = AltervistaDal.get_media_path(x)
         Map.put(x, :path, media_path)
