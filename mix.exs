@@ -9,7 +9,11 @@ defmodule WebcamfornoloBackend.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      dialyzer: [
+        plt_add_apps: [:ftp, :inets],
+        paths: ["_build/dev/lib/webcamfornolo_backend/ebin"]
+      ]
     ]
   end
 
@@ -35,7 +39,6 @@ defmodule WebcamfornoloBackend.Mixfile do
       {:ecto_sql, "~> 3.0.3"},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.1"},
-      {:gettext, "~> 0.11"},
       {:plug_cowboy, "~> 2.0.1"},
       {:httpoison, "~> 1.0"},
       {:safeexstruct, git: "git://github.com/simoexpo/SafeExStruct.git", tag: "v0.4.0"},
@@ -43,7 +46,8 @@ defmodule WebcamfornoloBackend.Mixfile do
       {:timex, "~> 3.4.2"},
       {:cachex, "~> 3.0"},
       {:mogrify, "~> 0.7.0"},
-      {:elixir_uuid, "~> 1.2"}
+      {:elixir_uuid, "~> 1.2"},
+      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
     ]
   end
 

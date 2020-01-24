@@ -1,4 +1,5 @@
 defmodule WebcamFornolo.Mapper.WeatherDataMapper do
+
   alias WebcamFornolo.Model.IndoorWeatherData
   alias WebcamFornolo.Model.OutdoorWeatherData
   alias WebcamFornolo.Model.WeatherData
@@ -6,6 +7,7 @@ defmodule WebcamFornolo.Mapper.WeatherDataMapper do
 
   @time_field "time_server"
 
+  @spec from(map()) :: :error | {:ok, WeatherData.t}
   def from(weather_data = %{}) do
     try do
       time = DateTimeUtil.from_utc(Map.get(weather_data, @time_field)) |> DateTimeUtil.to_local
@@ -31,16 +33,20 @@ defmodule WebcamFornolo.Mapper.WeatherDataMapper do
           allow_string_keys: true
         )
 
-        WeatherData.create(%{
+        case WeatherData.create(%{
           indoor_weather_data: indoor_weather_data,
           outdoor_weather_data: outdoor_weather_data,
           time: time
-        })
+        }) do
+          {:ok, value} -> {:ok, value}
+          {:error, _} -> :error
+        end
     rescue
-      _ -> {:error, :invalid_args}
+      _ -> :error
     end
   end
 
+  @spec map_key_to_lowercase(map()) :: map()
   defp map_key_to_lowercase(map = %{}) do
     for {key, val} <- map, into: %{}, do: {String.downcase(key), val}
   end

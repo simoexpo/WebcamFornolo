@@ -1,4 +1,4 @@
-defmodule WebcamfornoloBackend.Service.ImageEditorService do
+defmodule WebcamFornolo.Service.ImageEditorService do
   import Mogrify
 
   @text_color "white"

@@ -87,6 +87,6 @@ defmodule WebcamFornolo.Mapper.MediaFileMapperTest do
       path: "path",
       created_at: now
     }
-    assert MediaFileMapper.from(invalid_map) == {:error, :invalid_args}
+    assert MediaFileMapper.from(invalid_map) == :error
   end
 end

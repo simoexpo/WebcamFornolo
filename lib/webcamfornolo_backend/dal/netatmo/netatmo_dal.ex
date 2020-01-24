@@ -1,8 +1,9 @@
-defmodule WebcamfornoloBackend.Dal.Netatmo.NetatmoDal do
+defmodule WebcamFornolo.Dal.Netatmo.NetatmoDal do
+
   alias ElixAtmo.Model.UserData
   alias ElixAtmo.Model.AppData
   alias ElixAtmo.Model.TokenScope
-  alias WebcamfornoloBackend.Dal.Netatmo.Model.NetatmoToken
+  alias WebcamFornolo.Dal.Netatmo.Model.NetatmoToken
 
   def user_data do
     email = Application.get_env(:elixatmo, :user_email)
@@ -30,6 +31,7 @@ defmodule WebcamfornoloBackend.Dal.Netatmo.NetatmoDal do
     end
   end
 
+  @spec get_weather_data(String.t()) :: :error | {:ok, map()}
   def get_weather_data(access_token) do
     ElixAtmo.get_stations_data(access_token)
   end

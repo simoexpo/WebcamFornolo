@@ -1,6 +1,7 @@
-defmodule WebcamfornoloBackend.Service.MediaFileService do
-  alias WebcamfornoloBackend.Dal.MediaFileDao
-  alias WebcamfornoloBackend.Model.MediaDetails
+defmodule WebcamFornolo.Service.MediaFileService do
+
+  alias WebcamFornolo.Dal.MediaFileDao
+  alias WebcamFornolo.Model.MediaFile
 
   @media_path "media"
 
@@ -29,7 +30,7 @@ defmodule WebcamfornoloBackend.Service.MediaFileService do
     MediaFileDao.delete(id)
   end
 
-  defp get_media_name(%MediaDetails{content_type: content_type}) do
+  defp get_media_name(%MediaFile{content_type: content_type}) do
     cond do
       String.starts_with?(content_type, "image") -> {:ok, "#{UUID.uuid1()}.jpg"}
       String.starts_with?(content_type, "video") -> {:ok, "#{UUID.uuid1()}.mp4"}

@@ -9,19 +9,19 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
   def get_webcam(conn, params) do
     id = get_webcam_id(params)
 
-    case WebcamfornoloBackend.get_webcam(id) do
-      :error ->
-        conn
-        |> CommonController.add_common_headers()
+  #  case WebcamfornoloBackend.get_webcam(id) do
+  #    :error ->
+  #      conn
+  #      |> CommonController.add_common_headers()
         #|> put_status(404)
         #|> json(%{error: "Webcam #{id} is unavailable"})
 
-      url ->
-        conn
-        |> CommonController.add_common_headers()
+  #    url ->
+  #      conn
+  #      |> CommonController.add_common_headers()
         #|> put_resp_header("Content-Type", "image/jpeg")
        # |> send_file(200, url)
-    end
+  #  end
   end
 
   def save_webcam(conn, params) do
@@ -35,19 +35,19 @@ defmodule WebcamfornoloBackendWeb.WebcamController do
 
     webcam_image = Map.from_struct(params["image"])
 
-    case WebcamfornoloBackend.save_webcam(id, webcam_image) do
-      :error ->
-        conn
-        |> CommonController.add_common_headers()
+  #  case WebcamfornoloBackend.save_webcam(id, webcam_image) do
+  ##    :error ->
+  #      conn
+  #      |> CommonController.add_common_headers()
         #|> put_status(500)
         #|> json(%{})
 
-      :ok ->
-        conn
-        |> CommonController.add_common_headers()
+  #    :ok ->
+  #      conn
+  #      |> CommonController.add_common_headers()
         #|> put_status(201)
         #|> json(%{})
-    end
+  #  end
   end
 
   defp get_webcam_id(param) do
