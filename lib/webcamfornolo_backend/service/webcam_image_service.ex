@@ -7,6 +7,8 @@ defmodule WebcamFornolo.Service.WebcamImageService do
   alias WebcamFornolo.Dal.MediaFileDao
   alias WebcamFornolo.Util.DateTimeUtil
 
+  @default_media_file_dao MediaFileDao
+
   @webcam1_file "01.jpg"
   @webcam2_file "02.jpg"
   @locale "it"
@@ -15,16 +17,16 @@ defmodule WebcamFornolo.Service.WebcamImageService do
   @webcam2_left_label "Località Fornolo (PR) - Alta Val Ceno"
   @webcam_image_remote_path "webcam"
 
-  @spec get_webcam(String.t) :: :error | {:ok, MediaFile.t()}
-  def get_webcam(id) do
-    case MediaFileDao.get(webcam_to_file_name(id)) do
+  @spec get_webcam(String.t, atom()) :: :error | {:ok, MediaFile.t()}
+  def get_webcam(id, provider \\ @default_media_file_dao) do
+    case provider.get(webcam_to_file_name(id)) do
       {:ok, %MediaFile{path: file_path}} -> file_path
       _ -> :error
     end
   end
 
-  @spec save_webcam(String.t, MediaFile.t()) :: :error | :ok
-  def save_webcam(id, media_details = %MediaFile{path: path, created_at: created_at}) do
+  @spec save_webcam(String.t, MediaFile.t(), atom()) :: :error | :ok
+  def save_webcam(id, media_details = %MediaFile{path: path, created_at: created_at}, provider \\ @default_media_file_dao) do
     edited_file_path =
       ImageEditorService.create_webcam_view(path, leftLabel(id), rightLabel(created_at))
 
@@ -35,7 +37,7 @@ defmodule WebcamFornolo.Service.WebcamImageService do
       |> Map.replace!(:path, edited_file_path)
       |> Map.replace!(:name, webcam_to_file_name(id))
 
-    case MediaFileDao.replace(edited_media_details, @webcam_image_remote_path) do
+    case provider.replace(edited_media_details, @webcam_image_remote_path) do
       {:ok, _} -> :ok
       _ -> :error
     end
