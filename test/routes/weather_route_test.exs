@@ -7,11 +7,12 @@ defmodule WebcamFornolo.WeatherRouteTest do
 
   @opts Routes.init([])
 
-  test "GET /weather should return 200 OK with weather data" do
-    conn = :get
-    |> conn("/weather")
-    |> assign(:provider, FakeWeatherService)
-    |> Routes.call(@opts)
+  test "GET /api/weather should return 200 OK with weather data" do
+    conn =
+      :get
+      |> conn("/api/weather")
+      |> assign(:provider, FakeWeatherService)
+      |> Routes.call(@opts)
 
     assert conn.state == :sent
     assert conn.status == 200

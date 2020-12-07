@@ -8,7 +8,7 @@ defmodule WebcamFornolo.HealthRouteTest do
 
   test "GET /health should return 200 OK" do
     conn = :get
-    |> conn("/health")
+    |> conn("/api/health")
     |> Routes.call(@opts)
 
     assert conn.state == :sent
