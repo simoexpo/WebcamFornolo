@@ -36,18 +36,17 @@ defmodule WebcamfornoloBackend.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:ecto_sql, "~> 3.0.3"},
+      {:ecto_sql, "~>  3.5.3"},
       {:postgrex, ">= 0.0.0"},
-      {:jason, "~> 1.1"},
-      {:plug_cowboy, "~> 2.0.1"},
-      {:httpoison, "~> 1.0"},
+      {:jason, "~> 1.2.2"},
+      {:plug_cowboy, "~> 2.4.1"},
       {:safeexstruct, git: "git://github.com/simoexpo/SafeExStruct.git", tag: "v0.4.0"},
       {:elixatmo, git: "git://github.com/simoexpo/ElixAtmo.git", tag: "v0.3.0"},
-      {:timex, "~> 3.4.2"},
-      {:cachex, "~> 3.0"},
-      {:mogrify, "~> 0.7.0"},
-      {:elixir_uuid, "~> 1.2"},
-      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
+      {:timex, "~> 3.6.2"},
+      {:cachex, "~> 3.3.0"},
+      {:mogrify, "~> 0.8.0"},
+      {:elixir_uuid, "~> 1.2.1"},
+      {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false}
     ]
   end
 
