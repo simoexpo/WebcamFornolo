@@ -23,7 +23,7 @@ defmodule WebcamfornoloBackend.Mixfile do
   def application do
     [
       mod: {WebcamfornoloBackend.Application, []},
-      extra_applications: [:logger, :runtime_tools, :plug]
+      extra_applications: [:logger, :runtime_tools, :plug_cowboy]
     ]
   end
 
