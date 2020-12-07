@@ -17,7 +17,7 @@ defmodule WebcamFornolo.Auth do
 
   defp token, do: Application.get_env(:webcamfornolo_backend, :authorization_token)
 
-  defp check_authorization(["Basic " <> auth]) do
+  defp check_authorization(["Bearer " <> auth]) do
     # TODO fix this!
     auth == token() || AuthService.is_valid?(auth)
   end
