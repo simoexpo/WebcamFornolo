@@ -1,13 +1,18 @@
 defmodule WebcamfornoloBackend.Application do
   use Application
 
+  require Logger
+
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
     # Define workers and child supervisors to be supervised
+    port = String.to_integer(Map.fetch!(System.get_env(), "PORT"))
+    Logger.info("Starting server on port #{port}")
+
     children = [
       # Start the Ecto repository
-      {Plug.Cowboy, scheme: :http, plug: WebcamFornolo.Routes, port: 80},
+      {Plug.Cowboy, scheme: :http, plug: WebcamFornolo.Routes, port: port},
       WebcamfornoloBackend.Repo,
       # Start the endpoint when the application starts
       # supervisor(WebcamfornoloBackendWeb.Endpoint, []),
