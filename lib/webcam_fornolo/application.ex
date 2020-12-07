@@ -7,7 +7,7 @@ defmodule WebcamfornoloBackend.Application do
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository
-      {Plug.Cowboy, scheme: :http, plug: WebcamFornolo.Routes, port: 4000},
+      {Plug.Cowboy, scheme: :http, plug: WebcamFornolo.Routes, port: 80},
       WebcamfornoloBackend.Repo,
       # Start the endpoint when the application starts
       # supervisor(WebcamfornoloBackendWeb.Endpoint, []),
