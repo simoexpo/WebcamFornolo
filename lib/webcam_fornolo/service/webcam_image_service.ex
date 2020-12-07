@@ -17,18 +17,21 @@ defmodule WebcamFornolo.Service.WebcamImageService do
   @webcam2_left_label "Località Fornolo (PR) - Alta Val Ceno"
   @webcam_image_remote_path "webcam"
 
-  @spec get_webcam(String.t, atom()) :: :error | {:ok, MediaFile.t()}
+  @spec get_webcam(String.t(), atom()) :: :error | {:ok, MediaFile.t()}
   def get_webcam(id, provider \\ @default_media_file_dao) do
     case provider.get(webcam_to_file_name(id)) do
-      {:ok, %MediaFile{path: file_path}} -> file_path
+      {:ok, %MediaFile{path: file_path}} -> {:ok, file_path}
       _ -> :error
     end
   end
 
-  @spec save_webcam(String.t, MediaFile.t(), atom()) :: :error | :ok
-  def save_webcam(id, media_details = %MediaFile{path: path, created_at: created_at}, provider \\ @default_media_file_dao) do
-    edited_file_path =
-      ImageEditorService.create_webcam_view(path, leftLabel(id), rightLabel(created_at))
+  @spec save_webcam(String.t(), MediaFile.t(), atom()) :: :error | :ok
+  def save_webcam(
+        id,
+        media_details = %MediaFile{path: path, created_at: created_at},
+        provider \\ @default_media_file_dao
+      ) do
+    edited_file_path = ImageEditorService.create_webcam_view(path, leftLabel(id), rightLabel(created_at))
 
     Logger.info("edited!")
 

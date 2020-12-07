@@ -7,7 +7,7 @@ defmodule WebcamFornolo.Route.MediaRoutes do
 
   @webcam1 "1"
   @webcam2 "2"
-  @media_service Service.MediaService
+  @media_service Service.MediaFileService
 
   plug(:match)
   plug(WebcamFornolo.Auth)
