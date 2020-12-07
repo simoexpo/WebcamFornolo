@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Webcam Fornolo | Live webcam</title>
+  <link rel="shortcut icon" href="img/webcamicon.ico"/>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+  <link href="vendor/lightbox2/css/lightbox.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/clean-blog.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">webcamfornolo</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="gallery.html">Gallery</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="mailto:info@webcamfornolo.org">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('img/snow-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Fornolo</h1>
+            <span class="subheading"><i class="fas fa-cloud-sun"></i> 36°C|95%|0mm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="post-preview">
+          <h2 class="post-title">
+            Archivio foto
+          </h2>
+          <div class="container">    
+            <!--<div id="photo_container" style="margin-top: 40px;"></div> -->
+            <ul id="pagination_footer" class="pagination center"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div id='searchListing'>
+    <div class="spinner-border text-primary hide" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div id='photo_container'>
+        <!-- initial starting results -->
+    </div>
+    <div id='number-of-results'>20</div>
+    <div id='end-of-results' class='hide alert alert-info'>
+        <em>End of results</em>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <p class="copyright text-muted">Copyright &copy; Your Website 2020</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/webcam-fornolo.js"></script>
+  <script src="js/infinite-scroll.js"></script>
+
+  <script>
+    function getMedia(page, rpp) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", `https://webcamfornolo.herokuapp.com/media?page=${page}&rpp=${rpp}`, true); // true for asynchronous 
+        xmlHttp.onreadystatechange = function() { 
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                window.scrollTo(0, 0);
+                var response = JSON.parse(xmlHttp.responseText)
+                var media = response.items
+                var pageSize = response.total_pages
+                createPaginationFooter(page, pageSize);
+                populatePhotoView(media);
+            }
+        };
+        xmlHttp.send(null);
+    };
+    function createPaginationFooter(page, pageSize) {
+        var paginationContainer = document.getElementById("pagination_footer");
+        while (paginationContainer.hasChildNodes()) {
+            paginationContainer.removeChild(paginationContainer.lastChild);
+        }
+        if (page == 0) {
+            paginationContainer.appendChild(createArrowNode(page, "left", false));
+            paginationContainer.appendChild(createActivePageNode(1));
+        } else {
+            paginationContainer.appendChild(createArrowNode(page, "left", true));
+            paginationContainer.appendChild(createPageNode(1));
+        }
+        var pageToAdd = 1;
+        if (pageSize > 5 && page > 2) {
+            paginationContainer.appendChild(createDotsNode())
+            pageToAdd = page - 1;
+        }
+        for (; pageToAdd <= page + 1 && pageToAdd < pageSize - 1; pageToAdd++) {
+            if (page == pageToAdd) {
+                paginationContainer.appendChild(createActivePageNode(pageToAdd+1));
+            } else {
+                paginationContainer.appendChild(createPageNode(pageToAdd+1));
+            }
+        }
+        if (pageToAdd < pageSize - 1) {
+            paginationContainer.appendChild(createDotsNode());
+        }
+        if (page == pageSize - 1) {
+            paginationContainer.appendChild(createActivePageNode(pageSize));
+            paginationContainer.appendChild(createArrowNode(page, "right", false));
+        } else {
+            paginationContainer.appendChild(createPageNode(pageSize));
+            paginationContainer.appendChild(createArrowNode(page, "right", true));
+        }
+    };
+    function createActivePageNode(page) {
+        pageNode = document.createElement('li');
+        pageNode.classList.add("active");
+        pageNode.classList.add("light-blue");
+        pageNode.classList.add("darken-3");
+        innerNode = document.createElement('a');
+        innerNode.innerText = page;
+        pageNode.appendChild(innerNode)
+        return pageNode;
+    };
+    function createPageNode(page) {
+        pageNode = document.createElement('li');
+        pageNode.classList.add("waves-effect");
+        pageNode.addEventListener("click", function(){ getMedia(page - 1, 9); });
+        innerNode = document.createElement('a');
+        innerNode.innerText = page;
+        pageNode.appendChild(innerNode)
+        return pageNode;
+    };
+    function createDotsNode() {
+        pageNode = document.createElement('li');
+        pageNode.classList.add("disabled");
+        innerNode = document.createElement('a');
+        innerNode.innerText = "...";
+        pageNode.appendChild(innerNode)
+        return pageNode;
+    };
+    function createArrowNode(currentPage, orientation, isActive) {
+        arrowNode = document.createElement('li');
+        if (isActive) {
+            arrowNode.classList.add("waves-effect");
+            if (orientation == "right") {
+                arrowNode.addEventListener("click", function(){ getMedia(currentPage + 1, 9); });
+            } else if (orientation == "left") {
+                arrowNode.addEventListener("click", function(){ getMedia(currentPage - 1, 9); });
+            }
+        } else {
+            arrowNode.classList.add("disabled");
+        }
+        wrapNode = document.createElement('a');
+        innerNode = document.createElement('i');
+        innerNode.classList.add("fas");
+        innerNode.classList.add(`fa-chevron-${orientation}`);
+        wrapNode.appendChild(innerNode);
+        arrowNode.appendChild(wrapNode)
+        return arrowNode;
+    };
+    function populatePhotoView(media) {
+        var photoContainer = document.getElementById("photo_container");
+        while (photoContainer.hasChildNodes()) {
+            photoContainer.removeChild(photoContainer.lastChild);
+        }
+        var counter = 0;
+        media.forEach(function(img) {
+            if (counter % 3 == 0) {
+                var rowDiv = document.createElement('div');
+                rowDiv.classList.add("row");
+                rowDiv.classList.add("valign-wrapper");
+                photoContainer.appendChild(rowDiv);
+            }
+            var colDiv = document.createElement('div');
+            colDiv.classList.add("col");
+            colDiv.classList.add("s4");
+            colDiv.classList.add("m4");
+            colDiv.classList.add("l4");
+            colDiv.setAttribute("style", "margin-left: 0;");
+
+            var aNode = document.createElement('a');
+            aNode.setAttribute("href", `${img.path}/${img.name}`);
+            aNode.setAttribute("data-lightbox", "gallery");
+        
+            if (img.content_type.startsWith("video")) {
+                var videoNode = document.createElement('video');
+                videoNode.classList.add("responsive-video");
+                videoNode.setAttribute("controls","")
+                var sourceNode = document.createElement('source');
+                sourceNode.src = `${img.path}/${img.name}`;
+                sourceNode.type= "video/mp4";
+                videoNode.appendChild(sourceNode);
+                aNode.appendChild(videoNode);
+            } else {
+                var imgNode = document.createElement('img');
+                imgNode.classList.add("img-fluid");
+                if (img.description) {
+                    imgNode.setAttribute("data-caption", img.description);
+                }
+                imgNode.src = `${img.path}/${img.name}`;
+                aNode.appendChild(imgNode);
+            }
+            colDiv.appendChild(aNode)
+            photoContainer.lastChild.appendChild(colDiv);
+            counter++;
+        });
+    };
+    getMedia(0, 9);
+  </script>
+
+  <script>
+    (function ($) {
+      $(function () {
+          $('#searchListing').infiniteScroll({
+              calculateBottom: function () {
+                  return ($('#searchListing').position().top + $('#searchListing').height()) - $(window).height() + 50;
+              },
+              processResults: function (results) {
+                  $('#number-of-results').text(results.Key);
+  
+                  for (var i = 0; i < results.Value.length; i++) {
+                      $('#search-results').append($('<div class="divider"></div>'));
+  
+                      var result = results.Value[i];
+  
+                      var el = $('#result-template').find('.item').clone();
+                      el.find('#result-url').attr('href', result.Url).html(result.Title);
+                      el.find('#result-description').html(result.Description);
+                      el.find('.section').html(result.Category);
+  
+                      $('#search-results').append(el);
+                  }
+              },
+              url: "https://webcamfornolo.herokuapp.com/media?page=0&rpp=9",
+              getData: function () {
+                  return { "query": $('#hidQuery').val() };
+              }
+          });
+      });
+    } (jQuery));
+  </script>
+
+  <!-- Lightboxh -->
+  <script src="vendor/lightbox2/js/lightbox.js"></script>
+
+  <script>
+    lightbox.option({
+      'disableScrolling': true
+    })
+  </script>
+
+</body>
+
+</html>

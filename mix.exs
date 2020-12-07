@@ -5,7 +5,7 @@ defmodule WebcamfornoloBackend.Mixfile do
     [
       app: :webcamfornolo_backend,
       version: "0.0.1",
-      elixir: ">= 1.7.3",
+      elixir: "~> 1.11.0",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -60,8 +60,8 @@ defmodule WebcamfornoloBackend.Mixfile do
   defp aliases do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test --trace"]
+      "ecto.reset": ["ecto.drop", "ecto.setup"]
+      # test: ["ecto.create --quiet", "ecto.migrate", "test --trace"]
     ]
   end
 end
