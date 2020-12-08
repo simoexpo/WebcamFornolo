@@ -11,7 +11,7 @@
 
         this.executing = false;
         this.endOfResults = false;
-        this.currentPage = 1;
+        this.currentPage = 0;
 
         var that = this;
 
@@ -35,18 +35,16 @@
             $this.executing = true;
             $this.currentPage += 1;
 
-            var data = $this.$options.getData();
-            data.page = $this.currentPage;
+            var url = $this.$options.getUrl($this.currentPage);
 
             $.ajax({
                 contentType: 'application/json; charset=UTF-8',
-                data: JSON.stringify(data),
-                url: $this.$options.url,
+                url: url,
                 type: 'GET',
                 success: function (retVal) {
                     $this.$options.processResults(retVal);
 
-                    if (retVal.Value.length == 0) {
+                    if ($this.$options.responseIsEmpty(retVal)) {
                         $this.endOfResults = true;
                         $this.$element.find('#end-of-results').removeClass('hide');
                     }
