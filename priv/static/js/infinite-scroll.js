@@ -42,7 +42,7 @@
                 contentType: 'application/json; charset=UTF-8',
                 data: JSON.stringify(data),
                 url: $this.$options.url,
-                type: 'POST',
+                type: 'GET',
                 success: function (retVal) {
                     $this.$options.processResults(retVal);
 

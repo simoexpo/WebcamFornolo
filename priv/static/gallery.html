@@ -52,14 +52,18 @@
   </nav>
 
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('img/snow-bg.jpg')">
+  <header class="masthead" style="background-image: url('img/fornolo-bg.jpg')">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="site-heading">
             <h1>Fornolo</h1>
-            <span class="subheading"><i class="fas fa-cloud-sun"></i> 36°C|95%|0mm</span>
+            <span class="subheading">
+              <i class="fas fa-thermometer-half"></i> 36°C
+              <i class="fas fa-tint"></i> 95%
+              <i class="fas fa-cloud-rain"></i> 0mm
+            </span>
           </div>
         </div>
       </div>
@@ -299,6 +303,7 @@
                   return ($('#searchListing').position().top + $('#searchListing').height()) - $(window).height() + 50;
               },
               processResults: function (results) {
+                  console.log(results);
                   $('#number-of-results').text(results.Key);
   
                   for (var i = 0; i < results.Value.length; i++) {

@@ -33,9 +33,8 @@ defmodule WebcamFornolo.Cors do
   end
 
   def call(%{method: method} = conn, _opts) do
-    Logger.info("cors")
     origin = Plug.Conn.get_req_header(conn, @origin_header)
-
+    Logger.info("Check cors from origin #{origin}")
     case method do
       "OPTIONS" -> send_cors_response(conn, origin)
       _ -> add_cors_headers(conn, origin)
