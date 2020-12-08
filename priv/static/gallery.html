@@ -52,7 +52,7 @@
   </nav>
 
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('img/fornolo-bg.jpg')">
+  <header class="masthead" style="background-image: url('img/snow-bg.jpg')">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
@@ -157,99 +157,14 @@
                 var response = JSON.parse(xmlHttp.responseText)
                 var media = response.items
                 var pageSize = response.total_pages
-                createPaginationFooter(page, pageSize);
                 populatePhotoView(media);
             }
         };
         xmlHttp.send(null);
     };
-    function createPaginationFooter(page, pageSize) {
-        var paginationContainer = document.getElementById("pagination_footer");
-        while (paginationContainer.hasChildNodes()) {
-            paginationContainer.removeChild(paginationContainer.lastChild);
-        }
-        if (page == 0) {
-            paginationContainer.appendChild(createArrowNode(page, "left", false));
-            paginationContainer.appendChild(createActivePageNode(1));
-        } else {
-            paginationContainer.appendChild(createArrowNode(page, "left", true));
-            paginationContainer.appendChild(createPageNode(1));
-        }
-        var pageToAdd = 1;
-        if (pageSize > 5 && page > 2) {
-            paginationContainer.appendChild(createDotsNode())
-            pageToAdd = page - 1;
-        }
-        for (; pageToAdd <= page + 1 && pageToAdd < pageSize - 1; pageToAdd++) {
-            if (page == pageToAdd) {
-                paginationContainer.appendChild(createActivePageNode(pageToAdd+1));
-            } else {
-                paginationContainer.appendChild(createPageNode(pageToAdd+1));
-            }
-        }
-        if (pageToAdd < pageSize - 1) {
-            paginationContainer.appendChild(createDotsNode());
-        }
-        if (page == pageSize - 1) {
-            paginationContainer.appendChild(createActivePageNode(pageSize));
-            paginationContainer.appendChild(createArrowNode(page, "right", false));
-        } else {
-            paginationContainer.appendChild(createPageNode(pageSize));
-            paginationContainer.appendChild(createArrowNode(page, "right", true));
-        }
-    };
-    function createActivePageNode(page) {
-        pageNode = document.createElement('li');
-        pageNode.classList.add("active");
-        pageNode.classList.add("light-blue");
-        pageNode.classList.add("darken-3");
-        innerNode = document.createElement('a');
-        innerNode.innerText = page;
-        pageNode.appendChild(innerNode)
-        return pageNode;
-    };
-    function createPageNode(page) {
-        pageNode = document.createElement('li');
-        pageNode.classList.add("waves-effect");
-        pageNode.addEventListener("click", function(){ getMedia(page - 1, 9); });
-        innerNode = document.createElement('a');
-        innerNode.innerText = page;
-        pageNode.appendChild(innerNode)
-        return pageNode;
-    };
-    function createDotsNode() {
-        pageNode = document.createElement('li');
-        pageNode.classList.add("disabled");
-        innerNode = document.createElement('a');
-        innerNode.innerText = "...";
-        pageNode.appendChild(innerNode)
-        return pageNode;
-    };
-    function createArrowNode(currentPage, orientation, isActive) {
-        arrowNode = document.createElement('li');
-        if (isActive) {
-            arrowNode.classList.add("waves-effect");
-            if (orientation == "right") {
-                arrowNode.addEventListener("click", function(){ getMedia(currentPage + 1, 9); });
-            } else if (orientation == "left") {
-                arrowNode.addEventListener("click", function(){ getMedia(currentPage - 1, 9); });
-            }
-        } else {
-            arrowNode.classList.add("disabled");
-        }
-        wrapNode = document.createElement('a');
-        innerNode = document.createElement('i');
-        innerNode.classList.add("fas");
-        innerNode.classList.add(`fa-chevron-${orientation}`);
-        wrapNode.appendChild(innerNode);
-        arrowNode.appendChild(wrapNode)
-        return arrowNode;
-    };
+
     function populatePhotoView(media) {
         var photoContainer = document.getElementById("photo_container");
-        while (photoContainer.hasChildNodes()) {
-            photoContainer.removeChild(photoContainer.lastChild);
-        }
         var counter = 0;
         media.forEach(function(img) {
             if (counter % 3 == 0) {
@@ -292,10 +207,11 @@
             counter++;
         });
     };
-    getMedia(0, 9);
-  </script>
 
-  <script>
+    // init page
+    getMedia(0, 9); 
+
+    // setup infinite scroll
     (function ($) {
       $(function () {
           $('#searchListing').infiniteScroll({
@@ -303,25 +219,14 @@
                   return ($('#searchListing').position().top + $('#searchListing').height()) - $(window).height() + 50;
               },
               processResults: function (results) {
-                  console.log(results);
-                  $('#number-of-results').text(results.Key);
-  
-                  for (var i = 0; i < results.Value.length; i++) {
-                      $('#search-results').append($('<div class="divider"></div>'));
-  
-                      var result = results.Value[i];
-  
-                      var el = $('#result-template').find('.item').clone();
-                      el.find('#result-url').attr('href', result.Url).html(result.Title);
-                      el.find('#result-description').html(result.Description);
-                      el.find('.section').html(result.Category);
-  
-                      $('#search-results').append(el);
-                  }
+                  var media = results.items;
+                  populatePhotoView(media);
               },
-              url: "https://webcamfornolo.org/api/media?page=0&rpp=9",
-              getData: function () {
-                  return { "query": $('#hidQuery').val() };
+              responseIsEmpty: function (results) {
+                  return results.items.length == 0;
+              },
+              getUrl: function (currentPage) {
+                  return `https://webcamfornolo.org/api/media?page=${currentPage}&rpp=9`;
               }
           });
       });
