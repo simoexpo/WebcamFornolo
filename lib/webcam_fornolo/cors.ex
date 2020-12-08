@@ -5,7 +5,12 @@ defmodule WebcamFornolo.Cors do
   @acao_header "access-control-allow-origin"
   @acam_header "access-control-allow-methods"
   @acah_header "access-control-allow-headers"
-  @allowed_origin ["https://webcamfornolo.altervista.org"]
+  @allowed_origin [
+    "https://webcamfornolo.altervista.org",
+    "https://webcamfornolo.org",
+    "https://www.webcamfornolo.org",
+    "http://localhost:4000"
+  ]
 
   defp add_cors_headers(conn, origin) do
     case Enum.member?(@allowed_origin, origin) do
