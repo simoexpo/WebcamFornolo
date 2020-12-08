@@ -23,7 +23,9 @@ defmodule WebcamFornolo.Route.MediaRoutes do
     case media_service.get_media_paginated(page, rpp) do
       {:ok, page} ->
         page_view = Map.update!(page, :items, fn items -> Enum.map(items, &Map.from_struct/1) end)
-        send_resp(conn, 200, Jason.encode!(page_view))
+        conn
+        |> put_resp_header("content-type", "application/json")
+        |> send_resp(200, Jason.encode!(page_view))
 
       :error ->
         send_resp(conn, 500, "")
