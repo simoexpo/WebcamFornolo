@@ -146,7 +146,7 @@
   <script>
     function getMedia(page, rpp) {
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", `https://webcamfornolo.herokuapp.com/media?page=${page}&rpp=${rpp}`, true); // true for asynchronous 
+        xmlHttp.open("GET", `https://webcamfornolo.org/api/media?page=${page}&rpp=${rpp}`, true); // true for asynchronous 
         xmlHttp.onreadystatechange = function() { 
             if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                 window.scrollTo(0, 0);
@@ -314,7 +314,7 @@
                       $('#search-results').append(el);
                   }
               },
-              url: "https://webcamfornolo.herokuapp.com/media?page=0&rpp=9",
+              url: "https://webcamfornolo.org/api/media?page=0&rpp=9",
               getData: function () {
                   return { "query": $('#hidQuery').val() };
               }
