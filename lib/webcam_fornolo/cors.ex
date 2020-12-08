@@ -19,8 +19,8 @@ defmodule WebcamFornolo.Cors do
     |> add_cors_headers(origin)
     |> Plug.Conn.put_resp_header(@acam_header, "GET, POST, DELETE")
     |> Plug.Conn.put_resp_header(@acah_header, "authorization")
-    |> Plug.Conn.put_status(200)
-    |> Plug.Conn.send_resp()
+    |> Plug.Conn.send_resp(200, "")
+    |> Plug.Conn.halt()
   end
 
   def init([]) do
