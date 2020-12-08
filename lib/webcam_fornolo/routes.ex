@@ -48,7 +48,7 @@ defmodule WebcamFornolo.Routes do
       at: "/",
       from: :webcamfornolo_backend,
       gzip: false,
-      only: ~w(css vendor fonts img js robots.txt index.html gallery.html)
+      only: ~w(css vendor fonts img js robots.txt index.html gallery.html .well-known)
     )
 
     plug(:match)
