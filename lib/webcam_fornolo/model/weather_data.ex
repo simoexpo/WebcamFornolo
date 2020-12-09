@@ -1,5 +1,4 @@
 defmodule WebcamFornolo.Model.WeatherData do
-
   alias WebcamFornolo.Model.IndoorWeatherData
   alias WebcamFornolo.Model.OutdoorWeatherData
 

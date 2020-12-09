@@ -1,5 +1,4 @@
 defmodule WebcamFornolo.Model.MediaFile do
-
   @type t() :: %__MODULE__{}
 
   @fields %{

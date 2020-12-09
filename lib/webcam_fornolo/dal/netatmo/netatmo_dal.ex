@@ -1,5 +1,4 @@
 defmodule WebcamFornolo.Dal.Netatmo.NetatmoDal do
-
   alias ElixAtmo.Model.UserData
   alias ElixAtmo.Model.AppData
   alias ElixAtmo.Model.TokenScope

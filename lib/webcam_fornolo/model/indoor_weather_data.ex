@@ -1,5 +1,4 @@
 defmodule WebcamFornolo.Model.IndoorWeatherData do
-
   @type t() :: %__MODULE__{}
 
   @fields %{
