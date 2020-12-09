@@ -1,5 +1,4 @@
 defmodule WebcamFornolo.Dal.WeatherDataDao do
-
   alias WebcamFornolo.Dal.Netatmo.NetatmoDal
   alias WebcamFornolo.Mapper.WeatherDataMapper
   alias WebcamFornolo.Dal.NetatmoTokenDao
@@ -19,14 +18,18 @@ defmodule WebcamFornolo.Dal.WeatherDataDao do
               {:ok, weather_data} ->
                 save(weather_data)
                 WeatherDataMapper.from(weather_data)
+
               :error ->
                 :error
             end
+
           :error ->
             :error
         end
+
       {:ok, weather_data} ->
         WeatherDataMapper.from(weather_data)
+
       _ ->
         :error
     end

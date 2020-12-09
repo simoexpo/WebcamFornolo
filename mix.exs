@@ -42,6 +42,8 @@ defmodule WebcamfornoloBackend.Mixfile do
       {:plug_cowboy, "~> 2.4.1"},
       {:safeexstruct, git: "git://github.com/simoexpo/SafeExStruct.git", tag: "v0.4.0"},
       {:elixatmo, git: "git://github.com/simoexpo/ElixAtmo.git", tag: "v0.4.0"},
+      # temp fix
+      {:hackney, github: "benoitc/hackney", override: true},
       {:timex, "~> 3.6.2"},
       {:cachex, "~> 3.3.0"},
       {:mogrify, "~> 0.8.0"},
