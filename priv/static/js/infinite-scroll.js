@@ -30,7 +30,7 @@
             var $this = this;
             if ($this.executing || $this.endOfResults) return;
 
-            $this.$element.find('.spinner').removeClass('hide');
+            $this.$element.find('.spinner-border').removeClass('d-none');
 
             $this.executing = true;
             $this.currentPage += 1;
@@ -46,10 +46,10 @@
 
                     if ($this.$options.responseIsEmpty(retVal)) {
                         $this.endOfResults = true;
-                        $this.$element.find('#end-of-results').removeClass('hide');
+                        $this.$element.find('#end-of-results').removeClass('d-none');
                     }
 
-                    $this.$element.find('.spinner').addClass('hide');
+                    $this.$element.find('.spinner-border').addClass('d-none');
                     $this.executing = false;
                 }
             });
@@ -68,9 +68,8 @@
 
     $.fn.infiniteScroll.defaults = {
         calculateBottom: function () { },
-        getData: function () { },
         processResults: function () { },
-        url: ''
+        getUrl: function () { }
     };
 
     $.fn.infiniteScroll.Constructor = InfiniteScroll;
