@@ -40,20 +40,28 @@
 
     // setup navigation
     var navBar = document.getElementById('navbarResponsive');
-    var liNode = document.createElement('li');
-    liNode.classList.add("nav-item");
-    var aNode = document.createElement('a');
-    aNode.classList.add("nav-link");
+    var lastLiNode = document.createElement('li');
+    lastLiNode.classList.add("nav-item");
+    var lastANode = document.createElement('a');
+    lastANode.classList.add("nav-link");
     if (isLogged()) {
-        aNode.setAttribute("href", "#");
-        aNode.innerText = "Logout";
-        aNode.addEventListener("click", logout);
+        var uploadLiNode = document.createElement('li');
+        uploadLiNode.classList.add("nav-item");
+        var uploadANode = document.createElement('a');
+        uploadANode.classList.add("nav-link");
+        uploadANode.setAttribute("href", "/upload.html");
+        uploadANode.innerText = "Upload";
+        uploadLiNode.appendChild(uploadANode);
+        navBar.firstElementChild.appendChild(uploadLiNode);
+        lastANode.setAttribute("href", "#");
+        lastANode.innerText = "Logout";
+        lastANode.addEventListener("click", logout);
     } else {
-        aNode.setAttribute("href", "/index.html");
-        aNode.innerText = "Login";
+        lastANode.setAttribute("href", "/login.html");
+        lastANode.innerText = "Login";
     }
-    liNode.appendChild(aNode);
-    navBar.firstElementChild.appendChild(liNode);
+    lastLiNode.appendChild(lastANode);
+    navBar.firstElementChild.appendChild(lastLiNode);
 
     // weather data
     populateWeatherData();
@@ -93,30 +101,38 @@ function isLogged() {
     }
 };
 
-function login(password) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", "/api/login", true); // true for asynchronous 
-    xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-            var response = JSON.parse(xmlHttp.responseText)
+function login(password, success, error) {
+    console.log("logging in..")
+    var data = new FormData()
+    data.append("password", password)
+    $.ajax({
+        url: "/api/login",
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        data: data,
+        success: function (response) {
             setToken(response.token);
+            success();
+        },
+        error: function (response) {
+            error();
         }
-    };
-    var data = new FormData();
-    data.append("password", password);
-    xmlHttp.send(data);
+    });
 }
 
 function logout() {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", "/api/logout", true); // true for asynchronous 
-    xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+    $.ajax({
+        url: "/api/logout",
+        type: 'POST',
+        headers: { 'authorization': `Bearer ${getToken()}` },
+        success: function (response) {
             clearToken();
+            location.reload();
+        },
+        error: function (response) {
         }
-    };
-    xmlHttp.setRequestHeader("authorization", `Basic ${getToken()}`);
-    xmlHttp.send(null);
+    });
 }
 
 function populateWeatherData() {

@@ -38,8 +38,8 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
+            <a class="nav-link" href="index.html">Live</a>
+          </li> 
           <li class="nav-item">
             <a class="nav-link" href="gallery.html">Gallery</a>
           </li>
@@ -97,6 +97,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
+          <!--
           <ul class="list-inline text-center">
             <li class="list-inline-item">
               <a href="#">
@@ -123,6 +124,7 @@
               </a>
             </li>
           </ul>
+          -->
           <p class="copyright text-muted">Copyright &copy; Your Website 2020</p>
         </div>
       </div>
@@ -150,6 +152,18 @@
                 populatePhotoView(media);
             }
         };
+        xmlHttp.send(null);
+    };
+
+    function deleteMedia(id) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("DELETE", `https://webcamfornolo.org/api/media/${id}`, true); // true for asynchronous 
+        xmlHttp.onreadystatechange = function() { 
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 204) {
+                location.reload();
+            }
+        };
+        xmlHttp.setRequestHeader("Authorization", "blabla");
         xmlHttp.send(null);
     };
 
@@ -189,6 +203,27 @@
                 }
                 imgNode.src = `${img.path}/${img.name}`;
                 aNode.appendChild(imgNode);
+            }
+            
+            if (isLogged()) {
+              var removeBtn = document.createElement('a');
+              //removeBtn.classList.add("btn");
+              //removeBtn.classList.add("btn-danger");
+              //removeBtn.classList.add("btn-sm");
+              //removeBtn.style.position = "absolute";
+              //removeBtn.setAttribute("onclick", `deleteMedia(${img.id});`);
+
+              var innerNode = document.createElement('i');
+              innerNode.classList.add("fas");
+              innerNode.classList.add("fa-trash");
+              innerNode.classList.add("text-danger");
+              innerNode.setAttribute("onclick", `deleteMedia(${img.id});`);
+              innerNode.style.position = "absolute";
+              innerNode.style.fontSize = "36px";
+              innerNode.style.margin = "8px";
+
+              removeBtn.appendChild(innerNode);
+              colDiv.appendChild(removeBtn);
             }
             colDiv.appendChild(aNode)
             photoContainer.lastChild.appendChild(colDiv);
