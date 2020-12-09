@@ -7,9 +7,6 @@ defmodule WebcamFornolo.Routes do
   defmodule ApiRoutes do
     use Plug.Router
 
-    plug(Plug.RequestId)
-    plug(Plug.Logger)
-
     plug(:match)
 
     plug(Plug.Parsers,
@@ -48,7 +45,7 @@ defmodule WebcamFornolo.Routes do
       at: "/",
       from: :webcamfornolo_backend,
       gzip: false,
-      only: ~w(css vendor fonts img js robots.txt index.html gallery.html)
+      only: ~w(css vendor fonts img js robots.txt index.html gallery.html login.html)
     )
 
     plug(:match)

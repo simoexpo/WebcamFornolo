@@ -25,7 +25,7 @@ defmodule WebcamFornolo.Route.AuthRoute do
 
   post "/logout" do
     Logger.info("Logging out...")
-    ["Basic " <> auth] = Plug.Conn.get_req_header(conn, "authorization")
+    ["Bearer " <> auth] = Plug.Conn.get_req_header(conn, "authorization")
     AuthService.invalidate(auth)
     send_resp(conn, 200, "")
   end
