@@ -100,7 +100,7 @@ img::-moz-selection {
 }
 
 #mainNav .navbar-toggler {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 800;
   padding: 13px;
   text-transform: uppercase;
@@ -108,7 +108,7 @@ img::-moz-selection {
 }
 
 #mainNav .navbar-nav > li.nav-item > a {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -288,7 +288,26 @@ header.masthead .post-heading .meta a {
   margin: 0 0 10px;
 }
 
+.post-preview > .post-title {
+  font-size: 30px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.post-preview > .post-subtitle {
+  font-size: 24px;
+  font-weight: 300;
+  margin: 0 0 10px;
+}
+
 .post-preview > .post-meta {
+  font-size: 18px;
+  font-style: italic;
+  margin-top: 0;
+  color: #868e96;
+}
+
+.post-meta {
   font-size: 18px;
   font-style: italic;
   margin-top: 0;

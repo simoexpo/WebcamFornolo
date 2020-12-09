@@ -54,9 +54,9 @@ defmodule WebcamFornolo.Routes do
     plug(:match)
     plug(:dispatch)
 
-    get "/" do
-      conn |> Plug.Conn.resp(:found, "") |> Plug.Conn.put_resp_header("location", "/index.html")
-    end
+    # get "/" do
+    #   conn |> Plug.Conn.resp(:found, "") |> Plug.Conn.put_resp_header("location", "/index.html")
+    # end
 
     match _ do
       send_resp(conn, 404, "")

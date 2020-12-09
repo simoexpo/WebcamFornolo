@@ -55,6 +55,9 @@
     liNode.appendChild(aNode);
     navBar.firstElementChild.appendChild(liNode);
 
+    // weather data
+    populateWeatherData();
+
 })(jQuery); // End of use strict
 
 function setToken(token) {
@@ -113,5 +116,20 @@ function logout() {
         }
     };
     xmlHttp.setRequestHeader("authorization", `Basic ${getToken()}`);
+    xmlHttp.send(null);
+}
+
+function populateWeatherData() {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            var weatherData = JSON.parse(xmlHttp.responseText);
+            var temp = '<i class="fas fa-thermometer-half"></i> ' + weatherData.outdoor_weather_data.temperature + '°C';
+            var humidity = '<i class="fas fa-tint"></i> ' + weatherData.outdoor_weather_data.humidity + '%';
+            var rain = '<i class="fas fa-cloud-rain"></i> ' + weatherData.outdoor_weather_data.rain + 'mm';
+            document.getElementById('weather-data').innerHTML = temp + ' ' + humidity + ' ' + rain;
+        }
+    }
+    xmlHttp.open("GET", "https://webcamfornolo.org/api/weather", true); // true for asynchronous 
     xmlHttp.send(null);
 }

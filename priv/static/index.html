@@ -21,7 +21,7 @@
   <link href="vendor/lightbox2/css/lightbox.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/clean-blog.min.css" rel="stylesheet">
+  <link href="css/clean-blog.css" rel="stylesheet">
 
 </head>
 
@@ -56,7 +56,7 @@
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="col-lg-10 col-md-10 mx-auto">
           <div class="site-heading">
             <h1>Fornolo</h1>
             <span id="weather-data" class="subheading"></span>
@@ -69,7 +69,7 @@
   <!-- Main Content -->
   <div class="container">
     <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
+      <div class="col-lg-10 col-md-10 mx-auto">
         <div class="post-preview">
           <h2 class="post-title">
             webcam1
@@ -81,6 +81,7 @@
             live webcam puntamento Ovest: la piazzetta di Fornolo, sullo sfondo il campanile di Chiesiola
           </h3>
         </div>
+        <br>
         <hr>
         <div class="post-preview">
           <h2 class="post-title">
@@ -92,71 +93,6 @@
           <h3 class="post-subtitle">
             live webcam puntamento Nord: valle dell'Anzola
           </h3>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="post-preview">
-          <a href="post.html">
-            <h2 class="post-title">
-              Man must explore, and this is exploration at its greatest
-            </h2>
-            <h3 class="post-subtitle">
-              Problems look mighty small from 150 miles up
-            </h3>
-          </a>
-          <p class="post-meta">Posted by
-            <a href="#">Start Bootstrap</a>
-            on September 24, 2019</p>
-        </div>
-        <hr>
-        <div class="post-preview">
-          <a href="post.html">
-            <h2 class="post-title">
-              I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
-            </h2>
-          </a>
-          <p class="post-meta">Posted by
-            <a href="#">Start Bootstrap</a>
-            on September 18, 2019</p>
-        </div>
-        <hr>
-        <div class="post-preview">
-          <a href="post.html">
-            <h2 class="post-title">
-              Science has not yet mastered prophecy
-            </h2>
-            <h3 class="post-subtitle">
-              We predict too much for the next year and yet far too little for the next ten.
-            </h3>
-          </a>
-          <p class="post-meta">Posted by
-            <a href="#">Start Bootstrap</a>
-            on August 24, 2019</p>
-        </div>
-        <hr>
-        <div class="post-preview">
-          <a href="post.html">
-            <h2 class="post-title">
-              Failure is not an option
-            </h2>
-            <h3 class="post-subtitle">
-              Many say exploration is part of our destiny, but it’s actually our duty to future generations.
-            </h3>
-          </a>
-          <p class="post-meta">Posted by
-            <a href="#">Start Bootstrap</a>
-            on July 8, 2019</p>
-        </div>
-        <hr>
-        <!-- Pager -->
-        <div class="clearfix">
-          <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
         </div>
       </div>
     </div>
@@ -198,7 +134,7 @@
               </a>
             </li>
           </ul>
-          <p class="copyright text-muted">Copyright &copy; Your Website 2020</p>
+          <p class="copyright text-muted">Copyright &copy; webcamfornolo.org 2020</p>
         </div>
       </div>
     </div>
@@ -210,21 +146,6 @@
 
   <!-- Custom scripts for this template -->
   <script src="js/webcam-fornolo.js"></script>
-
-  <script>
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.onreadystatechange = function() { 
-          if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-            var weatherData = JSON.parse(xmlHttp.responseText);
-              var temp = '<i class="fas fa-thermometer-half"></i> ' + weatherData.outdoor_weather_data.temperature + '°C';
-              var humidity = '<i class="fas fa-tint"></i> ' + weatherData.outdoor_weather_data.humidity + '%';
-              var rain = '<i class="fas fa-cloud-rain"></i> ' + weatherData.outdoor_weather_data.rain + 'mm';
-            document.getElementById('weather-data').innerHTML = temp + ' ' + humidity + ' ' + rain;
-          }
-      }
-      xmlHttp.open("GET", "https://webcamfornolo.org/api/weather", true); // true for asynchronous 
-      xmlHttp.send(null);
-  </script>
 
   <!-- Lightboxh -->
   <script src="vendor/lightbox2/js/lightbox.js"></script>
