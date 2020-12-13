@@ -11,9 +11,11 @@ defmodule WebcamFornolo.Route.WeatherRoute do
   get "/weather" do
     weather_provider = Map.get(conn.assigns, :provider, @weather_service)
 
-    case weather_provider.get_weather_info do
-      {:ok, resp} -> send_resp(conn, 200, Jason.encode!(resp))
-      :error -> send_resp(conn, 500, "")
+    with {:ok, resp} <- weather_provider.get_weather_info,
+         {:ok, json} <- Jason.encode(resp) do
+      conn |> put_resp_header("content-type", "application/json") |> send_resp(200, json)
+    else
+      _ -> send_resp(conn, 500, "")
     end
   end
 end

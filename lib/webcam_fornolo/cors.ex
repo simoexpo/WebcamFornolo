@@ -12,6 +12,22 @@ defmodule WebcamFornolo.Cors do
     "http://localhost:4000"
   ]
 
+  @spec init([]) :: false
+  def init([]) do
+    false
+  end
+
+  @spec call(Plug.Conn.t(), any) :: Plug.Conn.t()
+  def call(%{method: method} = conn, _opts) do
+    origin = Plug.Conn.get_req_header(conn, @origin_header) |> List.first()
+    Logger.info("Check cors from origin #{origin}")
+
+    case method do
+      "OPTIONS" -> send_cors_response(conn, origin)
+      _ -> add_cors_headers(conn, origin)
+    end
+  end
+
   defp add_cors_headers(conn, origin) do
     case Enum.member?(@allowed_origin, origin) do
       true -> conn |> Plug.Conn.put_resp_header(@acao_header, origin)
@@ -26,18 +42,5 @@ defmodule WebcamFornolo.Cors do
     |> Plug.Conn.put_resp_header(@acah_header, "authorization")
     |> Plug.Conn.send_resp(200, "")
     |> Plug.Conn.halt()
-  end
-
-  def init([]) do
-    false
-  end
-
-  def call(%{method: method} = conn, _opts) do
-    origin = Plug.Conn.get_req_header(conn, @origin_header)
-    Logger.info("Check cors from origin #{origin}")
-    case method do
-      "OPTIONS" -> send_cors_response(conn, origin)
-      _ -> add_cors_headers(conn, origin)
-    end
   end
 end
