@@ -5,13 +5,10 @@ defmodule WebcamFornolo.Route.MediaRoutes do
   alias WebcamFornolo.Service
   alias WebcamFornolo.Mapper.MediaFileMapper
 
-  @webcam1 "1"
-  @webcam2 "2"
   @media_service Service.MediaFileService
 
   plug(:match)
   plug(WebcamFornolo.Auth)
-  plug(Plug.Parsers, parsers: [:urlencoded, :multipart, :json], json_decoder: Jason)
   plug(:dispatch)
 
   get "/media" do
@@ -23,6 +20,7 @@ defmodule WebcamFornolo.Route.MediaRoutes do
     case media_service.get_media_paginated(page, rpp) do
       {:ok, page} ->
         page_view = Map.update!(page, :items, fn items -> Enum.map(items, &Map.from_struct/1) end)
+
         conn
         |> put_resp_header("content-type", "application/json")
         |> send_resp(200, Jason.encode!(page_view))

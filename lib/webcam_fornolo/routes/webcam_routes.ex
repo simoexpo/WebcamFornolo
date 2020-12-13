@@ -9,7 +9,6 @@ defmodule WebcamFornolo.Route.WebcamRoutes do
 
   plug(:match)
   plug(WebcamFornolo.Auth)
-  plug(Plug.Parsers, parsers: [:urlencoded, :multipart, :json], json_decoder: Jason)
   plug(:dispatch)
 
   get "/webcam/:id" do

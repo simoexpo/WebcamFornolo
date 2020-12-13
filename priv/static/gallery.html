@@ -9,15 +9,18 @@
   <meta name="author" content="">
 
   <title>Webcam Fornolo | Live webcam</title>
-  <link rel="shortcut icon" href="img/webcamicon.ico"/>
+  <link rel="shortcut icon" href="img/webcamicon.ico" />
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
+    type='text/css'>
+  <link
+    href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+    rel='stylesheet' type='text/css'>
   <link href="vendor/lightbox2/css/lightbox.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
@@ -31,35 +34,28 @@
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
       <a class="navbar-brand" href="index.html">webcamfornolo</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+        aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Live</a>
-          </li> 
-          <li class="nav-item">
-            <a class="nav-link" href="gallery.html">Gallery</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="mailto:info@webcamfornolo.org">Contact</a>
-          </li>
+        <ul class="navbar-nav ms-auto">
         </ul>
       </div>
     </div>
   </nav>
 
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('img/snow-bg.jpg')">
+  <header class="masthead" style="background-image: url('img/fornolo-bg.jpg')">
     <div class="overlay"></div>
-    <div class="container">
+    <div class="container" style="position: relative">
       <div class="row">
         <div class="col-lg-10 col-md-10 mx-auto">
           <div class="site-heading">
             <h1>Fornolo</h1>
-            <span id="weather-data" class="subheading"></span>
+            <span id="weather-data" class="subheading">&nbsp;</span>
           </div>
         </div>
       </div>
@@ -81,7 +77,7 @@
                 <span class="sr-only">Loading...</span>
               </div>
             </div>
-            <div id='end-of-results' class='d-none alert alert-info'>
+            <div id='end-of-results' class='d-none alert alert-info text-center'>
               <em>End of results</em>
             </div>
           </div>
@@ -141,119 +137,111 @@
 
   <script>
     function getMedia(page, rpp) {
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", `https://webcamfornolo.org/api/media?page=${page}&rpp=${rpp}`, true); // true for asynchronous 
-        xmlHttp.onreadystatechange = function() { 
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                window.scrollTo(0, 0);
-                var response = JSON.parse(xmlHttp.responseText)
-                var media = response.items
-                var pageSize = response.total_pages
-                populatePhotoView(media);
-            }
-        };
-        xmlHttp.send(null);
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("GET", `https://webcamfornolo.org/api/media?page=${page}&rpp=${rpp}`,
+      true); // true for asynchronous 
+      xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+          window.scrollTo(0, 0);
+          var response = JSON.parse(xmlHttp.responseText)
+          var media = response.items
+          var pageSize = response.total_pages
+          populatePhotoView(media);
+        }
+      };
+      xmlHttp.send(null);
     };
 
     function deleteMedia(id) {
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("DELETE", `https://webcamfornolo.org/api/media/${id}`, true); // true for asynchronous 
-        xmlHttp.onreadystatechange = function() { 
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 204) {
-                location.reload();
-            }
-        };
-        xmlHttp.setRequestHeader("Authorization", "blabla");
-        xmlHttp.send(null);
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("DELETE", `https://webcamfornolo.org/api/media/${id}`, true); // true for asynchronous 
+      xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 204) {
+          location.reload();
+        }
+      };
+      xmlHttp.setRequestHeader("Authorization", `Bearer ${getToken()}`);
+      xmlHttp.send(null);
     };
 
     function populatePhotoView(media) {
-        var photoContainer = document.getElementById("photo_container");
-        var counter = 0;
-        media.forEach(function(img) {
-            if (counter % 3 == 0) {
-                var rowDiv = document.createElement('div');
-                rowDiv.classList.add("row");
-                rowDiv.classList.add("align-items-center");
-                photoContainer.appendChild(rowDiv);
-            }
-            var colDiv = document.createElement('div');
-            colDiv.classList.add("col-sm");
-            colDiv.classList.add("mb-3");
-            colDiv.setAttribute("style", "margin-left: 0;");
+      var photoContainer = document.getElementById("photo_container");
+      var counter = 0;
+      media.forEach(function (img) {
+        if (counter % 3 == 0) {
+          var rowDiv = document.createElement('div');
+          rowDiv.classList.add("row");
+          rowDiv.classList.add("align-items-center");
+          photoContainer.appendChild(rowDiv);
+        }
+        var colDiv = document.createElement('div');
+        colDiv.classList.add("col-sm");
+        colDiv.classList.add("mb-3");
+        colDiv.classList.add("text-center");
+        colDiv.setAttribute("style", "margin-left: 0;");
 
-            var aNode = document.createElement('a');
-            aNode.setAttribute("href", `${img.path}/${img.name}`);
-            aNode.setAttribute("data-lightbox", "gallery");
-        
-            if (img.content_type.startsWith("video")) {
-                var videoNode = document.createElement('video');
-                videoNode.classList.add("responsive-video");
-                videoNode.setAttribute("controls","")
-                var sourceNode = document.createElement('source');
-                sourceNode.src = `${img.path}/${img.name}`;
-                sourceNode.type= "video/mp4";
-                videoNode.appendChild(sourceNode);
-                aNode.appendChild(videoNode);
-            } else {
-                var imgNode = document.createElement('img');
-                imgNode.classList.add("img-fluid");
-                if (img.description) {
-                    imgNode.setAttribute("data-caption", img.description);
-                }
-                imgNode.src = `${img.path}/${img.name}`;
-                aNode.appendChild(imgNode);
-            }
-            
-            if (isLogged()) {
-              var removeBtn = document.createElement('a');
-              //removeBtn.classList.add("btn");
-              //removeBtn.classList.add("btn-danger");
-              //removeBtn.classList.add("btn-sm");
-              //removeBtn.style.position = "absolute";
-              //removeBtn.setAttribute("onclick", `deleteMedia(${img.id});`);
+        var aNode = document.createElement('a');
+        aNode.setAttribute("href", `${img.path}/${img.name}`);
+        aNode.setAttribute("data-lightbox", "gallery");
 
-              var innerNode = document.createElement('i');
-              innerNode.classList.add("fas");
-              innerNode.classList.add("fa-trash");
-              innerNode.classList.add("text-danger");
-              innerNode.setAttribute("onclick", `deleteMedia(${img.id});`);
-              innerNode.style.position = "absolute";
-              innerNode.style.fontSize = "36px";
-              innerNode.style.margin = "8px";
-
-              removeBtn.appendChild(innerNode);
-              colDiv.appendChild(removeBtn);
-            }
-            colDiv.appendChild(aNode)
-            photoContainer.lastChild.appendChild(colDiv);
-            counter++;
-        });
+        if (img.content_type.startsWith("video")) {
+          var videoNode = document.createElement('video');
+          videoNode.classList.add("responsive-video");
+          videoNode.setAttribute("controls", "")
+          var sourceNode = document.createElement('source');
+          sourceNode.src = `${img.path}/${img.name}`;
+          sourceNode.type = "video/mp4";
+          videoNode.appendChild(sourceNode);
+          aNode.appendChild(videoNode);
+        } else {
+          var imgNode = document.createElement('img');
+          imgNode.classList.add("img-fluid");
+          if (img.description) {
+            imgNode.setAttribute("data-caption", img.description);
+          }
+          imgNode.src = `${img.path}/${img.name}`;
+          aNode.appendChild(imgNode);
+        }
+        colDiv.appendChild(aNode);
+        if (isLogged()) {
+          var removeBtn = document.createElement('a');
+          removeBtn.classList.add("btn");
+          removeBtn.classList.add("btn-danger");
+          removeBtn.classList.add("btn-sm");
+          removeBtn.setAttribute("onclick", `deleteMedia(${img.id});`);
+          removeBtn.setAttribute("style", "margin: 2px;");
+          removeBtn.text = "Remove";
+          colDiv.appendChild(removeBtn);
+        }
+        photoContainer.lastChild.appendChild(colDiv);
+        counter++;
+      });
     };
 
     // init page
-    getMedia(0, 9); 
+    getMedia(0, 9);
 
     // setup infinite scroll
     (function ($) {
       $(function () {
-          $('#searchListing').infiniteScroll({
-              calculateBottom: function () {
-                  return ($('#searchListing').position().top + $('#searchListing').height()) - $(window).height() + 50;
-              },
-              processResults: function (results) {
-                  var media = results.items;
-                  populatePhotoView(media);
-              },
-              responseIsEmpty: function (results) {
-                  return results.items.length == 0;
-              },
-              getUrl: function (currentPage) {
-                  return `https://webcamfornolo.org/api/media?page=${currentPage}&rpp=9`;
-              }
-          });
+        $('#searchListing').infiniteScroll({
+          calculateBottom: function () {
+            return ($('#searchListing').position().top + $('#searchListing').height()) - $(window)
+            .height() + 50;
+          },
+          processResults: function (results) {
+            var media = results.items;
+            populatePhotoView(media);
+          },
+          responseIsEmpty: function (results) {
+            return results.items.length == 0;
+          },
+          getUrl: function (currentPage) {
+            return `https://webcamfornolo.org/api/media?page=${currentPage}&rpp=9`;
+          }
+        });
       });
-    } (jQuery));
+    }(jQuery));
   </script>
 
   <!-- Lightboxh -->

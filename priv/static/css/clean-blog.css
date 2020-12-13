@@ -7,7 +7,7 @@
 body {
   font-size: 20px;
   color: #212529;
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family: 'Lato', sans-serif;
 }
 
 p {
@@ -34,7 +34,8 @@ a {
   transition: all 0.2s;
 }
 
-a:focus, a:hover {
+a:focus,
+a:hover {
   color: #0085A1;
 }
 
@@ -107,7 +108,7 @@ img::-moz-selection {
   color: #343a40;
 }
 
-#mainNav .navbar-nav > li.nav-item > a {
+#mainNav .navbar-nav>li.nav-item>a {
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 1px;
@@ -119,18 +120,24 @@ img::-moz-selection {
     border-bottom: 1px solid transparent;
     background: transparent;
   }
+
   #mainNav .navbar-brand {
     padding: 10px 20px;
     color: #fff;
   }
-  #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
+
+  #mainNav .navbar-brand:focus,
+  #mainNav .navbar-brand:hover {
     color: rgba(255, 255, 255, 0.8);
   }
-  #mainNav .navbar-nav > li.nav-item > a {
+
+  #mainNav .navbar-nav>li.nav-item>a {
     padding: 10px 20px;
     color: #fff;
   }
-  #mainNav .navbar-nav > li.nav-item > a:focus, #mainNav .navbar-nav > li.nav-item > a:hover {
+
+  #mainNav .navbar-nav>li.nav-item>a:focus,
+  #mainNav .navbar-nav>li.nav-item>a:hover {
     color: rgba(255, 255, 255, 0.8);
   }
 }
@@ -143,6 +150,7 @@ img::-moz-selection {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
+
   #mainNav.is-fixed {
     /* when the user scrolls down, we hide the header right above the viewport */
     position: fixed;
@@ -151,18 +159,25 @@ img::-moz-selection {
     border-bottom: 1px solid white;
     background-color: rgba(255, 255, 255, 0.9);
   }
+
   #mainNav.is-fixed .navbar-brand {
     color: #212529;
   }
-  #mainNav.is-fixed .navbar-brand:focus, #mainNav.is-fixed .navbar-brand:hover {
+
+  #mainNav.is-fixed .navbar-brand:focus,
+  #mainNav.is-fixed .navbar-brand:hover {
     color: #0085A1;
   }
-  #mainNav.is-fixed .navbar-nav > li.nav-item > a {
+
+  #mainNav.is-fixed .navbar-nav>li.nav-item>a {
     color: #212529;
   }
-  #mainNav.is-fixed .navbar-nav > li.nav-item > a:focus, #mainNav.is-fixed .navbar-nav > li.nav-item > a:hover {
+
+  #mainNav.is-fixed .navbar-nav>li.nav-item>a:focus,
+  #mainNav.is-fixed .navbar-nav>li.nav-item>a:hover {
     color: #0085A1;
   }
+
   #mainNav.is-visible {
     /* if the user changes the scrolling direction, we show the header */
     transform: translate3d(0, 100%, 0);
@@ -175,7 +190,18 @@ header.masthead {
   background-color: #868e96;
   background-attachment: scroll;
   position: relative;
-  background-size: cover;
+  background-size: 240%;
+}
+
+@media only screen and (min-width: 768px) {
+  header.masthead {
+    margin-bottom: 50px;
+    background: no-repeat center center;
+    background-color: #868e96;
+    background-attachment: scroll;
+    position: relative;
+    background-size: cover;
+  }
 }
 
 header.masthead .overlay {
@@ -196,10 +222,11 @@ header.masthead .site-heading {
 }
 
 @media only screen and (min-width: 768px) {
+
   header.masthead .page-heading,
   header.masthead .post-heading,
   header.masthead .site-heading {
-    padding: 200px 0;
+    padding: 150px 0;
   }
 }
 
@@ -225,6 +252,7 @@ header.masthead .site-heading .subheading {
 }
 
 @media only screen and (min-width: 768px) {
+
   header.masthead .page-heading h1,
   header.masthead .site-heading h1 {
     font-size: 80px;
@@ -252,7 +280,7 @@ header.masthead .post-heading .meta {
   font-size: 20px;
   font-weight: 300;
   font-style: italic;
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family: 'Lato', sans-serif;
 }
 
 header.masthead .post-heading .meta a {
@@ -263,43 +291,45 @@ header.masthead .post-heading .meta a {
   header.masthead .post-heading h1 {
     font-size: 55px;
   }
+
   header.masthead .post-heading .subheading {
     font-size: 30px;
   }
 }
 
-.post-preview > a {
+.post-preview>a {
   color: #212529;
 }
 
-.post-preview > a:focus, .post-preview > a:hover {
+.post-preview>a:focus,
+.post-preview>a:hover {
   text-decoration: none;
   color: #0085A1;
 }
 
-.post-preview > a > .post-title {
+.post-preview>a>.post-title {
   font-size: 30px;
   margin-top: 30px;
   margin-bottom: 10px;
 }
 
-.post-preview > a > .post-subtitle {
+.post-preview>a>.post-subtitle {
   font-weight: 300;
   margin: 0 0 10px;
 }
 
-.post-preview > .post-title {
+.post-preview>.post-title {
   font-size: 30px;
   margin-bottom: 10px;
 }
 
-.post-preview > .post-subtitle {
+.post-preview>.post-subtitle {
   font-size: 20px;
   font-weight: 300;
   margin: 0 0 10px;
 }
 
-.post-preview > .post-meta {
+.post-preview>.post-meta {
   font-size: 18px;
   font-style: italic;
   margin-top: 0;
@@ -313,18 +343,19 @@ header.masthead .post-heading .meta a {
   color: #868e96;
 }
 
-.post-preview > .post-meta > a {
+.post-preview>.post-meta>a {
   text-decoration: none;
   color: #212529;
 }
 
-.post-preview > .post-meta > a:focus, .post-preview > .post-meta > a:hover {
+.post-preview>.post-meta>a:focus,
+.post-preview>.post-meta>a:hover {
   text-decoration: underline;
   color: #0085A1;
 }
 
 @media only screen and (min-width: 768px) {
-  .post-preview > a > .post-title {
+  .post-preview>a>.post-title {
     font-size: 36px;
   }
 }
@@ -348,13 +379,13 @@ header.masthead .post-heading .meta a {
   border-radius: 0;
   background: none;
   box-shadow: none !important;
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family: 'Lato', sans-serif;
 }
 
 .floating-label-form-group input::-webkit-input-placeholder,
 .floating-label-form-group textarea::-webkit-input-placeholder {
   color: #868e96;
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family:'Lato', sans-serif;
 }
 
 .floating-label-form-group label {
@@ -404,7 +435,7 @@ footer .copyright {
 .btn {
   font-size: 14px;
   font-weight: 800;
-  padding: 15px 25px;
+  padding: 10px 15px;
   letter-spacing: 1px;
   text-transform: uppercase;
   border-radius: 0;
@@ -416,7 +447,9 @@ footer .copyright {
   border-color: #0085A1;
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
   color: #fff;
   background-color: #00657b !important;
   border-color: #00657b !important;

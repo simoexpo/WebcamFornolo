@@ -7,6 +7,9 @@ defmodule WebcamFornolo.Routes do
   defmodule ApiRoutes do
     use Plug.Router
 
+    plug(Plug.RequestId)
+    plug(Plug.Logger)
+
     plug(:match)
 
     plug(Plug.Parsers,
@@ -39,13 +42,24 @@ defmodule WebcamFornolo.Routes do
   defmodule FrontendRoutes do
     use Plug.Router
 
+    plug(
+      Plug.Static,
+      at: "/",
+      from: :webcamfornolo_backend,
+      gzip: false,
+      only: ~w(css vendor fonts img js robots.txt)
+    )
+
+    plug(Plug.RequestId)
+    plug(Plug.Logger)
+
     # Serve at "/" the static files from "priv/static" directory.
     plug(
       Plug.Static,
       at: "/",
       from: :webcamfornolo_backend,
       gzip: false,
-      only: ~w(css vendor fonts img js robots.txt index.html gallery.html login.html)
+      only: ~w(index.html gallery.html login.html upload.html about.html)
     )
 
     plug(:match)
@@ -59,9 +73,6 @@ defmodule WebcamFornolo.Routes do
       send_resp(conn, 404, "")
     end
   end
-
-  plug(Plug.RequestId)
-  plug(Plug.Logger)
 
   plug(:match)
   plug(:dispatch)
