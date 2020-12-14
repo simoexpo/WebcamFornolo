@@ -119,7 +119,7 @@ function populateWeatherData() {
         type: 'GET',
         contentType: "application/json",
         success: function (response) {
-            weatherData = JSON.parse(response).outdoor_weather_data;
+            weatherData = response.outdoor_weather_data;
             const temp = weatherData.temperature !== null ? weatherData.temperature + '°C' : "N.D.";
             const humidity = weatherData.humidity !== null ? weatherData.humidity + '%' : "N.D.";
             const rain = weatherData.rain !== null ? weatherData.rain + 'mm' : "N.D.";
@@ -155,7 +155,7 @@ function populateNavBar() {
         createMenuEntry("Upload", "/upload.html");
     }
     createMenuEntry("About", "/about.html");
-    createMenuEntry("Contact", "mailto:info@webcamfornolo.org");
+    createMenuEntry("Contact", "mailto:webcamfornolo@altervista.org");
     if (isLogged()) {
         createMenuEntry("Logout", "#", logout)
     } else {
