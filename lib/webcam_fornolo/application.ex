@@ -13,7 +13,7 @@ defmodule WebcamfornoloBackend.Application do
     children = [
       # Start the Ecto repository
       {Plug.Cowboy, scheme: :http, plug: WebcamFornolo.Routes, port: port},
-      # WebcamfornoloBackend.Repo,
+      WebcamfornoloBackend.Repo,
       # Start the endpoint when the application starts
       # supervisor(WebcamfornoloBackendWeb.Endpoint, []),
       # Start your own worker by calling: WebcamfornoloBackend.Worker.start_link(arg1, arg2, arg3)
