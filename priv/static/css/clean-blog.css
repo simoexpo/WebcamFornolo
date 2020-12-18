@@ -237,7 +237,7 @@ header.masthead .site-heading {
 
 header.masthead .page-heading h1,
 header.masthead .site-heading h1 {
-  font-size: 50px;
+  font-size: 26px;
   margin-top: 0;
 }
 
@@ -255,7 +255,7 @@ header.masthead .site-heading .subheading {
 
   header.masthead .page-heading h1,
   header.masthead .site-heading h1 {
-    font-size: 80px;
+    font-size: 50px;
   }
 }
 
@@ -385,7 +385,7 @@ header.masthead .post-heading .meta a {
 .floating-label-form-group input::-webkit-input-placeholder,
 .floating-label-form-group textarea::-webkit-input-placeholder {
   color: #868e96;
-  font-family:'Lato', sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 .floating-label-form-group label {
@@ -458,4 +458,41 @@ footer .copyright {
 .btn-lg {
   font-size: 16px;
   padding: 25px 35px;
+}
+
+.page-content {
+  font-size: 20px;
+  font-weight: 300;
+}
+
+
+@media only screen and (min-width: 768px) {
+  .page-content {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 300;
+  }
+}
+
+.page-title {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.page-subtitle {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.page-content>p {
+  margin: 15px 0;
+}
+
+.lb-data .lb-caption {
+  display: block;
+  clear: left;
+  padding-bottom: 1em;
+  font-size: 13px;
+  color: #999999 !important;
+  font-weight: normal !important;
 }
