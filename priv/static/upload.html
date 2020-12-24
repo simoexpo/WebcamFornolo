@@ -99,9 +99,7 @@
           </div>
         </div>
 
-        <div id="upload_complete" class="row center" hidden=true>
-          <p class="header light"></p>
-        </div>
+        <p id="upload_complete" class="d-none"></p>
       </div>
     </div>
   </div>
@@ -195,7 +193,6 @@
         var fileInputElement = element.querySelector('input[type="file"]');
         var file = fileInputElement.files[0];
         console.log(file);
-        var fileTitle = file.title;
         var descriptionInputElement = element.querySelectorAll('textarea')[0];
         var description = descriptionInputElement.value
         console.log(description);
@@ -207,8 +204,8 @@
           if (xmlHttp.readyState == 4 && xmlHttp.status == 201) {
             var original = document.getElementById("upload_complete");
             var copy = original.cloneNode(true);
-            copy.hidden = false;
-            copy.innerText = `Upload del file "${fileTitle}" completato!`;
+            copy.classList.remove("d-none");
+            copy.innerText = `Upload del file "${file.name}" completato!`;
             parent.replaceChild(copy, loaderClone);
             if (parent.querySelectorAll(".spinner-layer").length == 0) {
               setTimeout(function () {
@@ -224,6 +221,7 @@
         xmlHttp.send(data);
       });
     };
+
     addOne();
   </script>
 
