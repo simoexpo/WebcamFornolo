@@ -115,7 +115,7 @@ function logout() {
 
 function populateWeatherData() {
     $.ajax({
-        url: "https://webcamfornolo.org/api/weather",
+        url: "/api/weather",
         type: 'GET',
         contentType: "application/json",
         success: function (response) {
