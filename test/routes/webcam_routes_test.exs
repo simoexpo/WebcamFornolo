@@ -49,10 +49,22 @@ defmodule WebcamFornolo.WebcamRoutesTest do
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
       |> assign(:provider, FakeWebcamService.SuccessImpl)
+      |> put_req_header("authorization", "Bearer token")
       |> Routes.call(@opts)
 
     assert conn.state == :sent
     assert conn.status == 201
+  end
+
+  test "POST /api/webcam/id should return 401 Created if the id is valid in case of invalid authenticatio" do
+    conn =
+      :post
+      |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
+      |> assign(:provider, FakeWebcamService.SuccessImpl)
+      |> Routes.call(@opts)
+
+    assert conn.state == :sent
+    assert conn.status == 401
   end
 
   test "POST /api/webcam/id should return 404 Not Found if the id is not valid" do
@@ -60,6 +72,7 @@ defmodule WebcamFornolo.WebcamRoutesTest do
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
       |> assign(:provider, FakeWebcamService.InvalidIdImpl)
+      |> put_req_header("authorization", "Bearer token")
       |> Routes.call(@opts)
 
     assert conn.state == :sent
@@ -71,6 +84,7 @@ defmodule WebcamFornolo.WebcamRoutesTest do
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
       |> assign(:provider, FakeWebcamService.ErrorImpl)
+      |> put_req_header("authorization", "Bearer token")
       |> Routes.call(@opts)
 
     assert conn.state == :sent
