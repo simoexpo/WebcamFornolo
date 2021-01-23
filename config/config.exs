@@ -11,7 +11,6 @@ config :logger, :console,
 
 # Cache
 config :webcam_fornolo,
-  server_port: 4000,
   app_cache: :webcam_fornolo_cache,
   auth_cache: :auth_cache
 
