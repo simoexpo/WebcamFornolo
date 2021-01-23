@@ -1,3 +1,5 @@
+# TODO move in netatmo?
+
 defmodule WebcamFornolo.Dal.NetatmoTokenDao do
   alias WebcamFornolo.Dal.Netatmo.NetatmoDal
   alias WebcamFornolo.Dal.Netatmo.Model.NetatmoToken
