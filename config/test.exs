@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # Print only warnings and errors during test
 config :logger, level: :warn
@@ -10,3 +10,6 @@ config :webcam_fornolo, WebcamFornolo.Dal.Db.Repo,
   database: "webcam_fornolo_dev",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :webcam_fornolo,
+  authorization_token: "token"
