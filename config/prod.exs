@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # Database configuration
 config :webcam_fornolo, WebcamFornolo.Dal.Db.Repo,
