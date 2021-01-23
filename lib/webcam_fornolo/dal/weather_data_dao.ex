@@ -44,7 +44,7 @@ defmodule WebcamFornolo.Dal.WeatherDataDao do
   end
 
   @spec cache() :: atom
-  defp cache(), do: Application.get_env(:webcamfornolo_backend, :app_cache)
+  defp cache(), do: Application.get_env(:webcam_fornolo, :app_cache)
 
   @spec get_outdoor_temperature() :: :error | {:ok, number()}
   def get_outdoor_temperature() do

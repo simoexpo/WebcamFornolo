@@ -2,10 +2,10 @@ defmodule WebcamFornolo.Dal.MediaFileDao do
   import Ecto.Query
   require Logger
 
-  alias WebcamfornoloBackend.Repo
+  alias WebcamFornolo.Dal.Db.Repo
   alias WebcamFornolo.Mapper.MediaFileMapper
   alias WebcamFornolo.Dal.Db.MediaFileEntity
-  alias WebcamfornoloBackend.Dal.Altervista.AltervistaDal
+  alias WebcamFornolo.Dal.Altervista.AltervistaDal
 
   def get(file_name) do
     case Repo.get_by(MediaFileEntity, name: file_name) do

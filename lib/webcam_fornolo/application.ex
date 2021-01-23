@@ -1,4 +1,4 @@
-defmodule WebcamfornoloBackend.Application do
+defmodule WebcamFornolo.Application do
   use Application
 
   require Logger
@@ -13,24 +13,24 @@ defmodule WebcamfornoloBackend.Application do
     children = [
       # Start the Ecto repository
       {Plug.Cowboy, scheme: :http, plug: WebcamFornolo.Routes, port: port},
-      WebcamfornoloBackend.Repo,
+      WebcamFornolo.Dal.Db.Repo,
       # Start the endpoint when the application starts
-      # supervisor(WebcamfornoloBackendWeb.Endpoint, []),
-      # Start your own worker by calling: WebcamfornoloBackend.Worker.start_link(arg1, arg2, arg3)
-      # worker(WebcamfornoloBackend.Worker, [arg1, arg2, arg3]),
+      # supervisor(WebcamFornolo.Endpoint, []),
+      # Start your own worker by calling: WebcamFornolo.Worker.start_link(arg1, arg2, arg3)
+      # worker(WebcamFornolo.Worker, [arg1, arg2, arg3]),
       Supervisor.child_spec(
-        {Cachex, Application.get_env(:webcamfornolo_backend, :app_cache)},
-        id: Application.get_env(:webcamfornolo_backend, :app_cache)
+        {Cachex, Application.get_env(:webcam_fornolo, :app_cache)},
+        id: Application.get_env(:webcam_fornolo, :app_cache)
       ),
       Supervisor.child_spec(
-        {Cachex, Application.get_env(:webcamfornolo_backend, :auth_cache)},
-        id: Application.get_env(:webcamfornolo_backend, :auth_cache)
+        {Cachex, Application.get_env(:webcam_fornolo, :auth_cache)},
+        id: Application.get_env(:webcam_fornolo, :auth_cache)
       )
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: WebcamfornoloBackend.Supervisor]
+    opts = [strategy: :one_for_one, name: WebcamFornolo.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end

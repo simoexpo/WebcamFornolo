@@ -43,8 +43,8 @@ defmodule WebcamFornolo.Service.AuthService do
   end
 
   @spec cache() :: atom
-  defp cache(), do: Application.get_env(:webcamfornolo_backend, :auth_cache)
+  defp cache(), do: Application.get_env(:webcam_fornolo, :auth_cache)
 
   @spec admin_password() :: String.t()
-  defp admin_password, do: Application.get_env(:webcamfornolo_backend, :admin_password)
+  defp admin_password, do: Application.get_env(:webcam_fornolo, :admin_password)
 end

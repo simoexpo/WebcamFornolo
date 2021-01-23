@@ -1,4 +1,4 @@
-defmodule WebcamfornoloBackend.Dal.Altervista.AltervistaDal do
+defmodule WebcamFornolo.Dal.Altervista.AltervistaDal do
   require Logger
 
   @host 'ftp.webcamfornolo.altervista.org'
@@ -64,8 +64,8 @@ defmodule WebcamfornoloBackend.Dal.Altervista.AltervistaDal do
     end
   end
 
-  defp user, do: to_charlist(Application.get_env(:webcamfornolo_backend, :altervista_ftp_user))
+  defp user, do: to_charlist(Application.get_env(:webcam_fornolo, :altervista_ftp_user))
 
   defp password,
-    do: to_charlist(Application.get_env(:webcamfornolo_backend, :altervista_ftp_password))
+    do: to_charlist(Application.get_env(:webcam_fornolo, :altervista_ftp_password))
 end

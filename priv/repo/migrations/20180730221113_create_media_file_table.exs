@@ -1,4 +1,4 @@
-defmodule WebcamfornoloBackend.Repo.Migrations.CreateMediaFileTable do
+defmodule WebcamFornolo.Dal.Db.Repo.Migrations.CreateMediaFileTable do
   use Ecto.Migration
 
   def change do

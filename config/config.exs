@@ -6,15 +6,8 @@
 use Mix.Config
 
 # General application configuration
-config :webcamfornolo_backend,
-  ecto_repos: [WebcamfornoloBackend.Repo]
-
-# Configures the endpoint
-config :webcamfornolo_backend, WebcamfornoloBackendWeb.Endpoint,
-  url: [host: "localhost"],
-  secret_key_base: "fEm8m+GtOIPnd1ue0euLgls2qtlvm21RNBvY7urFE8WzSxNNghDunTgDrGFjK8Jj",
-  render_errors: [view: WebcamfornoloBackendWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: WebcamfornoloBackend.PubSub, adapter: Phoenix.PubSub.PG2]
+config :webcam_fornolo,
+  ecto_repos: [WebcamFornolo.Dal.Db.Repo]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -22,7 +15,7 @@ config :logger, :console,
   metadata: [:request_id]
 
 # Cache
-config :webcamfornolo_backend,
+config :webcam_fornolo,
   app_cache: :webcam_fornolo_cache,
   auth_cache: :auth_cache
 

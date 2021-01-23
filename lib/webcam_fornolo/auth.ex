@@ -15,7 +15,7 @@ defmodule WebcamFornolo.Auth do
     end
   end
 
-  defp token, do: Application.get_env(:webcamfornolo_backend, :authorization_token)
+  defp token, do: Application.get_env(:webcam_fornolo, :authorization_token)
 
   defp check_authorization(["Bearer " <> auth]) do
     # TODO fix this!
