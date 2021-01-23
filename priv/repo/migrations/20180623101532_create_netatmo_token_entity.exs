@@ -1,4 +1,4 @@
-defmodule WebcamfornoloBackend.Repo.Migrations.CreateNetatmoToken do
+defmodule WebcamFornolo.Dal.Db.Repo.Migrations.CreateNetatmoToken do
   use Ecto.Migration
 
   def change do

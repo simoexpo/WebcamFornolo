@@ -45,7 +45,7 @@ defmodule WebcamFornolo.Routes do
     plug(
       Plug.Static,
       at: "/",
-      from: :webcamfornolo_backend,
+      from: :webcam_fornolo,
       gzip: false,
       only: ~w(css vendor fonts img js robots.txt)
     )
@@ -57,7 +57,7 @@ defmodule WebcamFornolo.Routes do
     plug(
       Plug.Static,
       at: "/",
-      from: :webcamfornolo_backend,
+      from: :webcam_fornolo,
       gzip: false,
       only: ~w(index.html gallery.html login.html upload.html about.html)
     )

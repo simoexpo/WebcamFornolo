@@ -1,5 +1,4 @@
 defmodule WebcamFornolo.Dal.NetatmoTokenDao do
-
   alias WebcamFornolo.Dal.Netatmo.NetatmoDal
   alias WebcamFornolo.Dal.Netatmo.Model.NetatmoToken
 
@@ -13,10 +12,12 @@ defmodule WebcamFornolo.Dal.NetatmoTokenDao do
           {:ok, token} -> save(token)
           :error -> :error
         end
+
       {:ok, token} ->
         case Timex.compare(token.expires_at, Timex.now()) do
           1 ->
             {:ok, token}
+
           _ ->
             case NetatmoDal.refresh_access_token(token.refresh_token) do
               {:ok, token} -> save(token)
@@ -35,5 +36,5 @@ defmodule WebcamFornolo.Dal.NetatmoTokenDao do
   end
 
   @spec cache() :: atom()
-  defp cache(), do: Application.get_env(:webcamfornolo_backend, :app_cache)
+  defp cache(), do: Application.get_env(:webcam_fornolo, :app_cache)
 end

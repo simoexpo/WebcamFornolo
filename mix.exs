@@ -1,19 +1,19 @@
-defmodule WebcamfornoloBackend.Mixfile do
+defmodule WebcamFornolo.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :webcamfornolo_backend,
+      app: :webcam_fornolo,
       version: "0.0.1",
       elixir: "~> 1.11.0",
       elixirc_paths: elixirc_paths(Mix.env()),
-      build_embedded: Mix.env == :prod,
+      build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
       dialyzer: [
         plt_add_apps: [:ftp, :inets],
-        paths: ["_build/dev/lib/webcamfornolo_backend/ebin"]
+        paths: ["_build/dev/lib/webcam_fornolo/ebin"]
       ]
     ]
   end
@@ -23,7 +23,7 @@ defmodule WebcamfornoloBackend.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {WebcamfornoloBackend.Application, []},
+      mod: {WebcamFornolo.Application, []},
       extra_applications: [:logger, :runtime_tools, :plug_cowboy]
     ]
   end

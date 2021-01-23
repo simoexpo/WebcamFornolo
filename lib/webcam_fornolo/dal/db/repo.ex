@@ -1,6 +1,6 @@
-defmodule WebcamfornoloBackend.Repo do
+defmodule WebcamFornolo.Dal.Db.Repo do
   use Ecto.Repo,
-    otp_app: :webcamfornolo_backend,
+    otp_app: :webcam_fornolo,
     adapter: Ecto.Adapters.Postgres
 
   import Ecto.Query
