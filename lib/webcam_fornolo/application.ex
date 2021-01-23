@@ -3,17 +3,18 @@ defmodule WebcamFornolo.Application do
 
   require Logger
 
-  @server_port Application.fetch_env!(:webcam_fornolo, :server_port)
+  @default_port "4000"
 
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
     # Define workers and child supervisors to be supervised
-    Logger.info("Starting server on port #{@server_port}")
+    port = String.to_integer(Map.get(System.get_env(), "PORT", @default_port))
+    Logger.info("Starting server on port #{port}")
 
     children = [
       # Start Cowboy web server
-      {Plug.Cowboy, scheme: :http, plug: WebcamFornolo.Routes, port: @server_port},
+      {Plug.Cowboy, scheme: :http, plug: WebcamFornolo.Routes, port: port},
       # Start the Ecto repository
       WebcamFornolo.Dal.Db.Repo,
       # Start the endpoint when the application starts
