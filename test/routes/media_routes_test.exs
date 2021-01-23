@@ -38,10 +38,22 @@ defmodule WebcamFornolo.MediaRoutesTest do
       :post
       |> conn("/api/media", %{image: webcam_image_to_upload()})
       |> assign(:provider, FakeMediaService.SuccessImpl)
+      |> put_req_header("authorization", "Bearer token")
       |> Routes.call(@opts)
 
     assert conn.state == :sent
     assert conn.status == 201
+  end
+
+  test "POST /api/media should return 401 Forbidden in case of invalid authentication" do
+    conn =
+      :post
+      |> conn("/api/media", %{image: webcam_image_to_upload()})
+      |> assign(:provider, FakeMediaService.SuccessImpl)
+      |> Routes.call(@opts)
+
+    assert conn.state == :sent
+    assert conn.status == 401
   end
 
   test "POST /api/media should return 500 Internal Server Error" do
@@ -49,6 +61,7 @@ defmodule WebcamFornolo.MediaRoutesTest do
       :post
       |> conn("/api/media", %{image: webcam_image_to_upload()})
       |> assign(:provider, FakeMediaService.ErrorImpl)
+      |> put_req_header("authorization", "Bearer token")
       |> Routes.call(@opts)
 
     assert conn.state == :sent
@@ -60,10 +73,22 @@ defmodule WebcamFornolo.MediaRoutesTest do
       :delete
       |> conn("/api/media/id")
       |> assign(:provider, FakeMediaService.SuccessImpl)
+      |> put_req_header("authorization", "Bearer token")
       |> Routes.call(@opts)
 
     assert conn.state == :sent
     assert conn.status == 204
+  end
+
+  test "DELETE /api/media/id should return 401 Forbidden in case of invalid authenticatio" do
+    conn =
+      :delete
+      |> conn("/api/media/id")
+      |> assign(:provider, FakeMediaService.SuccessImpl)
+      |> Routes.call(@opts)
+
+    assert conn.state == :sent
+    assert conn.status == 401
   end
 
   test "DELETE /api/media/id should return 404 Not Found id the id is not valid" do
@@ -71,6 +96,7 @@ defmodule WebcamFornolo.MediaRoutesTest do
       :delete
       |> conn("/api/media/id")
       |> assign(:provider, FakeMediaService.InvalidIdImpl)
+      |> put_req_header("authorization", "Bearer token")
       |> Routes.call(@opts)
 
     assert conn.state == :sent
@@ -82,6 +108,7 @@ defmodule WebcamFornolo.MediaRoutesTest do
       :delete
       |> conn("/api/media/id")
       |> assign(:provider, FakeMediaService.ErrorImpl)
+      |> put_req_header("authorization", "Bearer token")
       |> Routes.call(@opts)
 
     assert conn.state == :sent
