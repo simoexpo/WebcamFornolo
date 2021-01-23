@@ -179,7 +179,7 @@
         colDiv.setAttribute("style", "margin-left: 0;");
 
         var aNode = document.createElement('a');
-        aNode.setAttribute("href", `/${img.path}/${img.name}`);
+        aNode.setAttribute("href", `${img.path}/${img.name}`);
         aNode.setAttribute("data-lightbox", "gallery");
         if (img.description) {
           aNode.setAttribute("data-title", img.description);
@@ -190,14 +190,14 @@
           videoNode.classList.add("responsive-video");
           videoNode.setAttribute("controls", "")
           var sourceNode = document.createElement('source');
-          sourceNode.src = `/${img.path}/${img.name}`;
+          sourceNode.src = `${img.path}/${img.name}`;
           sourceNode.type = "video/mp4";
           videoNode.appendChild(sourceNode);
           aNode.appendChild(videoNode);
         } else {
           var imgNode = document.createElement('img');
           imgNode.classList.add("img-fluid");
-          imgNode.src = `/${img.path}/${img.name}`;
+          imgNode.src = `${img.path}/${img.name}`;
           aNode.appendChild(imgNode);
         }
         colDiv.appendChild(aNode);
