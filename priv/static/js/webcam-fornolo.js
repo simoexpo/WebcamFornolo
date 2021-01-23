@@ -155,7 +155,7 @@ function populateNavBar() {
         createMenuEntry("Upload", "/upload.html");
     }
     createMenuEntry("About", "/about.html");
-    createMenuEntry("Contact", "mailto:webcamfornolo@altervista.org");
+    createMenuEntry("Contact", "mailto:webcamfornolo@gmail.com");
     if (isLogged()) {
         createMenuEntry("Logout", "#", logout)
     } else {
