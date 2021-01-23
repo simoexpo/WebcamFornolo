@@ -3,7 +3,7 @@ defmodule WebcamFornolo.Application do
 
   require Logger
 
-  @default_port 4000
+  @default_port "4000"
 
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
