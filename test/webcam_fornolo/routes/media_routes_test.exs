@@ -1,9 +1,9 @@
-defmodule WebcamFornolo.MediaRoutesTest do
+defmodule WebcamFornolo.Routes.MediaRoutesTest do
   use ExUnit.Case
   use Plug.Test
 
   alias WebcamFornolo.Routes
-  alias WebcamFornolo.MediaRoutesTest.FakeMediaService
+  alias WebcamFornolo.Routes.MediaRoutesTest.FakeMediaService
 
   @opts Routes.init([])
   @webcam_image_test "test/resources/webcam_image_test.jpg"
