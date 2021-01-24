@@ -1,9 +1,9 @@
-defmodule WebcamFornolo.WeatherRouteTest do
+defmodule WebcamFornolo.Routes.WeatherRouteTest do
   use ExUnit.Case
   use Plug.Test
 
   alias WebcamFornolo.Routes
-  alias WebcamFornolo.WeatherRouteTest.FakeWeatherService
+  alias WebcamFornolo.Routes.WeatherRouteTest.FakeWeatherService
 
   @opts Routes.init([])
 

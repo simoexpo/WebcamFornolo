@@ -1,4 +1,4 @@
-defmodule WebcamFornolo.HealthRouteTest do
+defmodule WebcamFornolo.Routes.HealthRouteTest do
   use ExUnit.Case
   use Plug.Test
 

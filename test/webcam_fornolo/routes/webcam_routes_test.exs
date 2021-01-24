@@ -1,9 +1,9 @@
-defmodule WebcamFornolo.WebcamRoutesTest do
+defmodule WebcamFornolo.Routes.WebcamRoutesTest do
   use ExUnit.Case
   use Plug.Test
 
   alias WebcamFornolo.Routes
-  alias WebcamFornolo.WebcamRoutesTest.FakeWebcamService
+  alias WebcamFornolo.Routes.WebcamRoutesTest.FakeWebcamService
 
   @opts Routes.init([])
   @webcam_image_test "test/resources/webcam_image_test.jpg"
@@ -103,7 +103,7 @@ defmodule WebcamFornolo.WebcamRoutesTest do
 
   defmodule FakeWebcamService do
     defmodule SuccessImpl do
-      def get_webcam(_id), do: {:ok, WebcamFornolo.WebcamRoutesTest.webcam_image_test_path()}
+      def get_webcam(_id), do: {:ok, WebcamFornolo.Routes.WebcamRoutesTest.webcam_image_test_path()}
       def save_webcam(_id, _webcam_image), do: :ok
     end
 
