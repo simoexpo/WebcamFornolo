@@ -3,9 +3,13 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
   use Plug.Test
 
   alias WebcamFornolo.Routes
-  alias WebcamFornolo.Routes.WebcamRoutesTest.FakeWebcamService
+  alias WebcamFornolo.ServiceFixtures.DummyWebcamService
+  alias WebcamFornolo.ServiceFixtures.DummyAuthService
 
-  @opts Routes.init([])
+  @dummy_authentication [authentication_provider: DummyAuthService]
+  @dummy_succes_opts Routes.init(@dummy_authentication ++ [webcam_provider: DummyWebcamService.SuccessImpl])
+  @dummy_error_opts Routes.init(@dummy_authentication ++ [webcam_provider: DummyWebcamService.ErrorImpl])
+  @dummy_invalid_id_opts Routes.init(@dummy_authentication ++ [webcam_provider: DummyWebcamService.InvalidIdImpl])
   @webcam_image_test "test/resources/webcam_image_test.jpg"
   @webcam_image_test_filename "webcam_image_test.jpg"
   @content_type "image/png"
@@ -14,8 +18,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     conn =
       :get
       |> conn("/api/webcam/id")
-      |> assign(:provider, FakeWebcamService.SuccessImpl)
-      |> Routes.call(@opts)
+      |> Routes.call(@dummy_succes_opts)
 
     assert conn.state == :file
     assert conn.status == 200
@@ -26,8 +29,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     conn =
       :get
       |> conn("/api/webcam/id")
-      |> assign(:provider, FakeWebcamService.InvalidIdImpl)
-      |> Routes.call(@opts)
+      |> Routes.call(@dummy_invalid_id_opts)
 
     assert conn.state == :sent
     assert conn.status == 404
@@ -37,8 +39,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     conn =
       :get
       |> conn("/api/webcam/id")
-      |> assign(:provider, FakeWebcamService.ErrorImpl)
-      |> Routes.call(@opts)
+      |> Routes.call(@dummy_error_opts)
 
     assert conn.state == :sent
     assert conn.status == 500
@@ -48,20 +49,29 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     conn =
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
-      |> assign(:provider, FakeWebcamService.SuccessImpl)
       |> put_req_header("authorization", "Bearer token")
-      |> Routes.call(@opts)
+      |> Routes.call(@dummy_succes_opts)
 
     assert conn.state == :sent
     assert conn.status == 201
   end
 
-  test "POST /api/webcam/id should return 401 Created if the id is valid in case of invalid authenticatio" do
+  test "POST /api/webcam/id should return 401 Unauthorized if the id is valid in case of invalid authenticatio" do
     conn =
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
-      |> assign(:provider, FakeWebcamService.SuccessImpl)
-      |> Routes.call(@opts)
+      |> put_req_header("authorization", "Bearer invalid")
+      |> Routes.call(@dummy_succes_opts)
+
+    assert conn.state == :sent
+    assert conn.status == 401
+  end
+
+  test "POST /api/webcam/id should return 401 Unauthorized if the id is valid in case of missing authenticatio" do
+    conn =
+      :post
+      |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
+      |> Routes.call(@dummy_succes_opts)
 
     assert conn.state == :sent
     assert conn.status == 401
@@ -71,9 +81,8 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     conn =
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
-      |> assign(:provider, FakeWebcamService.InvalidIdImpl)
       |> put_req_header("authorization", "Bearer token")
-      |> Routes.call(@opts)
+      |> Routes.call(@dummy_invalid_id_opts)
 
     assert conn.state == :sent
     assert conn.status == 404
@@ -83,9 +92,8 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     conn =
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
-      |> assign(:provider, FakeWebcamService.ErrorImpl)
       |> put_req_header("authorization", "Bearer token")
-      |> Routes.call(@opts)
+      |> Routes.call(@dummy_error_opts)
 
     assert conn.state == :sent
     assert conn.status == 500
@@ -100,21 +108,4 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
       filename: @webcam_image_test_filename,
       content_type: @content_type
     }
-
-  defmodule FakeWebcamService do
-    defmodule SuccessImpl do
-      def get_webcam(_id), do: {:ok, WebcamFornolo.Routes.WebcamRoutesTest.webcam_image_test_path()}
-      def save_webcam(_id, _webcam_image), do: :ok
-    end
-
-    defmodule InvalidIdImpl do
-      def get_webcam(_id), do: :notfound
-      def save_webcam(_id, _webcam_image), do: :notfound
-    end
-
-    defmodule ErrorImpl do
-      def get_webcam(_id), do: :error
-      def save_webcam(_id, _webcam_image), do: :error
-    end
-  end
 end

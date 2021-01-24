@@ -6,7 +6,7 @@ defmodule WebcamFornolo.Routes.HealthRouteTest do
 
   @opts Routes.init([])
 
-  test "GET /health should return 200 OK" do
+  test "GET /api/health should return 200 OK" do
     conn = :get
     |> conn("/api/health")
     |> Routes.call(@opts)

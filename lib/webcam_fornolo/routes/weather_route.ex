@@ -1,15 +1,16 @@
-defmodule WebcamFornolo.Route.WeatherRoute do
+defmodule WebcamFornolo.Routes.WeatherRoute do
   use Plug.Router
 
   alias WebcamFornolo.Service
 
-  @weather_service Service.WeatherService
+  @weather_provider_key :weather_provider
+  @default_weather_provider Service.WeatherService
 
   plug(:match)
   plug(:dispatch)
 
   get "/weather" do
-    weather_provider = Map.get(conn.assigns, :provider, @weather_service)
+    weather_provider = get_weather_provider(conn)
 
     with {:ok, resp} <- weather_provider.get_weather_info,
          {:ok, json} <- Jason.encode(resp) do
@@ -17,5 +18,9 @@ defmodule WebcamFornolo.Route.WeatherRoute do
     else
       _ -> send_resp(conn, 500, "")
     end
+  end
+
+  defp get_weather_provider(conn) do
+    Map.get(conn.assigns, @weather_provider_key, @default_weather_provider)
   end
 end
