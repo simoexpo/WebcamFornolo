@@ -5,13 +5,13 @@ defmodule WebcamFornolo.Routes.Plug.Authentication do
 
   alias WebcamFornolo.Service.CacheAuthService
 
-  @provider_key :authentication_provider
+  @auth_provider_key :authentication_provider
   @default_auth_provider CacheAuthService
   @authorization_header "authorization"
 
   @spec validate_token(Plug.Conn.t(), any) :: Plug.Conn.t()
   def validate_token(%{method: method} = conn, _opts) do
-    provider = Map.get(conn.assigns, @provider_key, @default_auth_provider)
+    provider = get_auth_provider(conn)
     auth = get_req_header(conn, @authorization_header)
 
     cond do
@@ -35,5 +35,9 @@ defmodule WebcamFornolo.Routes.Plug.Authentication do
     |> put_resp_content_type("text/plain")
     |> send_resp(401, "401 Unauthorized")
     |> halt()
+  end
+
+  defp get_auth_provider(conn) do
+    Map.get(conn.assigns, @auth_provider_key, @default_auth_provider)
   end
 end
