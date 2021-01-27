@@ -43,8 +43,16 @@ defmodule WebcamFornolo.ServiceFixtures do
   end
 
   defmodule DummyWeatherService do
-    def get_weather_info do
-      {:ok, %{data1: "weather data 1", data2: "weather data 2"}}
+    defmodule SuccessImpl do
+      def get_weather_info do
+        {:ok, %{data1: "weather data 1", data2: "weather data 2"}}
+      end
+    end
+
+    defmodule ErrorImpl do
+      def get_weather_info do
+        :error
+      end
     end
   end
 

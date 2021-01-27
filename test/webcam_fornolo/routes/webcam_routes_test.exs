@@ -6,10 +6,10 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
   alias WebcamFornolo.ServiceFixtures.DummyWebcamService
   alias WebcamFornolo.ServiceFixtures.DummyAuthService
 
-  @dummy_authentication [authentication_provider: DummyAuthService]
-  @dummy_succes_opts Routes.init(@dummy_authentication ++ [webcam_provider: DummyWebcamService.SuccessImpl])
-  @dummy_error_opts Routes.init(@dummy_authentication ++ [webcam_provider: DummyWebcamService.ErrorImpl])
-  @dummy_invalid_id_opts Routes.init(@dummy_authentication ++ [webcam_provider: DummyWebcamService.InvalidIdImpl])
+  @authentication_provider [authentication_provider: DummyAuthService]
+  @success_opts Routes.init(@authentication_provider ++ [webcam_provider: DummyWebcamService.SuccessImpl])
+  @error_opts Routes.init(@authentication_provider ++ [webcam_provider: DummyWebcamService.ErrorImpl])
+  @not_found_opts Routes.init(@authentication_provider ++ [webcam_provider: DummyWebcamService.InvalidIdImpl])
   @webcam_image_test "test/resources/webcam_image_test.jpg"
   @webcam_image_test_filename "webcam_image_test.jpg"
   @content_type "image/png"
@@ -18,7 +18,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     conn =
       :get
       |> conn("/api/webcam/id")
-      |> Routes.call(@dummy_succes_opts)
+      |> Routes.call(@success_opts)
 
     assert conn.state == :file
     assert conn.status == 200
@@ -29,7 +29,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     conn =
       :get
       |> conn("/api/webcam/id")
-      |> Routes.call(@dummy_invalid_id_opts)
+      |> Routes.call(@not_found_opts)
 
     assert conn.state == :sent
     assert conn.status == 404
@@ -39,7 +39,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     conn =
       :get
       |> conn("/api/webcam/id")
-      |> Routes.call(@dummy_error_opts)
+      |> Routes.call(@error_opts)
 
     assert conn.state == :sent
     assert conn.status == 500
@@ -50,7 +50,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
       |> put_req_header("authorization", "Bearer token")
-      |> Routes.call(@dummy_succes_opts)
+      |> Routes.call(@success_opts)
 
     assert conn.state == :sent
     assert conn.status == 201
@@ -61,7 +61,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
       |> put_req_header("authorization", "Bearer invalid")
-      |> Routes.call(@dummy_succes_opts)
+      |> Routes.call(@success_opts)
 
     assert conn.state == :sent
     assert conn.status == 401
@@ -71,7 +71,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     conn =
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
-      |> Routes.call(@dummy_succes_opts)
+      |> Routes.call(@success_opts)
 
     assert conn.state == :sent
     assert conn.status == 401
@@ -82,7 +82,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
       |> put_req_header("authorization", "Bearer token")
-      |> Routes.call(@dummy_invalid_id_opts)
+      |> Routes.call(@not_found_opts)
 
     assert conn.state == :sent
     assert conn.status == 404
@@ -93,7 +93,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
       |> put_req_header("authorization", "Bearer token")
-      |> Routes.call(@dummy_error_opts)
+      |> Routes.call(@error_opts)
 
     assert conn.state == :sent
     assert conn.status == 500
