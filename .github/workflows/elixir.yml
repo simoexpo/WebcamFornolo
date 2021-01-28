@@ -62,13 +62,15 @@ jobs:
             _build
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
           restore-keys: ${{ runner.os }}-mix-
-      - name: Start dependency
+      - name: Start test DB
         uses: harmon758/postgresql-action@v1
         with:
           postgresql version: '11'
           postgresql db: "webcam_fornolo_test"
           postgresql user: "user"
           postgresql password: "pass"
+      - name: Run DB migration
+        run: mix ecto.setup
       - name: Run tests
         run: mix coveralls.github --trace
 
