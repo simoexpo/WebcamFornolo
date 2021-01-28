@@ -7,14 +7,13 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  build:
 
-    name: Build and test
+    name: Build
     runs-on: ubuntu-latest
 
     env:
       MIX_ENV: 'test'
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Check out code
@@ -32,7 +31,39 @@ jobs:
           restore-keys: ${{ runner.os }}-mix-
       - name: Install dependencies
         run: mix deps.get
+      - name: Build
+        run: mix compile
+    
+  test:
+
+    name: Test
+    runs-on: ubuntu-latest
+
+    env:
+      MIX_ENV: 'test'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # for coveralls
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Set up Elixir
+        uses: actions/setup-elixir@v1
+        with:
+          elixir-version: '1.11.0' # Define the elixir version [required]
+          otp-version: '23.1.4' # Define the OTP version [required]
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
       - name: Run tests
+        uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: '11'
+          postgresql db: "webcam_fornolo_test"
+          postgresql user: "user"
+          postgresql password: "pass"
         run: mix coveralls.github --trace
 
   deploy:

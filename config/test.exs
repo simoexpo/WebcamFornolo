@@ -7,7 +7,7 @@ config :logger, level: :warn
 config :webcam_fornolo, WebcamFornolo.Dal.Db.Repo,
   username: "user",
   password: "pass",
-  database: "webcam_fornolo_dev",
+  database: "webcam_fornolo_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
