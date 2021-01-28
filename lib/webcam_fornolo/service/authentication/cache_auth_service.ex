@@ -1,5 +1,5 @@
-defmodule WebcamFornolo.Service.CacheAuthService do
-  @behaviour WebcamFornolo.Service.AuthService
+defmodule WebcamFornolo.Service.Authentication.CacheAuthService do
+  @behaviour WebcamFornolo.Service.Authentication.AuthProvider
 
   use Agent
 

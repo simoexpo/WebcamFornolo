@@ -4,7 +4,7 @@ defmodule WebcamFornolo.Routes.WeatherRoute do
   alias WebcamFornolo.Service
 
   @weather_provider_key :weather_provider
-  @default_weather_provider Service.WeatherService
+  @default_weather_provider Service.Weather.WeatherService
 
   plug(:match)
   plug(:dispatch)

@@ -1,4 +1,5 @@
-defmodule WebcamFornolo.Service.WeatherService do
+defmodule WebcamFornolo.Service.Weather.WeatherService do
+  @behaviour WebcamFornolo.Service.Weather.WeatherProvider
 
   alias WebcamFornolo.Dal.WeatherDataDao
   alias WebcamFornolo.Model.WeatherData
