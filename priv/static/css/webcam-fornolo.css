@@ -186,7 +186,7 @@ img::-moz-selection {
 
 header.masthead {
   margin-bottom: 50px;
-  background: no-repeat top center;
+  background: no-repeat center center;
   background-color: #868e96;
   background-attachment: scroll;
   position: relative;
@@ -196,7 +196,7 @@ header.masthead {
 @media only screen and (min-width: 768px) {
   header.masthead {
     margin-bottom: 50px;
-    background: no-repeat center center;
+    background: no-repeat top center;
     background-color: #868e96;
     background-attachment: scroll;
     position: relative;
