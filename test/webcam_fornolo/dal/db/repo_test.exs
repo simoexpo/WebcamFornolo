@@ -19,6 +19,7 @@ defmodule WebcamFornolo.Dal.Db.RepoTest do
     {page_3, ^total_page} = Repo.paginated(MediaFileEntity, 2, 3)
     {page_4, ^total_page} = Repo.paginated(MediaFileEntity, 3, 3)
 
-    assert page_1 ++ page_2 ++ page_3 ++ page_4 == Enum.sort(media_file_entities, fn x, y -> x.created_at >= y.created_at end)
+    assert page_1 ++ page_2 ++ page_3 ++ page_4 ==
+             Enum.sort(media_file_entities, fn x, y -> DateTime.compare(x.created_at, y.created_at) != :lt end)
   end
 end
