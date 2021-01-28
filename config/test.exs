@@ -12,4 +12,5 @@ config :webcam_fornolo, WebcamFornolo.Dal.Db.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :webcam_fornolo,
-  authorization_token: "remove_me"
+  authorization_token: "remove_me",
+  admin_password: "password"

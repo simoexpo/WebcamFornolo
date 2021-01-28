@@ -1,6 +1,6 @@
-defmodule WebcamFornolo.Service.AuthService do
+defmodule WebcamFornolo.Service.Authentication.AuthProvider do
   @moduledoc """
-  General interface for authentication service.
+  General behavior for authentication provider.
   """
 
   @doc """
