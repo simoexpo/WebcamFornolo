@@ -23,10 +23,12 @@ jobs:
         with:
           elixir-version: '1.11.0' # Define the elixir version [required]
           otp-version: '23.1.4' # Define the OTP version [required]
-      - name: Restore dependencies cache
+      - name: Restore dependencies and build cache
         uses: actions/cache@v2
         with:
-          path: deps
+          path: |
+            deps
+            _build
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
           restore-keys: ${{ runner.os }}-mix-
       - name: Install dependencies
@@ -52,10 +54,12 @@ jobs:
         with:
           elixir-version: '1.11.0' # Define the elixir version [required]
           otp-version: '23.1.4' # Define the OTP version [required]
-      - name: Restore dependencies cache
+      - name: Restore dependencies and build cache
         uses: actions/cache@v2
         with:
-          path: deps
+          path: |
+            deps
+            _build
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
           restore-keys: ${{ runner.os }}-mix-
       - name: Start dependency
