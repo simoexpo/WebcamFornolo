@@ -12,7 +12,8 @@ defmodule WebcamFornolo.MediaFileEntityFactory do
       path: "#{UUID.uuid1()}/#{UUID.uuid1()}",
       description: UUID.uuid1(),
       content_type: "jpg",
-      created_at: DateTimeUtil.now() |> DateTime.add(:rand.uniform(@one_year_in_seconds), :second)
+      created_at:
+        DateTimeUtil.now() |> DateTime.add(:rand.uniform(@one_year_in_seconds), :second) |> DateTime.truncate(:second)
     }
   end
 
