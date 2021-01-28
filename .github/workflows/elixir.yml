@@ -38,6 +38,7 @@ jobs:
 
     name: Test
     runs-on: ubuntu-latest
+    needs: build
 
     env:
       MIX_ENV: 'test'
