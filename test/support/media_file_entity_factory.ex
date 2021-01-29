@@ -13,7 +13,7 @@ defmodule WebcamFornolo.MediaFileEntityFactory do
       description: UUID.uuid1(),
       content_type: "jpg",
       created_at:
-        DateTimeUtil.now() |> DateTime.add(:rand.uniform(@one_year_in_seconds), :second) |> DateTime.truncate(:second)
+        DateTimeUtil.now() |> Timex.shift(seconds: :rand.uniform(@one_year_in_seconds)) |> DateTime.truncate(:second)
     }
   end
 
