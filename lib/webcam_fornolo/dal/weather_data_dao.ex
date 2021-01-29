@@ -1,7 +1,6 @@
 defmodule WebcamFornolo.Dal.WeatherDataDao do
   alias WebcamFornolo.Dal.Netatmo.NetatmoDal
   alias WebcamFornolo.Mapper.WeatherDataMapper
-  alias WebcamFornolo.Dal.NetatmoTokenDao
   alias WebcamFornolo.Model.WeatherData
   alias WebcamFornolo.Model.OutdoorWeatherData
 
@@ -12,26 +11,30 @@ defmodule WebcamFornolo.Dal.WeatherDataDao do
   def get_weather_data() do
     case Cachex.get(cache(), @key) do
       {:ok, nil} ->
-        case NetatmoTokenDao.get_token() do
+        case NetatmoDal.get_access_token() do
           {:ok, token} ->
-            case NetatmoDal.get_weather_data(token.access_token) do
+            case NetatmoDal.get_weather_data(token) do
               {:ok, weather_data} ->
-                save(weather_data)
-                WeatherDataMapper.from(weather_data)
+                WeatherDataMapper.from(weather_data) |> save()
 
               :error ->
                 :error
             end
-
-          :error ->
-            :error
         end
 
       {:ok, weather_data} ->
-        WeatherDataMapper.from(weather_data)
+        {:ok, weather_data}
 
       _ ->
         :error
+    end
+  end
+
+  @spec get_outdoor_temperature() :: :error | {:ok, number()}
+  def get_outdoor_temperature() do
+    case get_weather_data() do
+      {:ok, %WeatherData{outdoor_weather_data: %OutdoorWeatherData{temperature: temperature}}} -> {:ok, temperature}
+      :error -> :error
     end
   end
 
@@ -45,12 +48,4 @@ defmodule WebcamFornolo.Dal.WeatherDataDao do
 
   @spec cache() :: atom
   defp cache(), do: Application.get_env(:webcam_fornolo, :app_cache)
-
-  @spec get_outdoor_temperature() :: :error | {:ok, number()}
-  def get_outdoor_temperature() do
-    case get_weather_data() do
-      {:ok, %WeatherData{outdoor_weather_data: %OutdoorWeatherData{temperature: temperature}}} -> {:ok, temperature}
-      :error -> :error
-    end
-  end
 end

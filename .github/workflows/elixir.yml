@@ -14,6 +14,10 @@ jobs:
 
     env:
       MIX_ENV: 'test'
+      NETATMO_APP_ID: ${{ secrets.NETATMO_APP_ID }}
+      NETATMO_CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
+      NETATMO_USER_EMAIL: ${{ secrets.NETATMO_USER_EMAIL }}
+      NETATMO_USER_PASSWORD: ${{ secrets.NETATMO_USER_PASSWORD }}
 
     steps:
       - name: Check out code
@@ -45,6 +49,10 @@ jobs:
     env:
       MIX_ENV: 'test'
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # for coveralls
+      NETATMO_APP_ID: ${{ secrets.NETATMO_APP_ID }}
+      NETATMO_CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
+      NETATMO_USER_EMAIL: ${{ secrets.NETATMO_USER_EMAIL }}
+      NETATMO_USER_PASSWORD: ${{ secrets.NETATMO_USER_PASSWORD }}
 
     steps:
       - name: Check out code
