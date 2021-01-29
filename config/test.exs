@@ -21,4 +21,4 @@ config :elixatmo,
   user_email: Map.fetch!(System.get_env(), "NETATMO_USER_EMAIL"),
   user_password: Map.fetch!(System.get_env(), "NETATMO_USER_PASSWORD")
 
-import_config "test.secret.exs"
+# import_config "test.secret.exs"
