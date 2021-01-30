@@ -4,32 +4,23 @@ defmodule WebcamFornolo.Dal.WeatherDataDao do
   alias WebcamFornolo.Model.WeatherData
   alias WebcamFornolo.Model.OutdoorWeatherData
 
-  @key :weather_data
+  @caache_key :weather_data
   @refresh_minutes 5
+  @default_weather_provider NetatmoDal
 
-  @spec get_weather_data() :: :error | {:ok, WeatherData.t()}
-  def get_weather_data() do
-    case Cachex.get(cache(), @key) do
-      {:ok, nil} ->
-        case NetatmoDal.get_access_token() do
-          {:ok, token} ->
-            case NetatmoDal.get_weather_data(token) do
-              {:ok, weather_data} ->
-                WeatherDataMapper.from(weather_data) |> save()
-
-              :error ->
-                :error
-            end
-        end
-
-      {:ok, weather_data} ->
-        {:ok, weather_data}
-
-      _ ->
-        :error
+  @spec get_weather_data(atom()) :: :error | {:ok, WeatherData.t()}
+  def get_weather_data(weather_provider \\ @default_weather_provider) do
+    with {:ok, nil} <- Cachex.get(cache(), @caache_key),
+         {:ok, weather_info} <- weather_provider.get_weather(),
+         {:ok, weather_data} <- WeatherDataMapper.from(weather_info) do
+      save(weather_data)
+    else
+      {:ok, weather_data} -> {:ok, weather_data}
+      _ -> :error
     end
   end
 
+  # MOVE from here to service
   @spec get_outdoor_temperature() :: :error | {:ok, number()}
   def get_outdoor_temperature() do
     case get_weather_data() do
@@ -38,9 +29,9 @@ defmodule WebcamFornolo.Dal.WeatherDataDao do
     end
   end
 
-  @spec save(map()) :: {:ok, map()} | :error
+  @spec save(WeatherData.t()) :: {:ok, WeatherData.t()} | :error
   defp save(weather_data) do
-    case Cachex.put(cache(), @key, weather_data, ttl: :timer.minutes(@refresh_minutes)) do
+    case Cachex.put(cache(), @caache_key, weather_data, ttl: :timer.minutes(@refresh_minutes)) do
       {:ok, _} -> {:ok, weather_data}
       _ -> :error
     end
