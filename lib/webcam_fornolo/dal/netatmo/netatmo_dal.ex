@@ -8,13 +8,17 @@ defmodule WebcamFornolo.Dal.Netatmo.NetatmoDal do
   @cache_key :netatmo_token
   @token_scope [TokenScope.read_station()]
 
-  @spec get_weather_data(String.t()) :: :error | {:ok, map()}
-  def get_weather_data(access_token) do
-    ElixAtmo.get_stations_data(access_token)
+  @spec get_weather() :: :error | {:ok, map()}
+  def get_weather() do
+    with {:ok, access_token} <- get_access_token() do
+      ElixAtmo.get_stations_data(access_token)
+    else
+      _ -> :error
+    end
   end
 
   @spec get_access_token() :: :error | {:ok, String.t()}
-  def get_access_token() do
+  defp get_access_token() do
     case Cachex.get(cache(), @cache_key) do
       {:ok, nil} ->
         with {:ok, token} <- ElixAtmo.get_access_token(user_data(), app_data(), @token_scope),

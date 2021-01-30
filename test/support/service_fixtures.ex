@@ -46,39 +46,17 @@ defmodule WebcamFornolo.ServiceFixtures do
     defmodule SuccessImpl do
       @behaviour WebcamFornolo.Service.Weather.WeatherProvider
 
-      alias WebcamFornolo.Model.IndoorWeatherData
-      alias WebcamFornolo.Model.OutdoorWeatherData
-      alias WebcamFornolo.Model.WeatherData
-
-      @timezone "Europe/Rome"
+      alias WebcamFornolo.WeatherDataFixtures
 
       def get_weather_info(_provider \\ :unused) do
-        {:ok,
-         %WeatherData{
-           indoor_weather_data: %IndoorWeatherData{
-             min_temp: 7.3,
-             max_temp: 8.8,
-             temperature: 8.4,
-             pressure: 1032.3,
-             noise: 35,
-             humidity: 50,
-             co2: 544
-           },
-           outdoor_weather_data: %OutdoorWeatherData{
-             min_temp: -0.2,
-             max_temp: 9.3,
-             temperature: 3.3,
-             humidity: 76,
-             rain: 0
-           },
-           time: Timex.from_unix(1_579_799_339, :second) |> Timex.to_datetime(@timezone)
-         }}
+        {:ok, WeatherDataFixtures.weather_data()}
       end
     end
 
     defmodule ErrorImpl do
       @behaviour WebcamFornolo.Service.Weather.WeatherProvider
 
+      @spec get_weather_info(any) :: :error
       def get_weather_info(_provider \\ :unused) do
         :error
       end
