@@ -1,18 +1,19 @@
-defmodule WebcamFornolo.Service.MediaFileService do
-
+defmodule WebcamFornolo.Service.Media.MediaFileService do
   alias WebcamFornolo.Dal.MediaFileDao
   alias WebcamFornolo.Model.MediaFile
 
+  @default_media_file_dao MediaFileDao
+
   @media_path "media"
 
-  def save_media(media_details) do
+  def save_media(media_details, provider \\ @default_media_file_dao) do
     IO.inspect(media_details)
 
     case get_media_name(media_details) do
       {:ok, media_name} ->
         media_file_details = Map.put(media_details, :name, media_name)
 
-        case MediaFileDao.save(media_file_details, @media_path) do
+        case provider.save(media_file_details, @media_path) do
           {:ok, _} -> :ok
           _ -> :error
         end
@@ -22,12 +23,12 @@ defmodule WebcamFornolo.Service.MediaFileService do
     end
   end
 
-  def get_media_paginated(page, rpp) do
-    MediaFileDao.get_from_path_paginated(@media_path, page, rpp)
+  def get_media_paginated(page, rpp, provider \\ @default_media_file_dao) do
+    provider.get_from_path_paginated(@media_path, page, rpp)
   end
 
-  def delete_media(id) do
-    MediaFileDao.delete(id)
+  def delete_media(id, provider \\ @default_media_file_dao) do
+    provider.delete(id)
   end
 
   defp get_media_name(%MediaFile{content_type: content_type}) do

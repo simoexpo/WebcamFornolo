@@ -1,4 +1,6 @@
-defmodule WebcamFornolo.Service.AuthService do
+defmodule WebcamFornolo.Service.Authentication.CacheAuthService do
+  @behaviour WebcamFornolo.Service.Authentication.AuthProvider
+
   use Agent
 
   @token_expiry_in_minutes 60

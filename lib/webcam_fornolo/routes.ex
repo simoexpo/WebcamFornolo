@@ -2,7 +2,9 @@ defmodule WebcamFornolo.Routes do
   use Plug.Router
   use Plug.ErrorHandler
 
-  alias WebcamFornolo.Route
+  require Logger
+
+  alias WebcamFornolo.Routes
 
   defmodule ApiRoutes do
     use Plug.Router
@@ -18,21 +20,21 @@ defmodule WebcamFornolo.Routes do
       json_decoder: Jason
     )
 
-    plug(WebcamFornolo.Cors)
+    plug(WebcamFornolo.Routes.Plug.Cors)
 
     plug(:dispatch)
 
-    match("/health", to: Route.HealthRoute)
+    match("/health", to: Routes.HealthRoute)
 
-    match("/login", to: Route.AuthRoute)
+    match("/login", to: Routes.AuthRoute)
 
-    match("/logout", to: Route.AuthRoute)
+    match("/logout", to: Routes.AuthRoute)
 
-    match("/weather", to: Route.WeatherRoute)
+    match("/weather", to: Routes.WeatherRoute)
 
-    match("/webcam/*_path", to: Route.WebcamRoutes)
+    match("/webcam/*_path", to: Routes.WebcamRoutes)
 
-    match("/media/*_path", to: Route.MediaRoutes)
+    match("/media/*_path", to: Routes.MediaRoutes)
 
     match _ do
       send_resp(conn, 404, "")
@@ -75,9 +77,14 @@ defmodule WebcamFornolo.Routes do
   end
 
   plug(:match)
+  plug(:assign_options, builder_opts())
   plug(:dispatch)
 
   forward("/api", to: ApiRoutes)
 
   forward("/", to: FrontendRoutes)
+
+  defp assign_options(conn, opts) do
+    Enum.reduce(opts, conn, fn {key, value}, acc -> Plug.Conn.assign(acc, key, value) end)
+  end
 end

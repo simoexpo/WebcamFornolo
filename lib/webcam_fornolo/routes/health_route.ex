@@ -1,4 +1,4 @@
-defmodule WebcamFornolo.Route.HealthRoute do
+defmodule WebcamFornolo.Routes.HealthRoute do
   use Plug.Router
 
   plug :match

@@ -1,20 +1,23 @@
-defmodule WebcamFornolo.Route.WebcamRoutes do
+defmodule WebcamFornolo.Routes.WebcamRoutes do
   use Plug.Router
   require Logger
 
-  alias WebcamFornolo.Service
+  import WebcamFornolo.Routes.Plug.Authentication, only: [validate_token: 2]
+
+  alias WebcamFornolo.Service.Media.WebcamImageService
   alias WebcamFornolo.Mapper.MediaFileMapper
 
-  @webcam_image_service Service.WebcamImageService
+  @webcam_provider_key :webcam_provider
+  @default_webcam_provider WebcamImageService
 
   plug(:match)
-  plug(WebcamFornolo.Auth)
+  plug(:validate_token, builder_opts())
   plug(:dispatch)
 
   get "/webcam/:id" do
-    webcam_image_service = Map.get(conn.assigns, :provider, @webcam_image_service)
+    webcam_provider = get_webcam_provider(conn)
 
-    case webcam_image_service.get_webcam(id) do
+    case webcam_provider.get_webcam(id) do
       {:ok, filename} ->
         conn
         |> put_resp_header("content-type", "image/jpeg")
@@ -29,7 +32,7 @@ defmodule WebcamFornolo.Route.WebcamRoutes do
   end
 
   post "/webcam/:id" do
-    webcam_image_service = Map.get(conn.assigns, :provider, @webcam_image_service)
+    webcam_provider = get_webcam_provider(conn)
     # case id do
     #  @webcam1 -> Logger.info("Saving webcam #{id} image")
     #  @webcam2 -> Logger.info("Saving webcam #{id} image")
@@ -40,7 +43,7 @@ defmodule WebcamFornolo.Route.WebcamRoutes do
       Map.from_struct(conn.params["image"])
       |> MediaFileMapper.from()
 
-    case webcam_image_service.save_webcam(id, webcam_image) do
+    case webcam_provider.save_webcam(id, webcam_image) do
       :ok ->
         send_resp(conn, 201, "")
 
@@ -50,5 +53,9 @@ defmodule WebcamFornolo.Route.WebcamRoutes do
       :error ->
         send_resp(conn, 500, "")
     end
+  end
+
+  defp get_webcam_provider(conn) do
+    Map.get(conn.assigns, @webcam_provider_key, @default_webcam_provider)
   end
 end

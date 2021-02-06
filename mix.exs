@@ -11,6 +11,7 @@ defmodule WebcamFornolo.Mixfile do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      test_coverage: [tool: ExCoveralls],
       dialyzer: [
         plt_add_apps: [:ftp, :inets],
         paths: ["_build/dev/lib/webcam_fornolo/ebin"]
@@ -49,7 +50,8 @@ defmodule WebcamFornolo.Mixfile do
       {:cachex, "~> 3.3.0"},
       {:mogrify, "~> 0.8.0"},
       {:elixir_uuid, "~> 1.2.1"},
-      {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
+      {:excoveralls, "~> 0.13.4", only: [:test]}
     ]
   end
 

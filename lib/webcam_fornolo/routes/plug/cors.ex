@@ -1,4 +1,4 @@
-defmodule WebcamFornolo.Cors do
+defmodule WebcamFornolo.Routes.Plug.Cors do
   require Logger
 
   @origin_header "origin"
@@ -6,9 +6,9 @@ defmodule WebcamFornolo.Cors do
   @acam_header "access-control-allow-methods"
   @acah_header "access-control-allow-headers"
   @allowed_origin [
-    "https://webcamfornolo.altervista.org",
     "https://webcamfornolo.org",
     "https://www.webcamfornolo.org",
+    "https://webcamfornolo.altervista.org",
     "http://localhost:4000"
   ]
 

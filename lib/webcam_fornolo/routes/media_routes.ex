@@ -1,21 +1,24 @@
-defmodule WebcamFornolo.Route.MediaRoutes do
+defmodule WebcamFornolo.Routes.MediaRoutes do
   use Plug.Router
   require Logger
 
-  alias WebcamFornolo.Service
+  import WebcamFornolo.Routes.Plug.Authentication, only: [validate_token: 2]
+
+  alias WebcamFornolo.Service.Media.MediaFileService
   alias WebcamFornolo.Mapper.MediaFileMapper
 
-  @media_service Service.MediaFileService
+  @media_provider_key :media_provider
+  @default_media_provider MediaFileService
 
   plug(:match)
-  plug(WebcamFornolo.Auth)
+  plug(:validate_token, builder_opts())
   plug(:dispatch)
 
   get "/media" do
     Logger.info("get paginated media")
     page = String.to_integer(Map.get(conn.params, "page", "0"))
     rpp = String.to_integer(Map.get(conn.params, "rpp", "10"))
-    media_service = Map.get(conn.assigns, :provider, @media_service)
+    media_service = get_media_provider(conn)
 
     case media_service.get_media_paginated(page, rpp) do
       {:ok, page} ->
@@ -32,7 +35,7 @@ defmodule WebcamFornolo.Route.MediaRoutes do
 
   post "/media" do
     Logger.info("save media")
-    media_service = Map.get(conn.assigns, :provider, @media_service)
+    media_service = get_media_provider(conn)
 
     {:ok, media} =
       Map.from_struct(conn.params["image"])
@@ -50,7 +53,7 @@ defmodule WebcamFornolo.Route.MediaRoutes do
 
   delete "/media/:id" do
     Logger.info("delete media #{id}")
-    media_service = Map.get(conn.assigns, :provider, @media_service)
+    media_service = get_media_provider(conn)
 
     case media_service.delete_media(id) do
       :ok ->
@@ -62,5 +65,9 @@ defmodule WebcamFornolo.Route.MediaRoutes do
       :error ->
         send_resp(conn, 500, "")
     end
+  end
+
+  defp get_media_provider(conn) do
+    Map.get(conn.assigns, @media_provider_key, @default_media_provider)
   end
 end

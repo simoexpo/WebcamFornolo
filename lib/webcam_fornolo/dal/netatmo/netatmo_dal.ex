@@ -2,36 +2,65 @@ defmodule WebcamFornolo.Dal.Netatmo.NetatmoDal do
   alias ElixAtmo.Model.UserData
   alias ElixAtmo.Model.AppData
   alias ElixAtmo.Model.TokenScope
-  alias WebcamFornolo.Dal.Netatmo.Model.NetatmoToken
+  alias ElixAtmo.Model.Token
+  alias WebcamFornolo.Util.DateTimeUtil
 
-  def user_data do
-    email = Application.get_env(:elixatmo, :user_email)
-    password = Application.get_env(:elixatmo, :user_password)
-    %UserData{email: email, password: password}
-  end
+  @cache_key :netatmo_token
+  @cache Application.get_env(:webcam_fornolo, :app_cache)
 
-  def app_data do
-    app_id = Application.get_env(:elixatmo, :app_id)
-    client_secret = Application.get_env(:elixatmo, :client_secret)
-    %AppData{app_id: app_id, client_secret: client_secret}
-  end
+  @email Application.get_env(:elixatmo, :user_email)
+  @password Application.get_env(:elixatmo, :user_password)
+  @user_data %UserData{email: @email, password: @password}
 
-  def get_access_token do
-    case ElixAtmo.get_access_token(user_data(), app_data(), [TokenScope.read_station()]) do
-      {:ok, raw_token} -> NetatmoToken.from(raw_token)
-      :error -> :error
+  @app_id Application.get_env(:elixatmo, :app_id)
+  @client_secret Application.get_env(:elixatmo, :client_secret)
+  @app_data %AppData{app_id: @app_id, client_secret: @client_secret}
+
+  @token_scope [TokenScope.read_station()]
+
+  @spec get_weather() :: :error | {:ok, map()}
+  def get_weather() do
+    with {:ok, access_token} <- get_access_token() do
+      ElixAtmo.get_stations_data(access_token)
+    else
+      _ -> :error
     end
   end
 
-  def refresh_access_token(refresh_token) do
-    case ElixAtmo.refresh_access_token(refresh_token, app_data()) do
-      {:ok, raw_token} -> NetatmoToken.from(raw_token)
-      :error -> :error
+  @spec get_access_token() :: :error | {:ok, String.t()}
+  defp get_access_token() do
+    case Cachex.get(@cache, @cache_key) do
+      {:ok, nil} ->
+        with {:ok, token} <- ElixAtmo.get_access_token(@user_data, @app_data, @token_scope),
+             {:ok, token} <- save(token) do
+          {:ok, token.access_token}
+        else
+          _ -> :error
+        end
+
+      {:ok, {token, expires_at}} ->
+        case Timex.compare(expires_at, Timex.now()) do
+          1 ->
+            {:ok, token.access_token}
+
+          _ ->
+            with {:ok, token} <- ElixAtmo.refresh_access_token(token.refresh_token, @app_data),
+                 {:ok, token} <- save(token) do
+              {:ok, token.access_token}
+            else
+              _ -> :error
+            end
+        end
     end
   end
 
-  @spec get_weather_data(String.t()) :: :error | {:ok, map()}
-  def get_weather_data(access_token) do
-    ElixAtmo.get_stations_data(access_token)
+  @spec save(Token.t()) :: :error | {:ok, Token.t()}
+  defp save(token) do
+    expires_at = DateTimeUtil.now() |> Timex.shift(seconds: token.expires_in)
+
+    case Cachex.put(@cache, @cache_key, {token, expires_at}) do
+      {:ok, _} -> {:ok, token}
+      _ -> :error
+    end
   end
 end

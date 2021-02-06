@@ -7,13 +7,19 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  build:
 
-    name: Build and test
+    name: Build
     runs-on: ubuntu-latest
 
     env:
       MIX_ENV: 'test'
+      NETATMO_APP_ID: ${{ secrets.NETATMO_APP_ID }}
+      NETATMO_CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
+      NETATMO_USER_EMAIL: ${{ secrets.NETATMO_USER_EMAIL }}
+      NETATMO_USER_PASSWORD: ${{ secrets.NETATMO_USER_PASSWORD }}
+      ALTERVISTA_USER: ${{ secrets.ALTERVISTA_USER }}
+      ALTERVISTA_PASSWORD: ${{ secrets.ALTERVISTA_PASSWORD }}
 
     steps:
       - name: Check out code
@@ -23,16 +29,62 @@ jobs:
         with:
           elixir-version: '1.11.0' # Define the elixir version [required]
           otp-version: '23.1.4' # Define the OTP version [required]
-      - name: Restore dependencies cache
+      - name: Restore dependencies and build cache
         uses: actions/cache@v2
         with:
-          path: deps
+          path: |
+            deps
+            _build
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
           restore-keys: ${{ runner.os }}-mix-
       - name: Install dependencies
         run: mix deps.get
+      - name: Build
+        run: mix compile
+    
+  test:
+
+    name: Test
+    runs-on: ubuntu-latest
+    needs: build
+
+    env:
+      MIX_ENV: 'test'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # for coveralls
+      NETATMO_APP_ID: ${{ secrets.NETATMO_APP_ID }}
+      NETATMO_CLIENT_SECRET: ${{ secrets.NETATMO_CLIENT_SECRET }}
+      NETATMO_USER_EMAIL: ${{ secrets.NETATMO_USER_EMAIL }}
+      NETATMO_USER_PASSWORD: ${{ secrets.NETATMO_USER_PASSWORD }}
+      ALTERVISTA_USER: ${{ secrets.ALTERVISTA_USER }}
+      ALTERVISTA_PASSWORD: ${{ secrets.ALTERVISTA_PASSWORD }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Set up Elixir
+        uses: actions/setup-elixir@v1
+        with:
+          elixir-version: '1.11.0' # Define the elixir version [required]
+          otp-version: '23.1.4' # Define the OTP version [required]
+      - name: Restore dependencies and build cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
+      - name: Start PostgreSQL
+        uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: '11'
+          postgresql db: "webcam_fornolo_test"
+          postgresql user: "user"
+          postgresql password: "pass"
+      - name: Run DB migrations
+        run: mix ecto.setup
       - name: Run tests
-        run: mix test
+        run: mix coveralls.github --trace
 
   deploy:
 
@@ -47,7 +99,7 @@ jobs:
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.8.9
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
-          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
           branch: "master"

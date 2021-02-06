@@ -1,4 +1,4 @@
-defmodule WebcamFornolo.JsonProtocol do
+defmodule WebcamFornolo.Routes.Protocol.JsonProtocol do
   require Protocol
 
   alias WebcamFornolo.Model.IndoorWeatherData
