@@ -9,7 +9,7 @@ defmodule WebcamFornolo.Dal.Db.RepoTest do
   test "Repo should be able to retrieve data paginated sorted by creation date" do
     media_file_entities =
       Range.new(0, 9)
-      |> Enum.map(fn _ -> a_media_file() end)
+      |> Enum.map(fn _ -> a_media_file_entity() end)
       |> Enum.map(&Repo.insert!/1)
 
     total_page = 4
