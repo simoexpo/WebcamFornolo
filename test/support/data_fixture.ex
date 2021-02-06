@@ -10,12 +10,12 @@ defmodule WebcamFornolo.DataFixture do
   @one_year_in_seconds 60 * 60 * 24 * 365
 
   @spec a_media_file :: MediaFile.t()
-  def a_media_file() do
+  def a_media_file(content_type \\ "image") do
     %MediaFile{
       id: 1,
       name: "media name",
       description: "media description",
-      content_type: "image",
+      content_type: content_type,
       path: "path/to/media",
       created_at: DateTimeUtil.now()
     }
