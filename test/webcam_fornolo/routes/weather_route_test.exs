@@ -4,7 +4,7 @@ defmodule WebcamFornolo.Routes.WeatherRouteTest do
 
   alias WebcamFornolo.Routes
   alias WebcamFornolo.ServiceFixtures.DummyWeatherService
-  alias WebcamFornolo.WeatherDataFixtures
+  alias WebcamFornolo.DataFixture
 
   @success_opts Routes.init(weather_provider: DummyWeatherService.SuccessImpl)
   @error_opts Routes.init(weather_provider: DummyWeatherService.ErrorImpl)
@@ -18,7 +18,7 @@ defmodule WebcamFornolo.Routes.WeatherRouteTest do
     assert conn.state == :sent
     assert conn.status == 200
 
-    assert Jason.decode!(conn.resp_body) == WeatherDataFixtures.weather_data_json()
+    assert Jason.decode!(conn.resp_body) == DataFixture.weather_data_json()
   end
 
   test "GET /api/weather should return 500 Internal Server Error in case of unexpected error" do

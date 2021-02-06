@@ -46,10 +46,10 @@ defmodule WebcamFornolo.ServiceFixtures do
     defmodule SuccessImpl do
       @behaviour WebcamFornolo.Service.Weather.WeatherProvider
 
-      alias WebcamFornolo.WeatherDataFixtures
+      alias WebcamFornolo.DataFixture
 
       def get_weather_info(_provider \\ :unused) do
-        {:ok, WeatherDataFixtures.weather_data()}
+        {:ok, DataFixture.weather_data()}
       end
     end
 

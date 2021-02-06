@@ -1,7 +1,7 @@
 defmodule WebcamFornolo.Dal.Db.RepoTest do
   use WebcamFornolo.RepoCase
 
-  import WebcamFornolo.MediaFileEntityFactory
+  import WebcamFornolo.DataFixture
 
   alias WebcamFornolo.Dal.Db.Repo
   alias WebcamFornolo.Dal.Db.MediaFileEntity
@@ -10,7 +10,7 @@ defmodule WebcamFornolo.Dal.Db.RepoTest do
     media_file_entities =
       Range.new(0, 9)
       |> Enum.map(fn _ -> a_media_file() end)
-      |> Enum.map(&insert!/1)
+      |> Enum.map(&Repo.insert!/1)
 
     total_page = 4
 

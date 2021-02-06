@@ -4,11 +4,11 @@ defmodule WebcamFornolo.Routes.MediaRoutes do
 
   import WebcamFornolo.Routes.Plug.Authentication, only: [validate_token: 2]
 
-  alias WebcamFornolo.Service
+  alias WebcamFornolo.Service.Media.MediaFileService
   alias WebcamFornolo.Mapper.MediaFileMapper
 
   @media_provider_key :media_provider
-  @default_media_provider Service.MediaFileService
+  @default_media_provider MediaFileService
 
   plug(:match)
   plug(:validate_token, builder_opts())

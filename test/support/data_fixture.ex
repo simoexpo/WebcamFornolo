@@ -1,9 +1,37 @@
-defmodule WebcamFornolo.WeatherDataFixtures do
+defmodule WebcamFornolo.DataFixture do
+  alias WebcamFornolo.Dal.Db.MediaFileEntity
+  alias WebcamFornolo.Model.MediaFile
+  alias WebcamFornolo.Util.DateTimeUtil
   alias WebcamFornolo.Model.IndoorWeatherData
   alias WebcamFornolo.Model.OutdoorWeatherData
   alias WebcamFornolo.Model.WeatherData
 
   @timezone "Europe/Rome"
+  @one_year_in_seconds 60 * 60 * 24 * 365
+
+  @spec a_media_file :: MediaFile.t()
+  def a_media_file() do
+    %MediaFile{
+      id: 1,
+      name: "media name",
+      description: "media description",
+      content_type: "image",
+      path: "path/to/media",
+      created_at: DateTimeUtil.now()
+    }
+  end
+
+  @spec a_media_file_entity :: MediaFileEntity.t()
+  def a_media_file_entity() do
+    %MediaFileEntity{
+      name: UUID.uuid1(),
+      path: "#{UUID.uuid1()}/#{UUID.uuid1()}",
+      description: UUID.uuid1(),
+      content_type: "jpg",
+      created_at:
+        DateTimeUtil.now() |> Timex.shift(seconds: :rand.uniform(@one_year_in_seconds)) |> DateTime.truncate(:second)
+    }
+  end
 
   @spec weather_data :: WeatherData.t()
   def weather_data do

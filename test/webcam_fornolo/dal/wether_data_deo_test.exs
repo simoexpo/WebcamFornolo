@@ -3,11 +3,11 @@ defmodule WebcamFornolo.Dal.WeatherDataDaoTest do
 
   alias WebcamFornolo.Dal.WeatherDataDao
   alias WebcamFornolo.Dal.WeatherDataDaoTest.DummyWeatherDataProvider
-  alias WebcamFornolo.WeatherDataFixtures
+  alias WebcamFornolo.DataFixture
 
   test "WeatherDataDao should get weather data" do
     {:ok, data} = WeatherDataDao.get_weather_data(DummyWeatherDataProvider.SuccessImpl)
-    assert data == WeatherDataFixtures.weather_data()
+    assert data == DataFixture.weather_data()
   end
 
   test "WeatherDataDao should cache weather data" do
@@ -29,7 +29,7 @@ defmodule WebcamFornolo.Dal.WeatherDataDaoTest do
   defmodule DummyWeatherDataProvider do
     defmodule SuccessImpl do
       def get_weather() do
-        {:ok, WeatherDataFixtures.raw_weather_data()}
+        {:ok, DataFixture.raw_weather_data()}
       end
     end
 
