@@ -22,8 +22,5 @@ defmodule WebcamFornolo.Service.ImageEditorService do
     |> custom("draw", "text #{@text_padding} '#{right_label}'")
     |> save(in_place: true)
     |> Map.get(:path)
-
-    Mogrify.open("")
-    Mogrify.custom("", "")
   end
 end
