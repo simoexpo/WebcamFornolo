@@ -1,4 +1,4 @@
-defmodule WebcamFornolo.Service.WebcamImageService do
+defmodule WebcamFornolo.Service.Media.WebcamImageService do
   require Logger
 
   alias WebcamFornolo.Service.ImageEditorService
@@ -8,6 +8,7 @@ defmodule WebcamFornolo.Service.WebcamImageService do
   alias WebcamFornolo.Util.DateTimeUtil
 
   @default_media_file_dao MediaFileDao
+  @default_editor_service ImageEditorService
 
   @webcam1_file "01.jpg"
   @webcam2_file "02.jpg"
@@ -29,9 +30,10 @@ defmodule WebcamFornolo.Service.WebcamImageService do
   def save_webcam(
         id,
         media_details = %MediaFile{path: path, created_at: created_at},
-        provider \\ @default_media_file_dao
+        media_provider \\ @default_media_file_dao,
+        editor_service \\ @default_editor_service
       ) do
-    edited_file_path = ImageEditorService.create_webcam_view(path, leftLabel(id), rightLabel(created_at))
+    edited_file_path = editor_service.create_webcam_view(path, leftLabel(id), rightLabel(created_at))
 
     Logger.info("edited!")
 
@@ -40,7 +42,7 @@ defmodule WebcamFornolo.Service.WebcamImageService do
       |> Map.replace!(:path, edited_file_path)
       |> Map.replace!(:name, webcam_to_file_name(id))
 
-    case provider.replace(edited_media_details, @webcam_image_remote_path) do
+    case media_provider.replace(edited_media_details, @webcam_image_remote_path) do
       {:ok, _} -> :ok
       _ -> :error
     end

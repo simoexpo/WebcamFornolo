@@ -80,4 +80,14 @@ defmodule WebcamFornolo.ServiceFixtures do
       def save_webcam(_id, _webcam_image), do: :error
     end
   end
+
+  defmodule DummyImageEditorService do
+    defmodule SuccessImpl do
+      def create_webcam_view(_image, _left_label, _right_label), do: "path"
+    end
+
+    defmodule ErrorImpl do
+      def create_webcam_view(_image, _left_label, _right_label), do: nil
+    end
+  end
 end
