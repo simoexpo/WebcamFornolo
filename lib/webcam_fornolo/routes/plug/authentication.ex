@@ -3,7 +3,7 @@ defmodule WebcamFornolo.Routes.Plug.Authentication do
 
   require Logger
 
-  alias WebcamFornolo.Service.CacheAuthService
+  alias WebcamFornolo.Service.Authentication.CacheAuthService
 
   @auth_provider_key :authentication_provider
   @default_auth_provider CacheAuthService
