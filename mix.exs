@@ -25,7 +25,7 @@ defmodule WebcamFornolo.Mixfile do
   def application do
     [
       mod: {WebcamFornolo.Application, []},
-      extra_applications: [:logger, :runtime_tools, :plug_cowboy]
+      extra_applications: [:logger, :runtime_tools, :plug_cowboy, :inets, :ftp]
     ]
   end
 
