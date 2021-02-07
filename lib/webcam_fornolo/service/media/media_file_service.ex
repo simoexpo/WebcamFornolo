@@ -1,4 +1,6 @@
 defmodule WebcamFornolo.Service.Media.MediaFileService do
+  require Logger
+
   alias WebcamFornolo.Dal.MediaFileDao
   alias WebcamFornolo.Model.MediaFile
 
@@ -7,7 +9,7 @@ defmodule WebcamFornolo.Service.Media.MediaFileService do
   @media_path "media"
 
   def save_media(media_details, provider \\ @default_media_file_dao) do
-    IO.inspect(media_details)
+    Logger.debug(inspect(media_details))
 
     case get_media_name(media_details) do
       {:ok, media_name} ->

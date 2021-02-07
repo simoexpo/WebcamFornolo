@@ -10,14 +10,15 @@ defmodule WebcamFornolo.Routes.Plug.Authentication do
   @authorization_header "authorization"
 
   @spec validate_token(Plug.Conn.t(), any) :: Plug.Conn.t()
-  def validate_token(%{method: method} = conn, _opts) do
+  def validate_token(conn = %{method: method}, _opts) do
     provider = get_auth_provider(conn)
     auth = get_req_header(conn, @authorization_header)
 
-    cond do
-      # TODO fix this!
-      check_authorization(provider, auth) || method == "GET" -> conn
-      true -> halt_and_unauthorise_response(conn)
+    # TODO fix this!
+    if(check_authorization(provider, auth) || method == "GET") do
+      conn
+    else
+      halt_and_unauthorise_response(conn)
     end
   end
 
