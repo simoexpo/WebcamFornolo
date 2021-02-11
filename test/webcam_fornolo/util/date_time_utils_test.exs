@@ -8,7 +8,7 @@ defmodule WebcamFornolo.Util.DateTimeUtilTest do
     now = DateTimeUtil.now()
     future = DateTime.utc_now()
 
-    assert now >= now
+    assert now >= past
     assert now <= future
   end
 

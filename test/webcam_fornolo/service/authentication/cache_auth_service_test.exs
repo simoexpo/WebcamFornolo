@@ -3,7 +3,7 @@ defmodule WebcamFornolo.Service.Authentication.CacheAuthServiceTest do
 
   alias WebcamFornolo.Service.Authentication.CacheAuthService
 
-  @valid_password Application.get_env(:webcam_fornolo, :admin_password)
+  @valid_password Application.compile_env!(:webcam_fornolo, :admin_password)
 
   test "CacheAuthService should authenticate the correct password" do
     {:ok, token} = CacheAuthService.authenticate(@valid_password)

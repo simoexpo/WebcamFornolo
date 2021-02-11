@@ -16,11 +16,12 @@ defmodule WebcamFornolo.Routes.AuthRoute do
     password = Map.get(conn.params, "password")
     provider = get_auth_provider(conn)
 
-    with {:ok, token} <- provider.authenticate(password) do
-      conn
-      |> put_resp_content_type("application/json")
-      |> send_resp(200, Jason.encode!(%{"token" => token}))
-    else
+    case provider.authenticate(password) do
+      {:ok, token} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(200, Jason.encode!(%{"token" => token}))
+
       _ ->
         conn
         |> send_resp(401, "")

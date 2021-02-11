@@ -6,23 +6,22 @@ defmodule WebcamFornolo.Dal.Netatmo.NetatmoDal do
   alias WebcamFornolo.Util.DateTimeUtil
 
   @cache_key :netatmo_token
-  @cache Application.get_env(:webcam_fornolo, :app_cache)
+  @cache Application.compile_env!(:webcam_fornolo, :app_cache)
 
-  @email Application.get_env(:elixatmo, :user_email)
-  @password Application.get_env(:elixatmo, :user_password)
+  @email Application.compile_env!(:elixatmo, :user_email)
+  @password Application.compile_env!(:elixatmo, :user_password)
   @user_data %UserData{email: @email, password: @password}
 
-  @app_id Application.get_env(:elixatmo, :app_id)
-  @client_secret Application.get_env(:elixatmo, :client_secret)
+  @app_id Application.compile_env!(:elixatmo, :app_id)
+  @client_secret Application.compile_env!(:elixatmo, :client_secret)
   @app_data %AppData{app_id: @app_id, client_secret: @client_secret}
 
   @token_scope [TokenScope.read_station()]
 
   @spec get_weather() :: :error | {:ok, map()}
   def get_weather() do
-    with {:ok, access_token} <- get_access_token() do
-      ElixAtmo.get_stations_data(access_token)
-    else
+    case get_access_token() do
+      {:ok, access_token} -> ElixAtmo.get_stations_data(access_token)
       _ -> :error
     end
   end

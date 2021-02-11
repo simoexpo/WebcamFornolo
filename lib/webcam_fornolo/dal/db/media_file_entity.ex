@@ -15,13 +15,13 @@ defmodule WebcamFornolo.Dal.Db.MediaFileEntity do
   end
 
   @spec from(MediaFile.t()) :: Ecto.Changeset.t()
-  def from(%MediaFile{} = media_details) do
+  def from(media_details = %MediaFile{}) do
     changeset(%MediaFileEntity{}, Map.from_struct(media_details))
   end
 
   @spec changeset(MediaFileEntity.t(), :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}) ::
           Ecto.Changeset.t()
-  def changeset(%MediaFileEntity{} = media_file, attrs) do
+  def changeset(media_file = %MediaFileEntity{}, attrs) do
     media_file
     |> cast(attrs, [:name, :content_type, :path, :created_at, :description])
     |> validate_required([:name, :content_type, :path, :created_at])
