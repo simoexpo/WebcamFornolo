@@ -24,24 +24,24 @@ defmodule WebcamFornolo.Routes do
 
     plug(:dispatch)
 
-    match("/health", to: Routes.HealthRoute)
+    match("/health", via: :get, to: Routes.HealthRoute)
 
-    match("/login", to: Routes.AuthRoute)
+    match("/login", via: :post, to: Routes.AuthRoute)
 
-    match("/logout", to: Routes.AuthRoute)
+    match("/logout", via: :post, to: Routes.AuthRoute)
 
-    match("/weather", to: Routes.WeatherRoute)
+    match("/weather", via: :get, to: Routes.WeatherRoute)
 
-    match("/webcam/*_path", to: Routes.WebcamRoutes)
+    match("/webcam/*_path", via: [:get, :post], to: Routes.WebcamRoutes)
 
-    match("/media/*_path", to: Routes.MediaRoutes)
+    match("/media/*_path", via: [:get, :post, :delete], to: Routes.MediaRoutes)
 
     match _ do
       send_resp(conn, 404, "")
     end
   end
 
-  defmodule FrontendRoutes do
+  defmodule StaticAssetRoutes do
     use Plug.Router
 
     plug(
@@ -82,7 +82,7 @@ defmodule WebcamFornolo.Routes do
 
   forward("/api", to: ApiRoutes)
 
-  forward("/", to: FrontendRoutes)
+  forward("/", to: StaticAssetRoutes)
 
   defp assign_options(conn, opts) do
     Enum.reduce(opts, conn, fn {key, value}, acc -> Plug.Conn.assign(acc, key, value) end)

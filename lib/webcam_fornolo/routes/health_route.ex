@@ -1,8 +1,8 @@
 defmodule WebcamFornolo.Routes.HealthRoute do
   use Plug.Router
 
-  plug :match
-  plug :dispatch
+  plug(:match)
+  plug(:dispatch)
 
   get "/health" do
     send_resp(conn, 200, Jason.encode!(%{"status" => "feeling good!"}))
