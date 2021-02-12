@@ -8,25 +8,23 @@ defmodule WebcamFornolo.Routes.Plug.Authentication do
   @auth_provider_key :authentication_provider
   @default_auth_provider CacheAuthService
   @authorization_header "authorization"
+  @master_token Application.compile_env!(:webcam_fornolo, :authorization_token)
 
   @spec validate_token(Plug.Conn.t(), any) :: Plug.Conn.t()
-  def validate_token(conn = %{method: method}, _opts) do
+  def validate_token(conn, _opts) do
     provider = get_auth_provider(conn)
     auth = get_req_header(conn, @authorization_header)
 
-    # TODO fix this!
-    if(check_authorization(provider, auth) || method == "GET") do
+    if(check_authorization(provider, auth)) do
       conn
     else
       halt_and_unauthorise_response(conn)
     end
   end
 
-  defp token, do: Application.get_env(:webcam_fornolo, :authorization_token)
-
   defp check_authorization(provider, ["Bearer " <> auth]) do
     # TODO fix this!
-    provider.is_valid?(auth) || auth == token()
+    provider.is_valid?(auth) || auth == @master_token
   end
 
   defp check_authorization(_provider, _invalid_auth), do: false
@@ -34,7 +32,7 @@ defmodule WebcamFornolo.Routes.Plug.Authentication do
   defp halt_and_unauthorise_response(conn) do
     conn
     |> put_resp_content_type("text/plain")
-    |> send_resp(401, "401 Unauthorized")
+    |> send_resp(401, "")
     |> halt()
   end
 

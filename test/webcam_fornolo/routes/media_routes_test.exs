@@ -132,6 +132,17 @@ defmodule WebcamFornolo.Routes.MediaRoutesTest do
     assert conn.status == 500
   end
 
+  test "GET /api/media/unknown should return 404 Not Found" do
+    conn =
+      :get
+      |> conn("/api/media/id/unknown")
+      |> put_req_header("authorization", "Bearer token")
+      |> Routes.call(@success_opts)
+
+    assert conn.state == :sent
+    assert conn.status == 404
+  end
+
   def webcam_image_test_path(), do: @webcam_image_test
   defp webcam_image_test_content(), do: File.read!(@webcam_image_test)
 

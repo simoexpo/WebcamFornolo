@@ -43,14 +43,4 @@ defmodule WebcamFornolo.Routes.Plug.AuthenticationTest do
     assert conn.status == 401
     assert conn.halted == true
   end
-
-  test "Authentication plug should ignore GET API" do
-    conn =
-      :get
-      |> conn("/an/api/path")
-      |> assign(:authentication_provider, DummyAuthService)
-      |> validate_token(@opts)
-
-    assert conn.halted == false
-  end
 end
