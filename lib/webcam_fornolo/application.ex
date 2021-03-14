@@ -3,6 +3,9 @@ defmodule WebcamFornolo.Application do
 
   require Logger
 
+  alias Membrane.RTSP
+  alias Membrane.RTSP.Response
+
   @default_port "4000"
 
   # See https://hexdocs.pm/elixir/Application.html
@@ -12,11 +15,14 @@ defmodule WebcamFornolo.Application do
     port = String.to_integer(Map.get(System.get_env(), "PORT", @default_port))
     Logger.info("Starting server on port #{port}")
 
+    session = RTSP.Session.start_link("rtsp://192.168.178.171:88")
+    asd(session)
+
     children = [
       # Start Cowboy web server
       {Plug.Cowboy, scheme: :http, plug: WebcamFornolo.Routes, port: port},
       # Start the Ecto repository
-      WebcamFornolo.Dal.Db.Repo,
+      # WebcamFornolo.Dal.Db.Repo,
       # Start the endpoint when the application starts
       # supervisor(WebcamFornolo.Endpoint, []),
       # Start your own worker by calling: WebcamFornolo.Worker.start_link(arg1, arg2, arg3)
@@ -35,5 +41,15 @@ defmodule WebcamFornolo.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: WebcamFornolo.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  def asd(session) do
+    {:ok, desc} = RTSP.describe(session)
+    IO.inspect(desc)
+    {:ok, %Response{status: 200}} = RTSP.setup(session, "/videoMain", [])
+
+    {:ok, %Response{status: 200, body: body}} = RTSP.play(session)
+
+    IO.inspect(body)
   end
 end

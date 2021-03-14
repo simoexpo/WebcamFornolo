@@ -50,6 +50,7 @@ defmodule WebcamFornolo.Mixfile do
       {:cachex, "~> 3.3.0"},
       {:mogrify, "~> 0.8.0"},
       {:elixir_uuid, "~> 1.2.1"},
+      {:membrane_rtsp, "~> 0.2.0"},
       {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
       {:excoveralls, "~> 0.13.4", only: [:test]},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
