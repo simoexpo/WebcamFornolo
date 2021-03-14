@@ -29,6 +29,7 @@ jobs:
         with:
           elixir-version: '1.11.0' # Define the elixir version [required]
           otp-version: '23.1.4' # Define the OTP version [required]
+          experimental-otp: true
       - name: Restore dependencies and build cache
         uses: actions/cache@v2
         with:
@@ -66,6 +67,7 @@ jobs:
         with:
           elixir-version: '1.11.0' # Define the elixir version [required]
           otp-version: '23.1.4' # Define the OTP version [required]
+          experimental-otp: true
       - name: Restore dependencies and build cache
         uses: actions/cache@v2
         with:

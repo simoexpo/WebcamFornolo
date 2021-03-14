@@ -4,6 +4,7 @@ import Config
 config :webcam_fornolo, WebcamFornolo.Dal.Db.Repo,
   url: Map.fetch!(System.get_env(), "DATABASE_URL"),
   pool_size: 15
+  ssl: true
 
 # Do not print debug messages in production
 config :logger, level: :info
