@@ -162,14 +162,13 @@
 
         var aNode = document.createElement('a');
         aNode.setAttribute("href", `${img.path}/${img.name}`);
-        aNode.setAttribute("data-lightbox", "gallery");
         if (img.description) {
           aNode.setAttribute("data-title", img.description);
         }
 
         if (img.content_type.startsWith("video")) {
           var videoNode = document.createElement('video');
-          videoNode.classList.add("responsive-video");
+          videoNode.classList.add("img-fluid");
           videoNode.setAttribute("controls", "")
           var sourceNode = document.createElement('source');
           sourceNode.src = `${img.path}/${img.name}`;
@@ -177,6 +176,7 @@
           videoNode.appendChild(sourceNode);
           aNode.appendChild(videoNode);
         } else {
+          aNode.setAttribute("data-lightbox", "gallery");
           var imgNode = document.createElement('img');
           imgNode.classList.add("img-fluid");
           imgNode.src = `${img.path}/${img.name}`;
