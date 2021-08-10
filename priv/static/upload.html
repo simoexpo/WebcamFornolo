@@ -163,48 +163,58 @@
     };
 
     function submit() {
-      if (isLogged()) {
-        var button = document.getElementById("upload_button");
-        button.disabled = true;
-        button.innerText = "Attendi";
-        var parent = document.getElementById("upload_file_table");
-        var loader = document.getElementById("upload_loader");
-        Array.from(parent.children).forEach(function (element) {
-          var loaderClone = loader.cloneNode(true);
-          loaderClone.classList.remove("d-none");
-          var fileInputElement = element.querySelector('input[type="file"]');
-          var file = fileInputElement.files[0];
-          console.log(file);
-          var descriptionInputElement = element.querySelectorAll('textarea')[0];
-          var description = descriptionInputElement.value
-          console.log(description);
-          var xmlHttp = new XMLHttpRequest();
-          parent.replaceChild(loaderClone, element);
-          xmlHttp.open("POST", "/api/media", true); // true for asynchronous 
-          xmlHttp.onreadystatechange = function () {
+      var button = document.getElementById("upload_button");
+      button.disabled = true;
+      button.innerText = "Attendi";
+      var parent = document.getElementById("upload_file_table");
+      var loader = document.getElementById("upload_loader");
+      Array.from(parent.children).forEach(function (element) {
+        var loaderClone = loader.cloneNode(true);
+        loaderClone.classList.remove("d-none");
+        var fileInputElement = element.querySelector('input[type="file"]');
+        var file = fileInputElement.files[0];
+        console.log(file);
+        var descriptionInputElement = element.querySelectorAll('textarea')[0];
+        var description = descriptionInputElement.value
+        console.log(description);
+        var xmlHttp = new XMLHttpRequest();
+        parent.replaceChild(loaderClone, element);
+        xmlHttp.open("POST", "/api/media", true); // true for asynchronous 
+        xmlHttp.onreadystatechange = function () {
 
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 201) {
-              var original = document.getElementById("upload_complete");
-              var copy = original.cloneNode(true);
-              copy.classList.remove("d-none");
-              copy.innerText = `Upload del file "${file.name}" completato!`;
-              parent.replaceChild(copy, loaderClone);
-              if (parent.querySelectorAll(".spinner-layer").length == 0) {
-                setTimeout(function () {
-                  location.reload()
-                }, 2000);
-              }
+          if (xmlHttp.readyState == 4 && xmlHttp.status == 201) {
+            var original = document.getElementById("upload_complete");
+            var copy = original.cloneNode(true);
+            copy.classList.remove("d-none");
+            copy.innerText = `Upload del file "${file.name}" completato!`;
+            parent.replaceChild(copy, loaderClone);
+            if (parent.querySelectorAll(".spinner-border").length == 0) {
+              setTimeout(function () {
+                location.reload()
+              }, 2000);
             }
-          };
-          var data = new FormData();
-          data.append("image", file);
-          data.append("description", description);
-          xmlHttp.setRequestHeader("Authorization", `Bearer ${getToken()}`);
-          xmlHttp.send(data);
-        });
-      } else {
-        window.location.href = '/index.html';
-      }
+          } else if (xmlHttp.readyState == 4 && xmlHttp.status == 401) {
+            clearToken();
+            window.location.href = '/index.html';
+          } else if (xmlHttp.readyState == 4 && xmlHttp.status == 500) {
+            var original = document.getElementById("upload_complete");
+            var copy = original.cloneNode(true);
+            copy.classList.remove("d-none");
+            copy.innerText = `Upload del file "${file.name}" fallito!`;
+            parent.replaceChild(copy, loaderClone);
+            if (parent.querySelectorAll(".spinner-border").length == 0) {
+              setTimeout(function () {
+                location.reload()
+              }, 2000);
+            }
+          }
+        };
+        var data = new FormData();
+        data.append("image", file);
+        data.append("description", description);
+        xmlHttp.setRequestHeader("Authorization", `Bearer ${getToken()}`);
+        xmlHttp.send(data);
+      });
     };
 
     addOne();

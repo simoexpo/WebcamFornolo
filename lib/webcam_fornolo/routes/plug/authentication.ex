@@ -15,19 +15,19 @@ defmodule WebcamFornolo.Routes.Plug.Authentication do
     provider = get_auth_provider(conn)
     auth = get_req_header(conn, @authorization_header)
 
-    if(check_authorization(provider, auth)) do
+    if token_is_valid(provider, auth) do
       conn
     else
       halt_and_unauthorise_response(conn)
     end
   end
 
-  defp check_authorization(provider, ["Bearer " <> auth]) do
+  defp token_is_valid(provider, ["Bearer " <> auth]) do
     # TODO fix this!
     provider.is_valid?(auth) || auth == @master_token
   end
 
-  defp check_authorization(_provider, _invalid_auth), do: false
+  defp token_is_valid(_provider, _invalid_auth), do: false
 
   defp halt_and_unauthorise_response(conn) do
     conn
