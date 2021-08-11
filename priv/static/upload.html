@@ -188,7 +188,21 @@
             copy.classList.remove("d-none");
             copy.innerText = `Upload del file "${file.name}" completato!`;
             parent.replaceChild(copy, loaderClone);
-            if (parent.querySelectorAll(".spinner-layer").length == 0) {
+            if (parent.querySelectorAll(".spinner-border").length == 0) {
+              setTimeout(function () {
+                location.reload()
+              }, 2000);
+            }
+          } else if (xmlHttp.readyState == 4 && xmlHttp.status == 401) {
+            clearToken();
+            window.location.href = '/index.html';
+          } else if (xmlHttp.readyState == 4 && xmlHttp.status == 500) {
+            var original = document.getElementById("upload_complete");
+            var copy = original.cloneNode(true);
+            copy.classList.remove("d-none");
+            copy.innerText = `Upload del file "${file.name}" fallito!`;
+            parent.replaceChild(copy, loaderClone);
+            if (parent.querySelectorAll(".spinner-border").length == 0) {
               setTimeout(function () {
                 location.reload()
               }, 2000);
