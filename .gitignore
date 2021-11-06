@@ -19,3 +19,6 @@ erl_crash.dump
 /config/*.secret.exs
 
 .DS_Store
+
+# VS Code History
+.history/
