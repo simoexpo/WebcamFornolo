@@ -74,6 +74,7 @@
             <img class="img-fluid" src="/api/webcam/2" alt="Fornolo">
           </a>
           <p>live webcam puntamento Ovest: la piazzetta di Fornolo, sullo sfondo il campanile di Chiesiola</p>
+          <button id="reset-webcam-2" type="button" class="btn btn-warning" hidden=true onclick="resetWebcam(2)">Reset</button>
         </div>
         <hr>
         <h2 class="page-title">
@@ -84,6 +85,7 @@
             <img class="img-fluid" src="/api/webcam/1" alt="Fornolo">
           </a>
           <p>live webcam puntamento Nord: valle dell'Anzola</p>
+          <button id="reset-webcam-1" type="button" class="btn btn-warning" hidden=true onclick="resetWebcam(1)">Reset</button>
         </div>
       </div>
     </div>
@@ -120,6 +122,38 @@
 
   <!-- Custom scripts for this template -->
   <script src="/js/webcam-fornolo.js"></script>
+
+  <script>
+    function resetWebcam(id) {
+      var button = document.getElementById(`reset-webcam-${id}`);
+      button.disabled = true;
+      button.innerText = "Attendi";
+      $.ajax({
+        url: `/api/webcam/${id}/reset`,
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            alert("Webcam restarted!");
+            location.reload();
+            success();
+        },
+        error: function (response) {
+            alert("Failed to restart webcam");
+            location.reload();
+            error();
+        }
+      });
+    };
+
+    // init page
+    if (isLogged()) {
+      var button1 = document.getElementById("reset-webcam-1");
+      button1.hidden = false;
+      var button2 = document.getElementById("reset-webcam-2");
+      button2.hidden = false;
+    }
+  </script>
 
   <!-- Lightboxh -->
   <script src="/vendor/lightbox2/js/lightbox.js"></script>

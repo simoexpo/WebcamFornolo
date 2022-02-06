@@ -22,3 +22,7 @@ config :webcam_fornolo,
   altervista_ftp_password: Map.fetch!(System.get_env(), "ALTERVISTA_PASSWORD"),
   authorization_token: Map.fetch!(System.get_env(), "AUTHORIZATION_TOKEN"),
   admin_password: Map.fetch!(System.get_env(), "ADMIN_PASSWORD")
+  webcam_ip: Map.fetch!(System.get_env(), "WEBCAM_IP"),
+  webcam_port1: Map.fetch!(System.get_env(), "WEBCAM_PORT1"),
+  webcam_port2: Map.fetch!(System.get_env(), "WEBCAM_PORT2"),
+  webcam_user: Map.fetch!(System.get_env(), "WEBCAM_USER")

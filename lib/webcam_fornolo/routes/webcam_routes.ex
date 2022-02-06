@@ -60,6 +60,21 @@ defmodule WebcamFornolo.Routes.WebcamRoutes do
           send_resp(conn, 500, "")
       end
     end
+
+    post "/webcam/:id/reset" do
+      webcam_provider = WebcamRoutes.get_webcam_provider(conn)
+
+      case webcam_provider.reset_webcam(id) do
+        :ok ->
+          send_resp(conn, 200, "")
+
+        :notfound ->
+          send_resp(conn, 404, "")
+
+        :error ->
+          send_resp(conn, 500, "")
+      end
+    end
   end
 
   plug(:match)
