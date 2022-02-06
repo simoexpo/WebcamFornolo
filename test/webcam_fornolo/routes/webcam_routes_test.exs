@@ -56,7 +56,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     assert conn.status == 201
   end
 
-  test "POST /api/webcam/id should return 401 Unauthorized if the id is valid in case of invalid authenticatio" do
+  test "POST /api/webcam/id should return 401 Unauthorized if the id is valid in case of invalid authentication" do
     conn =
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
@@ -67,7 +67,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     assert conn.status == 401
   end
 
-  test "POST /api/webcam/id should return 401 Unauthorized if the id is valid in case of missing authenticatio" do
+  test "POST /api/webcam/id should return 401 Unauthorized if the id is valid in case of missing authentication" do
     conn =
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
@@ -92,6 +92,60 @@ defmodule WebcamFornolo.Routes.WebcamRoutesTest do
     conn =
       :post
       |> conn("/api/webcam/id", %{image: webcam_image_to_upload()})
+      |> put_req_header("authorization", "Bearer token")
+      |> Routes.call(@error_opts)
+
+    assert conn.state == :sent
+    assert conn.status == 500
+  end
+
+  test "POST /api/webcam/id/reset should return 201 Created if the id is valid" do
+    conn =
+      :post
+      |> conn("/api/webcam/id/reset")
+      |> put_req_header("authorization", "Bearer token")
+      |> Routes.call(@success_opts)
+
+    assert conn.state == :sent
+    assert conn.status == 200
+  end
+
+  test "POST /api/webcam/id/reset should return 401 Unauthorized if the id is valid in case of invalid authentication" do
+    conn =
+      :post
+      |> conn("/api/webcam/id/reset")
+      |> put_req_header("authorization", "Bearer invalid")
+      |> Routes.call(@success_opts)
+
+    assert conn.state == :sent
+    assert conn.status == 401
+  end
+
+  test "POST /api/webcam/id/reset should return 401 Unauthorized if the id is valid in case of missing authentication" do
+    conn =
+      :post
+      |> conn("/api/webcam/id/reset")
+      |> Routes.call(@success_opts)
+
+    assert conn.state == :sent
+    assert conn.status == 401
+  end
+
+  test "POST /api/webcam/id/reset should return 404 Not Found if the id is not valid" do
+    conn =
+      :post
+      |> conn("/api/webcam/id/reset")
+      |> put_req_header("authorization", "Bearer token")
+      |> Routes.call(@not_found_opts)
+
+    assert conn.state == :sent
+    assert conn.status == 404
+  end
+
+  test "POST /api/webcam/id/reset should return 500 Internal Server Error" do
+    conn =
+      :post
+      |> conn("/api/webcam/id/reset")
       |> put_req_header("authorization", "Bearer token")
       |> Routes.call(@error_opts)
 

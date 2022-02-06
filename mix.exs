@@ -5,7 +5,7 @@ defmodule WebcamFornolo.Mixfile do
     [
       app: :webcam_fornolo,
       version: "0.0.1",
-      elixir: "~> 1.11.0",
+      elixir: ">= 1.11.0",
       elixirc_paths: elixirc_paths(Mix.env()),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -50,6 +50,7 @@ defmodule WebcamFornolo.Mixfile do
       {:cachex, "~> 3.3.0"},
       {:mogrify, "~> 0.8.0"},
       {:elixir_uuid, "~> 1.2.1"},
+      {:sshex, "2.2.1"},
       {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
       {:excoveralls, "~> 0.13.4", only: [:test]},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false}

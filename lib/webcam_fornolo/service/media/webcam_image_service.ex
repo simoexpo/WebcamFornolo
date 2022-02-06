@@ -17,6 +17,11 @@ defmodule WebcamFornolo.Service.Media.WebcamImageService do
   @webcam1_left_label "Località Fornolo (PR) - Alta Val Ceno"
   @webcam2_left_label "Località Fornolo (PR) - Alta Val Ceno"
   @webcam_image_remote_path "webcam"
+  @webcam_ip Application.compile_env!(:webcam_fornolo, :webcam_ip)
+  @webcam1_port Application.compile_env!(:webcam_fornolo, :webcam1_port)
+  @webcam2_port Application.compile_env!(:webcam_fornolo, :webcam2_port)
+  @webcam_user Application.compile_env!(:webcam_fornolo, :webcam_user)
+
 
   @spec get_webcam(String.t(), atom()) :: :error | {:ok, MediaFile.t()}
   def get_webcam(id, provider \\ @default_media_file_dao) do
@@ -44,6 +49,29 @@ defmodule WebcamFornolo.Service.Media.WebcamImageService do
 
     case media_provider.replace(edited_media_details, @webcam_image_remote_path) do
       {:ok, _} -> :ok
+      _ -> :error
+    end
+  end
+
+  @spec reset_webcam(String.t()) :: :error | :ok
+  def reset_webcam(id) do
+    port = get_webcam_port(id)
+
+    Logger.info("Trying to reset webcam #{id} with #{@webcam_user}@#{@webcam_ip}:#{port}")
+
+    {:ok, conn} = SSHEx.connect(ip: @webcam_ip, port: port, user: @webcam_user,  silently_accept_hosts: true)
+
+    case SSHEx.run(conn, 'sudo reboot') do
+      {:ok, _, 0} -> :ok
+      _ -> :error
+    end
+  end
+
+  @spec get_webcam_port(String.t()) :: String.t()
+  defp get_webcam_port(id) do
+    case id do
+      "1" -> @webcam1_port
+      "2" -> @webcam2_port
       _ -> :error
     end
   end
