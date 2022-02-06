@@ -18,8 +18,8 @@ defmodule WebcamFornolo.Service.Media.WebcamImageService do
   @webcam2_left_label "Località Fornolo (PR) - Alta Val Ceno"
   @webcam_image_remote_path "webcam"
   @webcam_ip Application.compile_env!(:webcam_fornolo, :webcam_ip)
-  @webcam1_port Application.compile_env!(:webcam_fornolo, :webcam_port1)
-  @webcam2_port Application.compile_env!(:webcam_fornolo, :webcam_port2)
+  @webcam1_port Application.compile_env!(:webcam_fornolo, :webcam1_port)
+  @webcam2_port Application.compile_env!(:webcam_fornolo, :webcam2_port)
   @webcam_user Application.compile_env!(:webcam_fornolo, :webcam_user)
 
 

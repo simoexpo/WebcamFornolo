@@ -23,6 +23,6 @@ config :webcam_fornolo,
   authorization_token: Map.fetch!(System.get_env(), "AUTHORIZATION_TOKEN"),
   admin_password: Map.fetch!(System.get_env(), "ADMIN_PASSWORD")
   webcam_ip: Map.fetch!(System.get_env(), "WEBCAM_IP"),
-  webcam_port1: Map.fetch!(System.get_env(), "WEBCAM_PORT1"),
-  webcam_port2: Map.fetch!(System.get_env(), "WEBCAM_PORT2"),
+  webcam1_port: Map.fetch!(System.get_env(), "WEBCAM1_PORT"),
+  webcam2_port: Map.fetch!(System.get_env(), "WEBCAM2_PORT"),
   webcam_user: Map.fetch!(System.get_env(), "WEBCAM_USER")

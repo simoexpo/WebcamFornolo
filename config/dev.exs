@@ -15,10 +15,18 @@ config :webcam_fornolo, WebcamFornolo.Dal.Db.Repo,
   hostname: "localhost",
   pool_size: 15
 
+config :webcam_fornolo,
+  authorization_token: "remove_me",
+  admin_password: "password",
+  webcam_ip: "127.0.0.1",
+  webcam1_port: "8000",
+  webcam2_port: "8000",
+  webcam_user: "user"
+
 try do
   import_config "dev.secret.exs"
 rescue
-  x ->
+  _ ->
     config :elixatmo,
       app_id: Map.get(System.get_env(), "NETATMO_APP_ID", ""),
       client_secret: Map.get(System.get_env(), "NETATMO_CLIENT_SECRET", ""),

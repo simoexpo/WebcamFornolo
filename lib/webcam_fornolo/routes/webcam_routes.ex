@@ -82,7 +82,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutes do
 
   get("/webcam/:id", to: PublicRoutes)
 
-  post("/webcam/:id", to: SecuredRoutes)
+  post("/webcam/*glob", to: SecuredRoutes)
 
   match _ do
     send_resp(conn, 404, "")
