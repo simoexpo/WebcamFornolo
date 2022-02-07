@@ -32,5 +32,6 @@ rescue
 
     config :webcam_fornolo,
       altervista_ftp_user: Map.get(System.get_env(), "ALTERVISTA_USER", ""),
-      altervista_ftp_password: Map.get(System.get_env(), "ALTERVISTA_PASSWORD", "")
+      altervista_ftp_password: Map.get(System.get_env(), "ALTERVISTA_PASSWORD", ""),
+      ssh_key: Map.get(System.get_env(), "SSH_KEY", "")
 end
