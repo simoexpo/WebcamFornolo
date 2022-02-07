@@ -10,7 +10,6 @@ defmodule WebcamFornolo.Application do
   def start(_type, _args) do
     # Define workers and child supervisors to be supervised
     WebcamFornolo.Util.SshKeyUtil.set_up_ssh_key()
-    Logger.info("SSH key successfully set")
 
     port = String.to_integer(Map.get(System.get_env(), "PORT", @default_port))
     Logger.info("Starting server on port #{port}")
