@@ -25,4 +25,5 @@ config :webcam_fornolo,
   webcam_ip: Map.fetch!(System.get_env(), "WEBCAM_IP"),
   webcam1_port: Map.fetch!(System.get_env(), "WEBCAM1_PORT"),
   webcam2_port: Map.fetch!(System.get_env(), "WEBCAM2_PORT"),
-  webcam_user: Map.fetch!(System.get_env(), "WEBCAM_USER")
+  webcam_user: Map.fetch!(System.get_env(), "WEBCAM_USER"),
+  ssh_key: Map.fetch!(System.get_env(), "SSH_KEY")
