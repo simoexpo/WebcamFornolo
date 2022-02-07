@@ -55,23 +55,24 @@ defmodule WebcamFornolo.Service.Media.WebcamImageService do
 
   @spec reset_webcam(String.t()) :: :error | :ok
   def reset_webcam(id) do
-    port = get_webcam_port(id)
-
-    Logger.info("Trying to reset webcam #{id} with #{@webcam_user}@#{@webcam_ip}:#{port}")
-
-    {:ok, conn} = SSHEx.connect(ip: @webcam_ip, port: port, user: @webcam_user,  silently_accept_hosts: true)
-
-    case SSHEx.run(conn, 'sudo reboot') do
-      {:ok, _, 0} -> :ok
-      _ -> :error
+    with {:ok, port} <- get_webcam_port(id),
+         :ok <- :ssh.start(),
+         _ <- Logger.info("Trying to reset webcam #{id} with #{@webcam_user}@#{@webcam_ip}:#{port}"),
+         {:ok, conn} <- SSHEx.connect(ip: @webcam_ip, port: port, user: @webcam_user,  silently_accept_hosts: true),
+         {:ok, _, 0} <- SSHEx.run(conn, 'sudo reboot') do
+      :ok
+    else
+      error ->
+        Logger.error(fn -> "#{inspect(error)}" end)
+        :error
     end
   end
 
-  @spec get_webcam_port(String.t()) :: String.t()
+  @spec get_webcam_port(String.t()) :: :error | {:ok, String.t()}
   defp get_webcam_port(id) do
     case id do
-      "1" -> @webcam1_port
-      "2" -> @webcam2_port
+      "1" -> {:ok, @webcam1_port}
+      "2" -> {:ok, @webcam2_port}
       _ -> :error
     end
   end
