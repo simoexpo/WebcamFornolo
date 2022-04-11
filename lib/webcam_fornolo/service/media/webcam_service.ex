@@ -60,11 +60,7 @@ defmodule WebcamFornolo.Service.Media.WebcamService do
     File.write!(tmp_key_file, @ssh_key)
     key = File.open!(tmp_key_file)
 
-    tmp_hosts_file = Path.join(tmp_dir, "known_hosts")
-    File.write!(tmp_hosts_file, @ssh_key)
-    known_hosts = File.open!(tmp_hosts_file)
-
-    cb = SSHClientKeyAPI.with_options(identity: key, known_hosts: known_hosts, silently_accept_hosts: true)
+    cb = SSHClientKeyAPI.with_options(identity: key, silently_accept_hosts: true)
 
     with {:ok, port} <- get_webcam_port(id),
          :ok <- :ssh.start(),
