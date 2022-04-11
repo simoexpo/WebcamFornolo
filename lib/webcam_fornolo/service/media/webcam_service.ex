@@ -1,4 +1,4 @@
-defmodule WebcamFornolo.Service.Media.WebcamImageService do
+defmodule WebcamFornolo.Service.Media.WebcamService do
   require Logger
 
   alias WebcamFornolo.Service.ImageEditorService
@@ -21,18 +21,18 @@ defmodule WebcamFornolo.Service.Media.WebcamImageService do
   @webcam1_port Application.compile_env!(:webcam_fornolo, :webcam1_port)
   @webcam2_port Application.compile_env!(:webcam_fornolo, :webcam2_port)
   @webcam_user Application.compile_env!(:webcam_fornolo, :webcam_user)
+  @ssh_key Application.compile_env!(:webcam_fornolo, :ssh_key)
 
-
-  @spec get_webcam(String.t(), atom()) :: :error | {:ok, MediaFile.t()}
-  def get_webcam(id, provider \\ @default_media_file_dao) do
+  @spec get_media(String.t(), atom()) :: :error | {:ok, MediaFile.t()}
+  def get_media(id, provider \\ @default_media_file_dao) do
     case provider.get(webcam_to_file_name(id)) do
       {:ok, %MediaFile{path: file_path}} -> {:ok, file_path}
       _ -> :error
     end
   end
 
-  @spec save_webcam(String.t(), MediaFile.t(), atom()) :: :error | :ok
-  def save_webcam(
+  @spec capture_photo(String.t(), MediaFile.t(), atom()) :: :error | :ok
+  def capture_photo(
         id,
         media_details = %MediaFile{path: path, created_at: created_at},
         media_provider \\ @default_media_file_dao,
@@ -55,11 +55,17 @@ defmodule WebcamFornolo.Service.Media.WebcamImageService do
 
   @spec reset_webcam(String.t()) :: :error | :ok
   def reset_webcam(id) do
+    tmp_dir = System.tmp_dir()
+    tmp_key_file = Path.join(tmp_dir, "key.pem")
+    File.write!(tmp_key_file, @ssh_key)
+    key = File.open!(tmp_key_file)
+
+    cb = SSHClientKeyAPI.with_options(identity: key, silently_accept_hosts: true)
+
     with {:ok, port} <- get_webcam_port(id),
          :ok <- :ssh.start(),
          _ <- Logger.info("Trying to reset webcam #{id} with #{@webcam_user}@#{@webcam_ip}:#{port}"),
-         {:ok, conn} <- SSHEx.connect(ip: '#{@webcam_ip}', port: port, user: '#{@webcam_user}',  silently_accept_hosts: true),
-         {:ok, _, 0} <- SSHEx.run(conn, 'sudo reboot') do
+         {:ok, _, 0} <- SSHKit.context([{@webcam_ip, port: port}], key_cb: cb) |> SSHKit.run("sudo reboot") do
       :ok
     else
       error ->
@@ -106,4 +112,5 @@ defmodule WebcamFornolo.Service.Media.WebcamImageService do
       _ -> :error
     end
   end
+
 end
