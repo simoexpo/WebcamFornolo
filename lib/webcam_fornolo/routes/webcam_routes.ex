@@ -2,12 +2,12 @@ defmodule WebcamFornolo.Routes.WebcamRoutes do
   use Plug.Router
   require Logger
 
-  alias WebcamFornolo.Service.Media.WebcamImageService
+  alias WebcamFornolo.Service.Media.WebcamService
   alias WebcamFornolo.Mapper.MediaFileMapper
   alias WebcamFornolo.Routes.WebcamRoutes
 
   @webcam_provider_key :webcam_provider
-  @default_webcam_provider WebcamImageService
+  @default_webcam_provider WebcamService
 
   defmodule PublicRoutes do
     use Plug.Router
@@ -18,7 +18,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutes do
     get "/webcam/:id" do
       webcam_provider = WebcamRoutes.get_webcam_provider(conn)
 
-      case webcam_provider.get_webcam(id) do
+      case webcam_provider.get_media(id) do
         {:ok, filename} ->
           conn
           |> put_resp_header("content-type", "image/jpeg")
@@ -49,7 +49,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutes do
         Map.from_struct(conn.params["image"])
         |> MediaFileMapper.from()
 
-      case webcam_provider.save_webcam(id, webcam_image) do
+      case webcam_provider.capture_photo(id, webcam_image) do
         :ok ->
           send_resp(conn, 201, "")
 

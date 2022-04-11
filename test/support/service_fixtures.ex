@@ -66,20 +66,20 @@ defmodule WebcamFornolo.ServiceFixtures do
   defmodule DummyWebcamService do
     defmodule SuccessImpl do
       @webcam_image_test "test/resources/webcam_image_test.jpg"
-      def get_webcam(_id), do: {:ok, @webcam_image_test}
-      def save_webcam(_id, _webcam_image), do: :ok
+      def get_media(_id), do: {:ok, @webcam_image_test}
+      def capture_photo(_id, _webcam_image), do: :ok
       def reset_webcam(_id), do: :ok
     end
 
     defmodule InvalidIdImpl do
-      def get_webcam(_id), do: :notfound
-      def save_webcam(_id, _webcam_image), do: :notfound
+      def get_media(_id), do: :notfound
+      def capture_photo(_id, _webcam_image), do: :notfound
       def reset_webcam(_id), do: :notfound
     end
 
     defmodule ErrorImpl do
-      def get_webcam(_id), do: :error
-      def save_webcam(_id, _webcam_image), do: :error
+      def get_media(_id), do: :error
+      def capture_photo(_id, _webcam_image), do: :error
       def reset_webcam(_id), do: :error
     end
   end
