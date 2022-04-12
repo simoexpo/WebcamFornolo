@@ -23,7 +23,7 @@ defmodule WebcamFornolo.Service.Media.WebcamServiceTest do
   test "WebcamService should save a webcam image" do
     media = a_media_file("image")
 
-    assert WebcamService.capture_photo(
+    assert WebcamService.save_media(
              "1",
              media,
              DummyMediaFileDao.SuccessImpl,
@@ -34,7 +34,7 @@ defmodule WebcamFornolo.Service.Media.WebcamServiceTest do
   # test "WebcamService should return an error if the webcam id to save is not valid" do
   #   media = a_media_file("image")
 
-  #   assert WebcamService.capture_photo(
+  #   assert WebcamService.save_media(
   #            "invalid",
   #            media,
   #            DummyMediaFileDao.SuccessImpl,
@@ -45,7 +45,7 @@ defmodule WebcamFornolo.Service.Media.WebcamServiceTest do
   # test "WebcamService should return an error if fail to edit the image" do
   #   media = a_media_file("image")
 
-  #   assert WebcamService.capture_photo(
+  #   assert WebcamService.save_media(
   #            "invalid",
   #            media,
   #            DummyMediaFileDao.SuccessImpl,
@@ -56,7 +56,7 @@ defmodule WebcamFornolo.Service.Media.WebcamServiceTest do
   test "WebcamService should return an error if fail to save a webcam image" do
     media = a_media_file("image")
 
-    assert WebcamService.capture_photo(
+    assert WebcamService.save_media(
              "1",
              media,
              DummyMediaFileDao.ErrorImpl,

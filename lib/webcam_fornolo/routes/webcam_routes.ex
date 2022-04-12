@@ -49,7 +49,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutes do
         Map.from_struct(conn.params["image"])
         |> MediaFileMapper.from()
 
-      case webcam_provider.capture_photo(id, webcam_image) do
+      case webcam_provider.save_media(id, webcam_image) do
         :ok ->
           send_resp(conn, 201, "")
 

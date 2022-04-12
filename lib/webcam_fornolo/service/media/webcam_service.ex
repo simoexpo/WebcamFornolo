@@ -21,7 +21,7 @@ defmodule WebcamFornolo.Service.Media.WebcamService do
   @webcam1_port Application.compile_env!(:webcam_fornolo, :webcam1_port)
   @webcam2_port Application.compile_env!(:webcam_fornolo, :webcam2_port)
   @webcam_user Application.compile_env!(:webcam_fornolo, :webcam_user)
-  @ssh_key Application.compile_env!(:webcam_fornolo, :ssh_key)
+  @ssh_key Application.compile_env!(:webcam_fornolo, :ssh_key) |> String.split("\\n") |> Enum.join("\n")
 
   @spec get_media(String.t(), atom()) :: :error | {:ok, MediaFile.t()}
   def get_media(id, provider \\ @default_media_file_dao) do
@@ -31,8 +31,8 @@ defmodule WebcamFornolo.Service.Media.WebcamService do
     end
   end
 
-  @spec capture_photo(String.t(), MediaFile.t(), atom()) :: :error | :ok
-  def capture_photo(
+  @spec save_media(String.t(), MediaFile.t(), atom()) :: :error | :ok
+  def save_media(
         id,
         media_details = %MediaFile{path: path, created_at: created_at},
         media_provider \\ @default_media_file_dao,
@@ -59,13 +59,17 @@ defmodule WebcamFornolo.Service.Media.WebcamService do
     tmp_key_file = Path.join(tmp_dir, "key.pem")
     File.write!(tmp_key_file, @ssh_key)
     key = File.open!(tmp_key_file)
+    tmp_known_hosts_file = Path.join(tmp_dir, "known_hosts")
+    File.write!(tmp_known_hosts_file, "")
+    known_hosts = File.open!(tmp_known_hosts_file)
 
-    cb = SSHClientKeyAPI.with_options(identity: key, silently_accept_hosts: true)
+    cb = SSHClientKeyAPI.with_options(identity: key, known_hosts: known_hosts, silently_accept_hosts: true)
 
     with {:ok, port} <- get_webcam_port(id),
          :ok <- :ssh.start(),
          _ <- Logger.info("Trying to reset webcam #{id} with #{@webcam_user}@#{@webcam_ip}:#{port}"),
-         {:ok, _, 0} <- SSHKit.context([{@webcam_ip, port: port}], key_cb: cb) |> SSHKit.run("sudo reboot") do
+         {:ok, _, 0} <-
+           SSHKit.context([{@webcam_ip, port: port}], user: @webcam_user, key_cb: cb) |> SSHKit.run("sudo reboot") do
       :ok
     else
       error ->
@@ -112,5 +116,4 @@ defmodule WebcamFornolo.Service.Media.WebcamService do
       _ -> :error
     end
   end
-
 end
