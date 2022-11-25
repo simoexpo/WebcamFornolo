@@ -2,7 +2,9 @@ name: Elixir CI
 
 on:
   push:
-    branches: [ master ]
+    branches: 
+      - master
+      - 'feature/test-gigalixir'
   pull_request:
     branches: [ master ]
 
@@ -87,22 +89,26 @@ jobs:
         run: mix ecto.setup
       - name: Run tests
         run: mix coveralls.github --trace
-
+    
   deploy:
 
-    name: Deploy to Heroku
+    name: Deploy to Gigalixir
     runs-on: ubuntu-latest
     needs: test
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/feature/test-gigalixir'
 
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          branch: "master"
-          dontuseforce: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8.1
+      - uses: mhanberg/gigalixir-action@v0.6.1
+        with:
+          GIGALIXIR_APP: webcamfornolo
+          GIGALIXIR_CLEAN: true # defaults to false
+          GIGALIXIR_USERNAME: ${{ secrets.GIGALIXIR_USERNAME }}
+          GIGALIXIR_PASSWORD: ${{ secrets.GIGALIXIR_PASSWORD }}
+          MIGRATIONS: false  # defaults to true
