@@ -4,7 +4,7 @@ on:
   push:
     branches: 
       - master
-      - 'feature/test-gigalixir'
+      - 'feature/test-fly'
   pull_request:
     branches: [ master ]
 
