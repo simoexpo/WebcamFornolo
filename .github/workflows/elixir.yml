@@ -91,23 +91,15 @@ jobs:
     
   deploy:
 
-    name: Deploy to Gigalixir
+    name: Fly Deploy
     runs-on: ubuntu-20.04
     needs: test
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/feature/test-gigalixir'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/feature/test-fly'
+
+    env:
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.8.1
-      - uses: mhanberg/gigalixir-action@v0.6.1
-        with:
-          GIGALIXIR_APP: webcamfornolo
-          GIGALIXIR_CLEAN: true # defaults to false
-          GIGALIXIR_USERNAME: ${{ secrets.GIGALIXIR_USERNAME }}
-          GIGALIXIR_PASSWORD: ${{ secrets.GIGALIXIR_PASSWORD }}
-          MIGRATIONS: false  # defaults to true
+      - uses: actions/checkout@v3
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only
