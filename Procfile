@@ -1,1 +1,1 @@
-web: mix run --no-halt --no-validate-compile-env
+web: mix run --no-halt
