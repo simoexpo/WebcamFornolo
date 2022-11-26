@@ -13,7 +13,7 @@ config :webcam_fornolo, WebcamFornolo.Dal.Db.Repo,
   password: "pass",
   database: "webcam_fornolo_dev",
   hostname: "localhost",
-  pool_size: 15
+  pool_size: 1
 
 config :webcam_fornolo,
   authorization_token: "remove_me",

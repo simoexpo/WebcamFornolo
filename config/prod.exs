@@ -3,7 +3,7 @@ import Config
 # Database configuration
 config :webcam_fornolo, WebcamFornolo.Dal.Db.Repo,
   url: Map.fetch!(System.get_env(), "DATABASE_URL"),
-  pool_size: 2,
+  pool_size: 1,
   ssl: true
 
 # Do not print debug messages in production
