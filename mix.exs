@@ -54,7 +54,7 @@ defmodule WebcamFornolo.Mixfile do
       {:sshkit, "~> 0.1"},
       {:dialyxir, "~> 1.2.0", only: [:dev], runtime: false},
       {:excoveralls, "~> 0.15.0", only: [:test]},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.6.7", only: [:dev, :test], runtime: false}
     ]
   end
 

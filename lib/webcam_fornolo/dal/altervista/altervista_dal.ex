@@ -20,7 +20,7 @@ defmodule WebcamFornolo.Dal.Altervista.AltervistaDal do
       {:ok, local_path}
     rescue
       error ->
-        Logger.error(inspect(error))
+        Logger.error("Failed to get image from Altervista, caused by: #{inspect(error)}")
         :error
     end
   end
@@ -41,7 +41,9 @@ defmodule WebcamFornolo.Dal.Altervista.AltervistaDal do
 
       :ok
     rescue
-      _ -> :error
+      error ->
+        Logger.error("Failed to retrieve media list from Altervista, caused by: #{inspect(error)}")
+        :error
     end
   end
 
@@ -58,7 +60,9 @@ defmodule WebcamFornolo.Dal.Altervista.AltervistaDal do
 
       :ok
     rescue
-      _ -> :error
+      error ->
+        Logger.error("Failed to delete file from Altervista, caused by: #{inspect(error)}")
+        :error
     end
   end
 

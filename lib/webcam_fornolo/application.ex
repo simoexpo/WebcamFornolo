@@ -11,7 +11,6 @@ defmodule WebcamFornolo.Application do
     # Define workers and child supervisors to be supervised
     port = String.to_integer(Map.get(System.get_env(), "PORT", @default_port))
     Logger.info("Starting server on port #{port}")
-    Logger.info("DB: #{inspect(Application.get_env(:webcam_fornolo, WebcamFornolo.Dal.Db.Repo))}")
 
     children = [
       # Start Cowboy web server
