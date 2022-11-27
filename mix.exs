@@ -5,7 +5,7 @@ defmodule WebcamFornolo.Mixfile do
     [
       app: :webcam_fornolo,
       version: "0.0.1",
-      elixir: ">= 1.11.0",
+      elixir: ">= 1.12.3",
       elixirc_paths: elixirc_paths(Mix.env()),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -13,7 +13,7 @@ defmodule WebcamFornolo.Mixfile do
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
       dialyzer: [
-        plt_add_apps: [:ftp, :inets],
+        plt_add_apps: [:ftp],
         paths: ["_build/dev/lib/webcam_fornolo/ebin"]
       ]
     ]
@@ -25,7 +25,7 @@ defmodule WebcamFornolo.Mixfile do
   def application do
     [
       mod: {WebcamFornolo.Application, []},
-      extra_applications: [:logger, :runtime_tools, :plug_cowboy, :inets, :ftp]
+      extra_applications: [:logger, :runtime_tools, :plug_cowboy, :ftp]
     ]
   end
 
@@ -38,22 +38,22 @@ defmodule WebcamFornolo.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:ecto_sql, "~>  3.5.3"},
+      {:ecto_sql, "~>  3.9.1"},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.2.2"},
-      {:plug_cowboy, "~> 2.4.1"},
+      {:plug_cowboy, "~> 2.6.0"},
       {:safeexstruct, github: "simoexpo/SafeExStruct", tag: "v0.4.0", override: true},
       {:elixatmo, github: "simoexpo/ElixAtmo", tag: "v0.4.0"},
       # temp fix
       {:hackney, github: "benoitc/hackney", override: true},
-      {:timex, "~> 3.6.2"},
-      {:cachex, "~> 3.3.0"},
-      {:mogrify, "~> 0.8.0"},
+      {:timex, "~> 3.7.9"},
+      {:cachex, "~> 3.4.0"},
+      {:mogrify, "~> 0.9.2"},
       {:elixir_uuid, "~> 1.2.1"},
       {:ssh_client_key_api, "~> 0.2.0"},
       {:sshkit, "~> 0.1"},
-      {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
-      {:excoveralls, "~> 0.13.4", only: [:test]},
+      {:dialyxir, "~> 1.2.0", only: [:dev], runtime: false},
+      {:excoveralls, "~> 0.15.0", only: [:test]},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
   end
