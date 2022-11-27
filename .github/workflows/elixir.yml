@@ -10,7 +10,7 @@ jobs:
   build:
 
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     env:
       MIX_ENV: 'test'
@@ -23,13 +23,12 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Elixir
-        uses: actions/setup-elixir@v1
+        uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.11.0' # Define the elixir version [required]
-          otp-version: '23.1.4' # Define the OTP version [required]
-          experimental-otp: true
+          elixir-version: '1.12.3' # Define the elixir version [required]
+          otp-version: '24.1.4' # Define the OTP version [required]
       - name: Restore dependencies and build cache
         uses: actions/cache@v2
         with:
@@ -46,7 +45,7 @@ jobs:
   test:
 
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: build
 
     env:
@@ -61,12 +60,12 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Elixir
-        uses: actions/setup-elixir@v1
+        uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.11.0' # Define the elixir version [required]
-          otp-version: '23.1.4' # Define the OTP version [required]
+          elixir-version: '1.12.3' # Define the elixir version [required]
+          otp-version: '24.1.4' # Define the OTP version [required]
           experimental-otp: true
       - name: Restore dependencies and build cache
         uses: actions/cache@v2
@@ -79,7 +78,7 @@ jobs:
       - name: Start PostgreSQL
         uses: harmon758/postgresql-action@v1
         with:
-          postgresql version: '11'
+          postgresql version: '14.4'
           postgresql db: "webcam_fornolo_test"
           postgresql user: "user"
           postgresql password: "pass"
@@ -87,22 +86,21 @@ jobs:
         run: mix ecto.setup
       - name: Run tests
         run: mix coveralls.github --trace
-
+    
   deploy:
 
-    name: Deploy to Heroku
-    runs-on: ubuntu-latest
+    name: Fly Deploy
+    runs-on: ubuntu-20.04
     needs: test
     if: github.ref == 'refs/heads/master'
 
+    env:
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          branch: "master"
-          dontuseforce: false
+        uses: actions/checkout@v3
+      - name: Set up flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy
+        run: flyctl deploy --remote-only

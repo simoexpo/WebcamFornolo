@@ -8,7 +8,8 @@ defmodule WebcamFornolo.Routes.Plug.Authentication do
   @auth_provider_key :authentication_provider
   @default_auth_provider CacheAuthService
   @authorization_header "authorization"
-  @master_token Application.compile_env!(:webcam_fornolo, :authorization_token)
+
+  defp master_token, do: Application.get_env(:webcam_fornolo, :authorization_token)
 
   @spec validate_token(Plug.Conn.t(), any) :: Plug.Conn.t()
   def validate_token(conn, _opts) do
@@ -24,7 +25,7 @@ defmodule WebcamFornolo.Routes.Plug.Authentication do
 
   defp token_is_valid(provider, ["Bearer " <> auth]) do
     # TODO fix this!
-    provider.is_valid?(auth) || auth == @master_token
+    provider.is_valid?(auth) || auth == master_token
   end
 
   defp token_is_valid(_provider, _invalid_auth), do: false

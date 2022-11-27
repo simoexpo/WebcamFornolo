@@ -7,20 +7,21 @@ defmodule WebcamFornolo.Dal.Altervista.AltervistaDal do
 
   def get_image(name, remote_folder) do
     try do
-      :inets.start()
-      {:ok, pid} = :inets.start(:ftpc, host: @host)
-      :ok = :ftp.user(pid, user(), password())
+      {:ok, pid} = :ftp.open(@host)
+      :ok = :ftp.user(pid, user, password)
       :ok = :ftp.type(pid, :binary)
 
       :ok = :ftp.cd(pid, '#{remote_folder}')
 
       local_path = "#{@local_save_directory}#{name}"
       :ok = :ftp.recv(pid, to_charlist(name), to_charlist(local_path))
-      :inets.stop(:ftpc, pid)
+      :ftp.close(pid)
 
       {:ok, local_path}
     rescue
-      _ -> :error
+      error ->
+        Logger.error("Failed to get image from Altervista, caused by: #{inspect(error)}")
+        :error
     end
   end
 
@@ -30,37 +31,38 @@ defmodule WebcamFornolo.Dal.Altervista.AltervistaDal do
 
   def save_file(media_details, remote_folder) do
     try do
-      :inets.start()
-      {:ok, pid} = :inets.start(:ftpc, host: @host)
+      {:ok, pid} = :ftp.open(@host)
       :ok = :ftp.user(pid, user(), password())
       :ok = :ftp.type(pid, :binary)
 
       :ok = :ftp.cd(pid, '#{remote_folder}')
       :ok = :ftp.send(pid, media_details.path, '#{media_details.name}')
-
-      :inets.stop(:ftpc, pid)
+      :ftp.close(pid)
 
       :ok
     rescue
-      _ -> :error
+      error ->
+        Logger.error("Failed to retrieve media list from Altervista, caused by: #{inspect(error)}")
+        :error
     end
   end
 
   def delete_file(name, remote_folder) do
     try do
-      :inets.start()
-      {:ok, pid} = :inets.start(:ftpc, host: @host)
+      {:ok, pid} = :ftp.open(@host)
       :ok = :ftp.user(pid, user(), password())
       :ok = :ftp.type(pid, :binary)
 
       :ok = :ftp.cd(pid, '#{remote_folder}')
 
       :ok = :ftp.delete(pid, '#{name}')
-      :inets.stop(:ftpc, pid)
+      :ftp.close(pid)
 
       :ok
     rescue
-      _ -> :error
+      error ->
+        Logger.error("Failed to delete file from Altervista, caused by: #{inspect(error)}")
+        :error
     end
   end
 

@@ -1,6 +1,7 @@
 defmodule WebcamFornolo.Service.Media.WebcamService do
   require Logger
 
+  alias WebcamFornolo.Application
   alias WebcamFornolo.Service.ImageEditorService
   alias WebcamFornolo.Dal.WeatherDataDao
   alias WebcamFornolo.Model.MediaFile
@@ -17,11 +18,12 @@ defmodule WebcamFornolo.Service.Media.WebcamService do
   @webcam1_left_label "Località Fornolo (PR) - Alta Val Ceno"
   @webcam2_left_label "Località Fornolo (PR) - Alta Val Ceno"
   @webcam_image_remote_path "webcam"
-  @webcam_ip Application.compile_env!(:webcam_fornolo, :webcam_ip)
-  @webcam1_port Application.compile_env!(:webcam_fornolo, :webcam1_port)
-  @webcam2_port Application.compile_env!(:webcam_fornolo, :webcam2_port)
-  @webcam_user Application.compile_env!(:webcam_fornolo, :webcam_user)
-  @ssh_key Application.compile_env!(:webcam_fornolo, :ssh_key) |> String.split("\\n") |> Enum.join("\n")
+
+  defp webcam_ip, do: Application.get_env(:webcam_fornolo, :webcam_ip)
+  defp webcam1_port, do: Application.get_env(:webcam_fornolo, :webcam1_port)
+  defp webcam2_port, do: Application.get_env(:webcam_fornolo, :webcam2_port)
+  defp webcam_user, do: Application.get_env(:webcam_fornolo, :webcam_user)
+  defp ssh_key, do: Application.get_env(:webcam_fornolo, :ssh_key) |> String.split("\\n") |> Enum.join("\n")
 
   @spec get_media(String.t(), atom()) :: :error | {:ok, MediaFile.t()}
   def get_media(id, provider \\ @default_media_file_dao) do
@@ -57,7 +59,7 @@ defmodule WebcamFornolo.Service.Media.WebcamService do
   def reset_webcam(id) do
     tmp_dir = System.tmp_dir()
     tmp_key_file = Path.join(tmp_dir, "key.pem")
-    File.write!(tmp_key_file, @ssh_key)
+    File.write!(tmp_key_file, ssh_key)
     key = File.open!(tmp_key_file)
     tmp_known_hosts_file = Path.join(tmp_dir, "known_hosts")
     File.write!(tmp_known_hosts_file, "")
@@ -67,9 +69,9 @@ defmodule WebcamFornolo.Service.Media.WebcamService do
 
     with {:ok, port} <- get_webcam_port(id),
          :ok <- :ssh.start(),
-         _ <- Logger.info("Trying to reset webcam #{id} with #{@webcam_user}@#{@webcam_ip}:#{port}"),
+         _ <- Logger.info("Trying to reset webcam #{id} with #{webcam_user}@#{webcam_ip}:#{port}"),
          {:ok, _, 0} <-
-           SSHKit.context([{@webcam_ip, port: port}], user: @webcam_user, key_cb: cb) |> SSHKit.run("sudo reboot") do
+           SSHKit.context([{webcam_ip, port: port}], user: webcam_user, key_cb: cb) |> SSHKit.run("sudo reboot") do
       :ok
     else
       error ->
@@ -81,8 +83,8 @@ defmodule WebcamFornolo.Service.Media.WebcamService do
   @spec get_webcam_port(String.t()) :: :error | {:ok, integer()}
   defp get_webcam_port(id) do
     case id do
-      "1" -> {:ok, String.to_integer(@webcam1_port)}
-      "2" -> {:ok, String.to_integer(@webcam2_port)}
+      "1" -> {:ok, String.to_integer(webcam1_port)}
+      "2" -> {:ok, String.to_integer(webcam2_port)}
       _ -> :error
     end
   end

@@ -8,13 +8,14 @@ defmodule WebcamFornolo.Dal.Netatmo.NetatmoDal do
   @cache_key :netatmo_token
   @cache Application.compile_env!(:webcam_fornolo, :app_cache)
 
-  @email Application.compile_env!(:elixatmo, :user_email)
-  @password Application.compile_env!(:elixatmo, :user_password)
-  @user_data %UserData{email: @email, password: @password}
+  defp email, do: Application.get_env(:elixatmo, :user_email)
+  defp password, do: Application.get_env(:elixatmo, :user_password)
+  defp user_data, do: %UserData{email: email, password: password}
 
-  @app_id Application.compile_env!(:elixatmo, :app_id)
-  @client_secret Application.compile_env!(:elixatmo, :client_secret)
-  @app_data %AppData{app_id: @app_id, client_secret: @client_secret}
+  defp app_id, do: Application.get_env(:elixatmo, :app_id)
+  defp client_secret, do: Application.get_env(:elixatmo, :client_secret)
+  defp app_data, do: %AppData{app_id: app_id, client_secret: client_secret}
+
 
   @token_scope [TokenScope.read_station()]
 
@@ -30,7 +31,7 @@ defmodule WebcamFornolo.Dal.Netatmo.NetatmoDal do
   defp get_access_token() do
     case Cachex.get(@cache, @cache_key) do
       {:ok, nil} ->
-        with {:ok, token} <- ElixAtmo.get_access_token(@user_data, @app_data, @token_scope),
+        with {:ok, token} <- ElixAtmo.get_access_token(user_data, app_data, @token_scope),
              {:ok, token} <- save(token) do
           {:ok, token.access_token}
         else
@@ -43,7 +44,7 @@ defmodule WebcamFornolo.Dal.Netatmo.NetatmoDal do
             {:ok, token.access_token}
 
           _ ->
-            with {:ok, token} <- ElixAtmo.refresh_access_token(token.refresh_token, @app_data),
+            with {:ok, token} <- ElixAtmo.refresh_access_token(token.refresh_token, app_data),
                  {:ok, token} <- save(token) do
               {:ok, token.access_token}
             else
