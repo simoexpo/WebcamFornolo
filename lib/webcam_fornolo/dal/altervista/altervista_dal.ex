@@ -8,7 +8,7 @@ defmodule WebcamFornolo.Dal.Altervista.AltervistaDal do
   def get_image(name, remote_folder) do
     try do
       {:ok, pid} = :ftp.open(@host)
-      :ok = :ftp.user(pid, user, password)
+      :ok = :ftp.user(pid, user(), password())
       :ok = :ftp.type(pid, :binary)
 
       :ok = :ftp.cd(pid, '#{remote_folder}')

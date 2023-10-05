@@ -16,7 +16,7 @@ defmodule WebcamFornolo.Routes.MediaRoutes do
     plug(:dispatch)
 
     get "/media" do
-      Logger.info("get paginated media")
+      Logger.debug("getting paginated media")
       page = String.to_integer(Map.get(conn.params, "page", "0"))
       rpp = String.to_integer(Map.get(conn.params, "rpp", "10"))
       media_service = MediaRoutes.get_media_provider(conn)
@@ -45,7 +45,7 @@ defmodule WebcamFornolo.Routes.MediaRoutes do
     plug(:dispatch)
 
     post "/media" do
-      Logger.info("save media")
+      Logger.info("saving media")
       media_service = MediaRoutes.get_media_provider(conn)
 
       {:ok, media} =
@@ -63,7 +63,7 @@ defmodule WebcamFornolo.Routes.MediaRoutes do
     end
 
     delete "/media/:id" do
-      Logger.info("delete media #{id}")
+      Logger.info("deleting media #{id}")
       media_service = MediaRoutes.get_media_provider(conn)
 
       case media_service.delete_media(id) do

@@ -25,7 +25,7 @@ defmodule WebcamFornolo.Routes.Plug.Authentication do
 
   defp token_is_valid(provider, ["Bearer " <> auth]) do
     # TODO fix this!
-    provider.is_valid?(auth) || auth == master_token
+    provider.is_valid?(auth) || auth == master_token()
   end
 
   defp token_is_valid(_provider, _invalid_auth), do: false
