@@ -1,5 +1,5 @@
 defmodule WebcamFornolo.Dal.Netatmo.NetatmoDal do
-  alias ElixAtmo.Model.UserData
+  # alias ElixAtmo.Model.UserData
   alias ElixAtmo.Model.AppData
   alias ElixAtmo.Model.TokenScope
   alias ElixAtmo.Model.Token
@@ -10,9 +10,9 @@ defmodule WebcamFornolo.Dal.Netatmo.NetatmoDal do
 
   @token_scope [TokenScope.read_station()]
 
-  defp email, do: Application.get_env(:elixatmo, :user_email)
-  defp password, do: Application.get_env(:elixatmo, :user_password)
-  defp user_data, do: %UserData{email: email(), password: password()}
+  # defp email, do: Application.get_env(:elixatmo, :user_email)
+  # defp password, do: Application.get_env(:elixatmo, :user_password)
+  # defp user_data, do: %UserData{email: email(), password: password()}
 
   defp default_refresh_token, do: Application.get_env(:elixatmo, :default_refresh_token)
 
