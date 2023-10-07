@@ -29,7 +29,7 @@ defmodule WebcamFornolo.Mapper.MediaFileMapper do
 
   @spec from(MediaFileEntity.t(), String.t()) :: :error | {:ok, MediaFile.t()}
   def from(media_file_entity = %MediaFileEntity{}, path) do
-    Logger.info(fn -> "#{inspect(media_file_entity)}" end)
+    Logger.debug(fn -> "#{inspect(media_file_entity)}" end)
 
     case MediaFile.create(%{
            id: media_file_entity.id,

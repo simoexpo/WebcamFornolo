@@ -8,6 +8,13 @@ defmodule WebcamFornolo.Service.Media.MediaFileService do
 
   @media_path "media"
 
+  def get_media(id, provider \\ @default_media_file_dao) do
+    case provider.get(id) do
+      {:ok, %MediaFile{path: file_path}} -> {:ok, file_path}
+      _ -> :error
+    end
+  end
+
   def save_media(media_details, provider \\ @default_media_file_dao) do
     Logger.debug(inspect(media_details))
 

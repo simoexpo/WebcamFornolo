@@ -24,6 +24,11 @@ defmodule WebcamFornolo.Routes.WebcamRoutes do
           |> put_resp_header("content-type", "image/jpeg")
           |> send_file(200, filename)
 
+        {:found, location} ->
+          conn
+          |> put_resp_header("location", location)
+          |> send_resp(302, "")
+
         :notfound ->
           send_resp(conn, 404, "")
 
