@@ -24,7 +24,7 @@ defmodule WebcamFornolo.Service.Media.WebcamService do
   defp webcam_user, do: Application.get_env(:webcam_fornolo, :webcam_user)
   defp ssh_key, do: Application.get_env(:webcam_fornolo, :ssh_key) |> String.split("\\n") |> Enum.join("\n")
 
-  @spec get_media(String.t(), atom()) :: :error | {:ok, MediaFile.t()}
+  @spec get_media(String.t(), atom()) :: :error | {:found, String.t()}
   def get_media(id, provider \\ @default_media_file_dao) do
     case provider.get(webcam_to_file_name(id)) do
       {:ok, %MediaFile{path: file_path}} -> {:found, file_path}

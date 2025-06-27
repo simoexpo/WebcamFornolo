@@ -8,7 +8,7 @@ defmodule WebcamFornolo.Service.Media.WebcamServiceTest do
   alias WebcamFornolo.ServiceFixtures.DummyImageEditorService
 
   test "WebcamService should return a webcam image url" do
-    {:ok, url} = WebcamService.get_media("1", DummyMediaFileDao.SuccessImpl)
+    {:found, url} = WebcamService.get_media("1", DummyMediaFileDao.SuccessImpl)
     assert is_binary(url) == true
   end
 
