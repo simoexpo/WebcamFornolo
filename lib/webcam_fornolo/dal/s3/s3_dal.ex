@@ -5,23 +5,6 @@ defmodule WebcamFornolo.Dal.S3.S3Dal do
   @resurce_base_path "https://s3.tebi.io"
   @bucket "webcamfornolo"
 
-  # def get_image(name, remote_folder) do
-  #   Logger.debug("Try to get file on S3 from bucket #{@bucket} and path #{remote_folder}/#{name}")
-  #   local_path = "#{@local_save_directory}#{name}"
-  #   result = S3.get_object(@bucket, "#{remote_folder}/#{name}")
-  #   |> ExAws.request
-  #   case result do
-  #     {:ok, %{body: body}} ->
-  #       {:ok, file} = File.open local_path, [:write]
-  #       IO.binwrite file, body
-  #       File.close file
-  #       {:ok, local_path}
-  #     {:error, error} ->
-  #       Logger.error("Failed to get file from S3, caused by: #{inspect(error)}")
-  #       :error
-  #   end
-  # end
-
   @spec get_media_path(atom | %{:path => any, optional(any) => any}) :: <<_::64, _::_*8>>
   def get_media_path(media_details) do
     "#{@resurce_base_path}/#{@bucket}/#{media_details.path}/#{media_details.name}"
