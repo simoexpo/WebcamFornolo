@@ -10,7 +10,7 @@ jobs:
   build:
 
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     env:
       MIX_ENV: 'test'
@@ -27,8 +27,8 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.12.3' # Define the elixir version [required]
-          otp-version: '24.1.4' # Define the OTP version [required]
+          elixir-version: '1.15.4' # Define the elixir version [required]
+          otp-version: '26.0.2' # Define the OTP version [required]
       - name: Restore dependencies and build cache
         uses: actions/cache@v2
         with:
@@ -64,8 +64,8 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.12.3' # Define the elixir version [required]
-          otp-version: '24.1.4' # Define the OTP version [required]
+          elixir-version: '1.15.4' # Define the elixir version [required]
+          otp-version: '26.0.2' # Define the OTP version [required]
           experimental-otp: true
       - name: Restore dependencies and build cache
         uses: actions/cache@v2
@@ -90,7 +90,7 @@ jobs:
   deploy:
 
     name: Fly Deploy
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: test
     if: github.ref == 'refs/heads/master'
 
