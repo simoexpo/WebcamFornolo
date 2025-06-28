@@ -5,7 +5,7 @@ defmodule WebcamFornolo.Mixfile do
     [
       app: :webcam_fornolo,
       version: "0.0.1",
-      elixir: ">= 1.15.4",
+      elixir: ">= 1.18.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -38,25 +38,25 @@ defmodule WebcamFornolo.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:ecto_sql, "~> 3.10.1"},
-      {:postgrex, ">= 0.0.0"},
-      {:ex_aws, "~> 2.4.0"},
-      {:ex_aws_s3, "~> 2.4.0"},
-      {:sweet_xml, "~> 0.7.4"},
-      {:jason, "~> 1.4.1", override: true},
-      {:plug_cowboy, "~> 2.6.1"},
+      {:ecto_sql, "~> 3.13.2"},
+      {:postgrex, ">= 0.19.0"},
+      {:ex_aws, "~> 2.5.10"},
+      {:ex_aws_s3, "~> 2.5.7"},
+      {:sweet_xml, "~> 0.7.5"},
+      {:jason, "~> 1.4.4", override: true},
+      {:plug_cowboy, "~> 2.7.4"},
       {:safeexstruct, github: "simoexpo/SafeExStruct", tag: "v0.4.0", override: true},
       {:elixatmo, github: "simoexpo/ElixAtmo", tag: "v0.4.0"},
       # temp fix
       {:hackney, github: "benoitc/hackney", override: true},
-      {:timex, "~> 3.7.11"},
-      {:cachex, "~> 3.6.0"},
+      {:timex, "~> 3.7.13"},
+      {:cachex, "~> 4.1.0"},
       {:mogrify, "~> 0.9.3"},
       {:elixir_uuid, "~> 1.2.1"},
       {:librarian, "~> 0.2.0"},
-      {:dialyxir, "~> 1.3.0", only: [:dev], runtime: false},
-      {:excoveralls, "~> 0.17.0", only: [:test]},
-      {:credo, "~> 1.7.0", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.4.5", only: [:dev], runtime: false},
+      {:excoveralls, "~> 0.18.5", only: [:test]},
+      {:credo, "~> 1.7.12", only: [:dev, :test], runtime: false}
     ]
   end
 
