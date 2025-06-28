@@ -14,7 +14,7 @@ defmodule WebcamFornolo.Application do
 
     children = [
       # Start Cowboy web server
-      {Plug.Cowboy, scheme: :http, plug: WebcamFornolo.Routes, ip: {0, 0, 0, 0}, port: port},
+      {Bandit, plug: WebcamFornolo.Routes, scheme: :http, ip: {0, 0, 0, 0}, port: port},
       # Start the Ecto repository
       WebcamFornolo.Dal.Db.Repo,
       # Start the endpoint when the application starts

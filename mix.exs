@@ -25,7 +25,7 @@ defmodule WebcamFornolo.Mixfile do
   def application do
     [
       mod: {WebcamFornolo.Application, []},
-      extra_applications: [:logger, :runtime_tools, :plug_cowboy]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 
@@ -44,11 +44,10 @@ defmodule WebcamFornolo.Mixfile do
       {:ex_aws_s3, "~> 2.5.7"},
       {:sweet_xml, "~> 0.7.5"},
       {:jason, "~> 1.4.4", override: true},
-      {:plug_cowboy, "~> 2.7.4"},
+      {:bandit, "~> 1.7.0"},
       {:safeexstruct, github: "simoexpo/SafeExStruct", tag: "v0.4.0", override: true},
       {:elixatmo, github: "simoexpo/ElixAtmo", tag: "v0.4.0"},
-      # temp fix
-      {:hackney, github: "benoitc/hackney", override: true},
+      {:hackney, "~> 1.24.1"},
       {:timex, "~> 3.7.13"},
       {:cachex, "~> 4.1.0"},
       {:mogrify, "~> 0.9.3"},
