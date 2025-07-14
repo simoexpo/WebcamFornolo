@@ -31,7 +31,7 @@ defmodule WebcamFornolo.Dal.WeatherDataDao do
 
   @spec save(WeatherData.t()) :: {:ok, WeatherData.t()} | :error
   defp save(weather_data) do
-    case Cachex.put(cache(), @cache_key, weather_data, ttl: :timer.minutes(@refresh_minutes)) do
+    case Cachex.put(cache(), @cache_key, weather_data, expire: :timer.minutes(@refresh_minutes)) do
       {:ok, _} -> {:ok, weather_data}
       _ -> :error
     end

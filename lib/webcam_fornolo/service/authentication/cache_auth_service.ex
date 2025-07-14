@@ -25,7 +25,7 @@ defmodule WebcamFornolo.Service.Authentication.CacheAuthService do
     if(password == admin_password()) do
       token = UUID.uuid1()
 
-      case Cachex.put(cache(), token, :ok, ttl: :timer.minutes(@token_expiry_in_minutes)) do
+      case Cachex.put(cache(), token, :ok, expire: :timer.minutes(@token_expiry_in_minutes)) do
         {:ok, _} -> {:ok, token}
         _ -> {:error, "Failed to save token"}
       end
