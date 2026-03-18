@@ -2,7 +2,7 @@ defmodule WebcamFornolo.Dal.S3.S3Dal do
   alias ExAws.S3
   require Logger
 
-  @resurce_base_path "https://s3.tebi.io"
+  @resurce_base_path "https://s3.webcamfornolo.org"
   @bucket "webcamfornolo"
 
   @spec get_media_path(atom | %{:path => any, optional(any) => any}) :: <<_::64, _::_*8>>
