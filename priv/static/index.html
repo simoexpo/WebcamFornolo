@@ -162,21 +162,6 @@
     }
   </script>
 
-  <!-- Refresh webcams -->
-  <script>
-    function refreshWebcams() {
-      document.querySelectorAll('img[src^="/api/webcam"]').forEach(img => {
-          const base = img.src.split('?')[0];
-          const fresh = base + '?_=' + Date.now();
-          img.src = fresh;
-          img.closest('a').href = fresh;
-      });
-    }
-
-    refreshWebcams();
-    setInterval(refreshWebcams, 300000);
-  </script>
-
   <!-- Lightboxh -->
   <script src="/vendor/lightbox2/js/lightbox.js"></script>
 

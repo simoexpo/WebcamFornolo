@@ -26,7 +26,7 @@ defmodule WebcamFornolo.Routes.WebcamRoutes do
 
         {:found, location} ->
           conn
-          |> put_resp_header("location", location)
+          |> put_resp_header("location", "#{location}?_=#{System.system_time(:second)}")
           |> send_resp(302, "")
 
         :notfound ->
