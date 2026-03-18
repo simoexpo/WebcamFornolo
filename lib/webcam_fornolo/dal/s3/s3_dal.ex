@@ -7,7 +7,7 @@ defmodule WebcamFornolo.Dal.S3.S3Dal do
 
   @spec get_media_path(atom | %{:path => any, optional(any) => any}) :: <<_::64, _::_*8>>
   def get_media_path(media_details) do
-    "#{@resurce_base_path}/#{@bucket}/#{media_details.path}/#{media_details.name}"
+    "#{@resurce_base_path}/#{media_details.path}/#{media_details.name}"
   end
 
   @spec save_file(atom | %{:name => any, optional(any) => any}, any) :: :error | :ok
